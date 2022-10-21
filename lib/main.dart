@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:site_xz/video_list_page.dart';
 
+import 'month_circular_face.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const VideoListPage(),//MyHomePage(title: 'Project title Home Page'), //ToDo это надо изменить.
+      home: const MyHomePage(title: 'Project title Home Page'), //ToDo это надо изменить.
     );
   }
 }
@@ -68,10 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: const Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
+        child: CircleClockFace(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -86,16 +88,16 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // children: <Widget>[
+          //   const Text(
+          //     'You have pushed the button this many times:',
+          //   ),
+          //   Text(
+          //     '$_counter',
+          //     style: Theme.of(context).textTheme.headline4,
+          //   ),
+          // ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
