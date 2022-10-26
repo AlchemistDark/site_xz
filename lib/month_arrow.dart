@@ -6,59 +6,62 @@ import 'dart:math' as math;
 /// Данный класс реализуе стрелку для месячного циферблата.
 
 class MonthArrow extends StatelessWidget {
-  const MonthArrow({Key? key}) : super(key: key);
+  /// Scale factor for adaptive layout.
+  /// Масштабный коэффициент для адаптивной вёрстки.
+  final double pix;
+  const MonthArrow({required this.pix, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        // Tail
-        // Хвост
+        /// Tail
+        /// Хвост
         Center(
-          widthFactor: 188,
-          heightFactor: 188,
+          widthFactor: (182 * pix),
+          heightFactor: (182 * pix),
           child: ClipPath(
             clipper: MyCustomClipper(), // <--
             child: Container(
-              width: 188,
-              height: 188,
+              width: (182 * pix),
+              height: (182 * pix),
               color: const Color(0xFFE9549B),
             )
           )
         ),
-        // Arrow
-        // Стрелка
+        /// Arrow
+        /// Стрелка
         Center (
           child: Container(
-            width: 184,
-            height: 184,
-            padding: const EdgeInsets.only(bottom: 75),
+            width: (175 * pix),
+            height: (175 * pix),
+            padding: EdgeInsets.only(bottom: (71.5 * pix)),
             child: Image.asset(
               "assets/images/clock_arrow.png",
               fit:BoxFit.scaleDown
             )
           )
         ),
-        // Arrow text
-        // Текст стрелки
+        /// Arrow text
+        /// Текст стрелки
         Center(
           child: Transform.rotate(
             angle: (-math.pi / 2),
             child: Center(
-              widthFactor: 186,
-              heightFactor: 186,
+              widthFactor: (186 * pix),
+              heightFactor: (186 * pix),
               child: Padding(
-                padding: const EdgeInsets.only(left: 100, bottom: 18.0),
+                padding: EdgeInsets.only(left: (95 * pix), bottom: (18.0 * pix)),
                 child: RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     text: "",
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: (12 * pix),
                       fontFamily: 'Roboto'
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: "Дата",
+                        text: "Дата  ",
                         style: TextStyle(
                           color: Color(0xFF52B69A)
                         )
@@ -77,23 +80,23 @@ class MonthArrow extends StatelessWidget {
             )
           ),
         ),
-        // Tail text
-        // Текст хвоста
+        /// Tail text
+        /// Текст хвоста
         Center(
           child: Transform.rotate(
             angle: (-math.pi / 2),
             child: Container(
-              width: 186,
-              height: 186,
+              width: (186 * pix),
+              height: (186 * pix),
               child: Padding(
-                padding: const EdgeInsets.only(right: 153, top: 83.5),
+                padding: EdgeInsets.only(right: (140 * pix), top: (83.5 * pix)),
                 child: Column(
-                  children: const [
+                  children: [
                     Text(
                       'число',
                       style: TextStyle(
                       color: Color(0xFF547CC7),
-                        fontSize: 8,
+                        fontSize: (8 * pix),
                         fontFamily: 'Roboto'
                       )
                     ),
@@ -101,7 +104,7 @@ class MonthArrow extends StatelessWidget {
                       'дней',
                       style: TextStyle(
                         color: Color(0xFF547CC7),
-                        fontSize: 8,
+                        fontSize: (8 * pix),
                         fontFamily: 'Roboto'
                       ),
                     )
@@ -116,15 +119,16 @@ class MonthArrow extends StatelessWidget {
   }
 }
 
+/// Tail drawing.
+/// Отрисовка хвоста.
 class MyCustomClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
+    final width = size.width - 4;
     Path path = Path()
-      // ..moveTo(94, 94)
-      // ..lineTo(186, 94) // Добавить отрезок p1p2
-      ..addRect(const Rect.fromLTWH(93.5, 94, 1, 93))
-      ..addOval(Rect.fromCircle(center: const Offset(94, 186), radius: 2)) // Добавить отрезок p2p3
+      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: (size.width / (size.width / 2)))) // Добавить отрезок p2p3
       ..close();
     return path;
   }
