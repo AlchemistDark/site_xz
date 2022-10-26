@@ -128,7 +128,7 @@ class MyCustomClipper extends CustomClipper<Path> {
     final width = size.width - 4;
     Path path = Path()
       ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
-      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: (size.width / (size.width / 2)))) // Добавить отрезок p2p3
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: (size.width / 182))) // Добавить отрезок p2p3
       ..close();
     return path;
   }

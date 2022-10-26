@@ -169,7 +169,27 @@ class CustomArcSegment extends StatelessWidget {
               ),
             )
           )
-        )
+        ),
+        if (1 == 1)
+        /// Ray for an icon.
+        /// Луча для иконки.
+        Center(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: (275 * pix)),
+            child: Container(
+              width: (30 * pix),
+              height: (30 * pix),
+              child: ClipPath(
+                clipper: MyCustomClipper(), // <--
+                child: Container(
+                  width: (30 * pix),
+                  height: (30 * pix),
+                  color: const Color(0xFF7FA4EA),
+                )
+              )
+            )
+          )
+        ),
       ],
     );
   }
@@ -278,5 +298,24 @@ class MyPainterWithoutStrokeCap extends CustomPainter{
   bool shouldRepaint(CustomPainter old){
     return false;
   }
+}
+
+/// Drawing a ray for an icon.
+/// Отрисовка луча для иконки.
+class MyCustomClipper extends CustomClipper<Path> {
+
+  @override
+  Path getClip(Size size) {
+    final width = size.width - 4;
+    Path path = Path()
+      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: (size.width / 15))) // Добавить отрезок p2p3
+      ..close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+
 }
 
