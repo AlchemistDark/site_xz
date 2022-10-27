@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       mineWidth = MediaQuery.of(context).size.height;
     }
+    final double scaleFactor = mineWidth / 375;
     print ('mineWidth = $mineWidth');
     final childWidth = (mineWidth / 3 * 2);
     // This method is rerun every time setState is called, for instance as done
@@ -84,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
           width: mineWidth,//375,  // for tests
           height: mineWidth,//827, // for tests
           color: Color(0xFF24262D),
-          child: CircleClockFace(childWidth)
+          child: CircleClockFace(childWidth, scaleFactor)
         ),
       ),
       floatingActionButton: FloatingActionButton(

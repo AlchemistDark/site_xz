@@ -29,27 +29,22 @@ class CustomArcSegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Our [clockFaceDiameter] is 250 logical pixels,
-    /// so 1 pixel is [clockFaceDiameter] / 250.
-    /// [clockFaceDiameter] у нас равен 250 логических пикселей,
-    /// поэтому 1 пиксель равен [clockFaceDiameter] / 250.
-    final pix = (clockFaceDiameter / 250);
     return Stack(
       children: <Widget>[
         // For position test
         // Center(
         //   child: Container(
         //     color: const Color(0xFF444488),
-        //     width: (222.5 * pix),
-        //     height: (222.5 * pix),
+        //     width: 222.5,
+        //     height: 222.5,
         //   )
         // ),
         // // For position test
         // Center(
         //   child: Container(
         //     color: const Color(0xFF8888FF),
-        //     width: (181 * pix),
-        //     height: (181 * pix),
+        //     width: 181,
+        //     height: 181,
         //   )
         // ),
 
@@ -57,12 +52,12 @@ class CustomArcSegment extends StatelessWidget {
         /// Верхнее скругление верхнего элемента.
         Center(
           child: CustomPaint(
-            size: Size(246 * pix, 246 * pix),
+            size: const Size(246, 246),
             painter: MyPainterWithRoundStrokeCap(
-              width: (246 * pix),
+              width: 246,
               quantity: numberOfSegments,
               color: topColor, //Color(0xFFFF8888),
-              strokeWidth: (4 * pix),
+              strokeWidth: 4,
             ),
           )
         ),
@@ -70,12 +65,12 @@ class CustomArcSegment extends StatelessWidget {
         /// Верхний элемент.
         Center(
           child: CustomPaint(
-            size: Size(237.5 * pix, 237.5 * pix),
+            size: const Size(237.5, 237.5),
             painter: MyPainterWithoutStrokeCap(
-              width: (237.5 * pix),
+              width: 237.5,
               quantity: numberOfSegments,
               color: topColor, //Color(0xFF88FF88),
-              strokeWidth: (9 * pix)
+              strokeWidth: 9
             ),
           )
         ),
@@ -83,12 +78,12 @@ class CustomArcSegment extends StatelessWidget {
         /// Нижнее скругление верхнего элемента.
         Center(
           child: CustomPaint(
-            size: Size(229 * pix, 229 * pix),
+            size: const Size(229, 229),
             painter: MyPainterWithRoundStrokeCap(
-              width: (229 * pix),
+              width: 229,
               quantity: numberOfSegments,
-              color: topColor, //Color(0xFFFF8888),//Color(0xFF52B69A),
-              strokeWidth: (4 * pix),
+              color: topColor,
+              strokeWidth: 4,
             ),
           )
         ),
@@ -96,12 +91,12 @@ class CustomArcSegment extends StatelessWidget {
         /// Верхнее скругление нижнего элемента.
         Center(
           child: CustomPaint(
-            size: Size(218 * pix, 218 * pix),
+            size: const Size(218, 218),
               painter: MyPainterWithRoundStrokeCap(
-                width: (218 * pix),
+                width: 218,
                 quantity: numberOfSegments,
                 color: bottomColor,
-                strokeWidth: (4 * pix),
+                strokeWidth: 4,
               ),
             )
         ),
@@ -109,12 +104,12 @@ class CustomArcSegment extends StatelessWidget {
         /// Нижний элемент.
         Center(
           child: CustomPaint(
-            size: Size(200 * pix, 200 * pix),
+            size: const Size(200, 200),
             painter: MyPainterWithoutStrokeCap(
-              width: (200 * pix),
+              width: 200,
               quantity: numberOfSegments,
               color: bottomColor,
-              strokeWidth: (18* pix)
+              strokeWidth: 18
             ),
           )
         ),
@@ -126,12 +121,12 @@ class CustomArcSegment extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(0),
             child: CustomPaint(
-              size: Size(((182 * pix)), (182 * pix)),
+              size: const Size(182, 182),
               painter: MyPainterWithRoundStrokeCap(
-                width: (182 * pix),
+                width: 182,
                 quantity: numberOfSegments,
                 color: bottomColor,
-                strokeWidth: (4 * pix),
+                strokeWidth: 4,
               ),
             )
           ),
@@ -142,12 +137,12 @@ class CustomArcSegment extends StatelessWidget {
           widthFactor: clockFaceDiameter,
           heightFactor: clockFaceDiameter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: (238 * pix)),
+            padding: const EdgeInsets.only(bottom: 238),
             child: Text(
               topText,
               style: TextStyle(
                 color: topTextColor,
-                fontSize: (10.5 * pix),
+                fontSize: 10.5,
                 fontFamily: 'Roboto'
               ),
             )
@@ -159,12 +154,12 @@ class CustomArcSegment extends StatelessWidget {
           widthFactor: clockFaceDiameter,
           heightFactor: clockFaceDiameter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: (202 * pix)),
+            padding: const EdgeInsets.only(bottom: 202),
             child: Text(
               bottomText,
               style: TextStyle(
                 color: bottomTextColor,
-                fontSize: (14 * pix),
+                fontSize: (16),
                 fontFamily: 'Roboto'
               ),
             )
@@ -175,15 +170,15 @@ class CustomArcSegment extends StatelessWidget {
         /// Луча для иконки.
         Center(
           child: Padding(
-            padding: EdgeInsets.only(bottom: (275 * pix)),
-            child: Container(
-              width: (30 * pix),
-              height: (30 * pix),
+            padding: const EdgeInsets.only(bottom: 275),
+            child: SizedBox(
+              width: 30,
+              height: 30,
               child: ClipPath(
                 clipper: MyCustomClipper(), // <--
                 child: Container(
-                  width: (30 * pix),
-                  height: (30 * pix),
+                  width: 30,
+                  height: 30,
                   color: const Color(0xFF7FA4EA),
                 )
               )

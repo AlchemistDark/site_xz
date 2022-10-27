@@ -6,10 +6,7 @@ import 'dart:math' as math;
 /// Данный класс реализуе стрелку для месячного циферблата.
 
 class MonthArrow extends StatelessWidget {
-  /// Scale factor for adaptive layout.
-  /// Масштабный коэффициент для адаптивной вёрстки.
-  final double pix;
-  const MonthArrow({required this.pix, Key? key}) : super(key: key);
+  const MonthArrow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +15,24 @@ class MonthArrow extends StatelessWidget {
         /// Tail
         /// Хвост
         Center(
-          widthFactor: (182 * pix),
-          heightFactor: (182 * pix),
+          widthFactor: 182,
+          heightFactor: 182,
           child: ClipPath(
             clipper: MyCustomClipper(), // <--
             child: Container(
-              width: (182 * pix),
-              height: (182 * pix),
+              width: 182,
+              height: 182,
               color: const Color(0xFFE9549B),
             )
           )
         ),
         /// Arrow
         /// Стрелка
-        Center (
+        Center(
           child: Container(
-            width: (175 * pix),
-            height: (175 * pix),
-            padding: EdgeInsets.only(bottom: (71.5 * pix)),
+            width: 175,
+            height: 175,
+            padding: const EdgeInsets.only(bottom: 71.5),
             child: Image.asset(
               "assets/images/clock_arrow.png",
               fit:BoxFit.scaleDown
@@ -48,15 +45,15 @@ class MonthArrow extends StatelessWidget {
           child: Transform.rotate(
             angle: (-math.pi / 2),
             child: Center(
-              widthFactor: (186 * pix),
-              heightFactor: (186 * pix),
+              widthFactor: 186,
+              heightFactor: 186,
               child: Padding(
-                padding: EdgeInsets.only(left: (95 * pix), bottom: (18.0 * pix)),
+                padding: const EdgeInsets.only(left: 95, bottom: 18.0),
                 child: RichText(
                   text: TextSpan(
                     text: "",
                     style: TextStyle(
-                      fontSize: (12 * pix),
+                      fontSize: 12,
                       fontFamily: 'Roboto'
                     ),
                     children: <TextSpan>[
@@ -86,17 +83,17 @@ class MonthArrow extends StatelessWidget {
           child: Transform.rotate(
             angle: (-math.pi / 2),
             child: Container(
-              width: (186 * pix),
-              height: (186 * pix),
+              width: 186,
+              height: 186,
               child: Padding(
-                padding: EdgeInsets.only(right: (140 * pix), top: (83.5 * pix)),
+                padding: EdgeInsets.only(right: 140, top: 83.5),
                 child: Column(
                   children: [
                     Text(
                       'число',
                       style: TextStyle(
                       color: Color(0xFF547CC7),
-                        fontSize: (8 * pix),
+                        fontSize: 8,
                         fontFamily: 'Roboto'
                       )
                     ),
@@ -104,7 +101,7 @@ class MonthArrow extends StatelessWidget {
                       'дней',
                       style: TextStyle(
                         color: Color(0xFF547CC7),
-                        fontSize: (8 * pix),
+                        fontSize: 8,
                         fontFamily: 'Roboto'
                       ),
                     )
@@ -125,10 +122,10 @@ class MyCustomClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final width = size.width - 4;
+    final width = size.width - 1;
     Path path = Path()
-      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
-      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: (size.width / 182))) // Добавить отрезок p2p3
+      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 1) / 2)))
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width - 1.5)), radius: 1.5)) // Добавить отрезок p2p3
       ..close();
     return path;
   }
