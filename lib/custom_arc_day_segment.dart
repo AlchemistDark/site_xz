@@ -170,15 +170,15 @@ class CustomArcSegment extends StatelessWidget {
         /// Луча для иконки.
         Center(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 275),
+            padding: const EdgeInsets.only(bottom: 282),
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: 37,
+              height: 37,
               child: ClipPath(
                 clipper: MyCustomClipper(), // <--
                 child: Container(
-                  width: 30,
-                  height: 30,
+                  width: 37,
+                  height: 37,
                   color: const Color(0xFF7FA4EA),
                 )
               )
@@ -301,10 +301,10 @@ class MyCustomClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final width = size.width - 4;
+    final width = size.width - 2;
     Path path = Path()
       ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
-      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: (size.width / 15))) // Добавить отрезок p2p3
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: 2)) // Добавить отрезок p2p3
       ..close();
     return path;
   }

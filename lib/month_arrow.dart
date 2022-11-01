@@ -35,7 +35,7 @@ class MonthArrow extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 71.5),
             child: Image.asset(
               "assets/images/clock_arrow.png",
-              fit:BoxFit.scaleDown
+              fit: BoxFit.scaleDown
             )
           )
         ),

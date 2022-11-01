@@ -12,18 +12,17 @@ import 'dart:math' as math;
 const String assetName = 'assets/images/flutter_logo.svg';
 
 class CircleClockFace extends StatelessWidget {
-  final double mineWidth;
   final double scaleFactor;
 
-  const CircleClockFace(this.mineWidth, this.scaleFactor, {Key? key}) : super(key: key);
+  const CircleClockFace(this.scaleFactor, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
       scale: scaleFactor,
       child:  SizedBox(
-        width: 250,
-        height: 250,
+        width: 375,
+        height: 375,
         child: Stack(
           children: <Widget>[
             Center(
@@ -62,6 +61,26 @@ class CircleClockFace extends StatelessWidget {
             //     height: 178,
             //   )
             // ),
+            // Center(
+            //   child: Container(
+            //     width: 322,
+            //     height: 322,
+            //     decoration: const BoxDecoration(
+            //       color: Color(0xFF00FFFF),
+            //       shape: BoxShape.circle,
+            //     )
+            //   )
+            // ),
+            // Center(
+            //   child: Container(
+            //     width: 299.5,
+            //     height: 299.5,
+            //     decoration: const BoxDecoration(
+            //       color: Color(0xFF008888),
+            //       shape: BoxShape.circle,
+            //     )
+            //   )
+            // ),
             /// Draw the calendar dial.
             /// Рисует циферблат календаря.
             Center(
@@ -75,7 +94,7 @@ class CircleClockFace extends StatelessWidget {
               )
             ),
             Stack(
-              children: segments(250)
+              children: segments()
             ),
             Center(
               child: Container(
@@ -126,6 +145,13 @@ class CircleClockFace extends StatelessWidget {
                 )
               )
             ),
+            /// Draw celebration icons.
+            /// Рисуем иконки праздников.
+            Center(
+              child: Stack(
+                children: celebrationIcons()
+              )
+            ),
             /// Draw the clock hand.
             /// Рисуем стрелку.
             Transform.rotate(
@@ -149,7 +175,7 @@ class CircleClockFace extends StatelessWidget {
   }
   /// Draw clock face.
   /// Рисует циферблат.
-  List<Widget> segments(double mineWidth) {
+  List<Widget> segments() {
     List<Widget> result = [];
     for (int i = 0; i < 31; i++) {
       result.add(
@@ -164,6 +190,35 @@ class CircleClockFace extends StatelessWidget {
             bottomColor: const Color(0xFF3F414A),
             numberOfSegments: 31,
             clockFaceDiameter: (250)
+          )
+        )
+      );
+    }
+    return result;
+  }
+  /// Draw celebration icons.
+  /// Рисует иконки праздников.
+  List<Widget> celebrationIcons() {
+    List<Widget> result = [];
+    for (int i = 0; i < 31; i++) {
+      result.add(
+        Padding(
+          padding: EdgeInsets.only(
+            top: (187.5 + (161 * (math.cos(math.pi * 2 / 31 * i))) - 22.5),
+            left: (187.5 + (161 * (math.sin(math.pi * 2 / 31 * i))) - 22.5)
+          ),
+          child: Container(
+            width: 45,
+            height: 45,
+            padding: EdgeInsets.all(5),
+            child: SvgPicture.asset(
+              "assets/images/flutter_logo.svg",
+              fit: BoxFit.scaleDown
+            ),
+            decoration: const BoxDecoration(
+              color: Color(0xFFE9549B),
+              shape: BoxShape.circle,
+            )
           )
         )
       );
