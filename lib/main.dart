@@ -38,7 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final double mineWidth = MediaQuery.of(context).size.width;
     final double mineHeight = MediaQuery.of(context).size.height;
-    final double scaleFactor = mineWidth / 375;
-    return MonthlyPlanner(widget.title, mineWidth, mineHeight, scaleFactor);
+    final double widthScaleFactor = mineWidth / 375;
+    final double heightScaleFactor = mineWidth / 825;
+    return MonthlyPlanner(widget.title, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor);
   }
 }

@@ -1,26 +1,22 @@
-//import 'dart:async';
-//import 'dart:js';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:site_xz/custom_arc_day_segment.dart';
 import 'package:site_xz/month_arrow.dart';
-//import 'package:site_xz/mok.dart';
 import 'dart:math' as math;
 
 const String assetName = 'assets/images/flutter_logo.svg';
 
 class CircleClockFace extends StatelessWidget {
-  final double scaleFactor;
 
-  const CircleClockFace(this.scaleFactor, {Key? key}) : super(key: key);
+  const CircleClockFace({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
-      scale: scaleFactor,
-      child:  SizedBox(
+      scale: 1, //scaleFactor,
+      child:  Container(
+        //color: Color(0xFF00FF00),
         width: 375,
         height: 375,
         child: Stack(
