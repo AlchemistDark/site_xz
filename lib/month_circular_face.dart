@@ -24,16 +24,16 @@ class CircleClockFace extends StatelessWidget {
             Center(
               child: Container(
                 color: const Color(0xFF24262D),
-                width: 250,
-                height: 250,
+                width: 262,
+                height: 262,
               )
             ),
             // For position test.
             // Center(
             //   child: Container(
             //     color: const Color(0xFFFF0000),
-            //     width: 250,
-            //     height: 250,
+            //     width: 262,
+            //     height: 262,
             //   )
             // ),
             // Center(
@@ -81,8 +81,8 @@ class CircleClockFace extends StatelessWidget {
             /// Рисует циферблат календаря.
             Center(
               child: Container(
-                width: 181,
-                height: 181,
+                width: 193,
+                height: 193,
                 decoration: const BoxDecoration(
                   color: Color(0xFF2F313A),
                   shape: BoxShape.circle
@@ -94,8 +94,8 @@ class CircleClockFace extends StatelessWidget {
             ),
             Center(
               child: Container(
-                width: 169,
-                height: 169,
+                width: 181,
+                height: 181,
                 decoration: const BoxDecoration(
                   color: Color(0xFF000000),
                   shape: BoxShape.circle,
@@ -104,8 +104,8 @@ class CircleClockFace extends StatelessWidget {
             ),
             Center(
               child: Container(
-                width: 164,
-                height: 164,
+                width: 176,
+                height: 176,
                 decoration: const BoxDecoration(
                   color: Color(0xFF2F313A),
                   shape: BoxShape.circle,
@@ -134,7 +134,7 @@ class CircleClockFace extends StatelessWidget {
                 width: 52,
                 height: 43,
                 //color: Color(0xFF00FF00),
-                margin: const EdgeInsets.only(bottom: 90),
+                margin: const EdgeInsets.only(bottom: 96),
                 child: Image.asset(
                   "assets/images/logo_dark.png",
                   fit:BoxFit.scaleDown
@@ -185,7 +185,7 @@ class CircleClockFace extends StatelessWidget {
             bottomTextColor:  const Color(0xFFE9549B),
             bottomColor: const Color(0xFF3F414A),
             numberOfSegments: 31,
-            clockFaceDiameter: (250)
+            clockFaceDiameter: (262)
           )
         )
       );

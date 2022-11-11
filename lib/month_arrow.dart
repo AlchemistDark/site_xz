@@ -15,13 +15,13 @@ class MonthArrow extends StatelessWidget {
         /// Tail
         /// Хвост
         Center(
-          widthFactor: 182,
-          heightFactor: 182,
+          widthFactor: 194,
+          heightFactor: 194,
           child: ClipPath(
             clipper: MyCustomClipper(), // <--
             child: Container(
-              width: 182,
-              height: 182,
+              width: 194,
+              height: 194,
               color: const Color(0xFFE9549B),
             )
           )
@@ -30,9 +30,9 @@ class MonthArrow extends StatelessWidget {
         /// Стрелка
         Center(
           child: Container(
-            width: 175,
-            height: 175,
-            padding: const EdgeInsets.only(bottom: 71.5),
+            width: 187,
+            height: 187,
+            padding: const EdgeInsets.only(bottom: 76),
             child: Image.asset(
               "assets/images/clock_arrow.png",
               fit: BoxFit.scaleDown
@@ -86,11 +86,11 @@ class MonthArrow extends StatelessWidget {
               width: 186,
               height: 186,
               child: Padding(
-                padding: EdgeInsets.only(right: 140, top: 83.5),
+                padding: EdgeInsets.only(right: 152, top: 83.5),
                 child: Column(
                   children: [
                     Text(
-                      'число',
+                      '+14',
                       style: TextStyle(
                       color: Color(0xFF547CC7),
                         fontSize: 8,

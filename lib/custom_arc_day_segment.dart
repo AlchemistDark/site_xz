@@ -52,9 +52,9 @@ class CustomArcSegment extends StatelessWidget {
         /// Верхнее скругление верхнего элемента.
         Center(
           child: CustomPaint(
-            size: const Size(246, 246),
+            size: const Size(258, 258),
             painter: MyPainterWithRoundStrokeCap(
-              width: 246,
+              width: 258,
               quantity: numberOfSegments,
               color: topColor, //Color(0xFFFF8888),
               strokeWidth: 4,
@@ -65,9 +65,9 @@ class CustomArcSegment extends StatelessWidget {
         /// Верхний элемент.
         Center(
           child: CustomPaint(
-            size: const Size(237.5, 237.5),
+            size: const Size(249.5, 249.5),
             painter: MyPainterWithoutStrokeCap(
-              width: 237.5,
+              width: 249.5,
               quantity: numberOfSegments,
               color: topColor, //Color(0xFF88FF88),
               strokeWidth: 9
@@ -78,9 +78,9 @@ class CustomArcSegment extends StatelessWidget {
         /// Нижнее скругление верхнего элемента.
         Center(
           child: CustomPaint(
-            size: const Size(229, 229),
+            size: const Size(241, 241),
             painter: MyPainterWithRoundStrokeCap(
-              width: 229,
+              width: 241,
               quantity: numberOfSegments,
               color: topColor,
               strokeWidth: 4,
@@ -91,9 +91,9 @@ class CustomArcSegment extends StatelessWidget {
         /// Верхнее скругление нижнего элемента.
         Center(
           child: CustomPaint(
-            size: const Size(218, 218),
+            size: const Size(230, 230),
               painter: MyPainterWithRoundStrokeCap(
-                width: 218,
+                width: 230,
                 quantity: numberOfSegments,
                 color: bottomColor,
                 strokeWidth: 4,
@@ -104,9 +104,9 @@ class CustomArcSegment extends StatelessWidget {
         /// Нижний элемент.
         Center(
           child: CustomPaint(
-            size: const Size(200, 200),
+            size: const Size(212, 212),
             painter: MyPainterWithoutStrokeCap(
-              width: 200,
+              width: 212,
               quantity: numberOfSegments,
               color: bottomColor,
               strokeWidth: 18
@@ -121,9 +121,9 @@ class CustomArcSegment extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(0),
             child: CustomPaint(
-              size: const Size(182, 182),
+              size: const Size(194, 194),
               painter: MyPainterWithRoundStrokeCap(
-                width: 182,
+                width: 194,
                 quantity: numberOfSegments,
                 color: bottomColor,
                 strokeWidth: 4,
@@ -137,7 +137,7 @@ class CustomArcSegment extends StatelessWidget {
           widthFactor: clockFaceDiameter,
           heightFactor: clockFaceDiameter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 238),
+            padding: const EdgeInsets.only(bottom: 251),
             child: Text(
               topText,
               style: TextStyle(
@@ -154,7 +154,7 @@ class CustomArcSegment extends StatelessWidget {
           widthFactor: clockFaceDiameter,
           heightFactor: clockFaceDiameter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 202),
+            padding: const EdgeInsets.only(bottom: 213),
             child: Text(
               bottomText,
               style: TextStyle(
@@ -170,7 +170,7 @@ class CustomArcSegment extends StatelessWidget {
         /// Луча для иконки.
         Center(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 282),
+            padding: const EdgeInsets.only(bottom: 294),
             child: SizedBox(
               width: 37,
               height: 37,
@@ -303,7 +303,7 @@ class MyCustomClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final width = size.width - 2;
     Path path = Path()
-      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
+      //..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
       ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: 2)) // Добавить отрезок p2p3
       ..close();
     return path;
