@@ -6,7 +6,8 @@ import 'dart:math' as math;
 /// Данный класс реализуе стрелку для месячного циферблата.
 
 class MonthArrow extends StatelessWidget {
-  const MonthArrow({Key? key}) : super(key: key);
+  final String data;
+  const MonthArrow(this.data, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,29 +50,36 @@ class MonthArrow extends StatelessWidget {
               heightFactor: 186,
               child: Padding(
                 padding: const EdgeInsets.only(left: 95, bottom: 18.0),
-                child: RichText(
-                  text: TextSpan(
-                    text: "",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'Roboto'
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: "Дата  ",
-                        style: TextStyle(
-                          color: Color(0xFF52B69A)
-                        )
-                      ),
-                      TextSpan(
-                        text: "Год",
-                        style: TextStyle(
-                          color: Color(0xFF7FA4EA),
-                          decoration: TextDecoration.underline
-                        ),
-                      ),
-                    ]
-                  )
+                child: Text(
+                  data,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontFamily: 'Roboto',
+                    color: Color(0xFF52B69A)
+                  ),
+                // child: RichText(
+                //   text: TextSpan(
+                //     text: "",
+                //     style: TextStyle(
+                //       fontSize: 12,
+                //       fontFamily: 'Roboto'
+                //     ),
+                //     children: <TextSpan>[
+                //       TextSpan(
+                //         text: "Дата  ",
+                //         style: TextStyle(
+                //           color: Color(0xFF52B69A)
+                //         )
+                //       ),
+                //       TextSpan(
+                //         text: "Год",
+                //         style: TextStyle(
+                //           color: Color(0xFF7FA4EA),
+                //           decoration: TextDecoration.underline
+                //         ),
+                //       ),
+                //     ]
+                //   )
                 )
               ),
             )

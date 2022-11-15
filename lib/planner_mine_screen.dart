@@ -352,7 +352,7 @@ class _MonthlyPlannerState extends State<MonthlyPlanner> {
               height: widget.mineWidth,
               child: Transform.scale(
                 scale: scaleFactor, //scaleFactor,
-                child: const CircleClockFace()
+                child: CircleClockFace()
               )
             ),
             /// Celebration line.

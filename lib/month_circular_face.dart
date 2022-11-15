@@ -8,8 +8,11 @@ import 'dart:math' as math;
 const String assetName = 'assets/images/flutter_logo.svg';
 
 class CircleClockFace extends StatelessWidget {
+  final int _currentDay = DateTime.now().day;
+  //final int _currentMonth = DateTime.now().month;
 
-  const CircleClockFace({Key? key}) : super(key: key);
+
+  CircleClockFace({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +154,11 @@ class CircleClockFace extends StatelessWidget {
             /// Draw the clock hand.
             /// Рисуем стрелку.
             Transform.rotate(
-              angle: ((math.pi * 2 / 31) * 18.5),
-              child: const MonthArrow()
+              angle: ((math.pi * 2 / 31) * (_currentDay - 0.5)),
+              child: GestureDetector(
+                onTap: (){},
+                child: MonthArrow(rusDateNow())
+              )
             ),
             Center(
               child: Container(
@@ -221,4 +227,52 @@ class CircleClockFace extends StatelessWidget {
     }
     return result;
   }
+}
+
+String rusDateNow(){
+  String rusMonth;
+  int day = DateTime.now().day;
+  int month = DateTime.now().month;
+  int year = DateTime.now().year;
+  switch(month){
+    case 1:
+      rusMonth = 'января';
+      break;
+    case 2:
+      rusMonth = 'февраля';
+      break;
+    case 3:
+      rusMonth = 'марта';
+      break;
+    case 4:
+      rusMonth = 'апреля';
+      break;
+    case 5:
+      rusMonth = 'мая';
+      break;
+    case 6:
+      rusMonth = 'июня';
+      break;
+    case 7:
+      rusMonth = 'июля';
+      break;
+    case 8:
+      rusMonth = 'августа';
+      break;
+    case 9:
+      rusMonth = 'сентября';
+      break;
+    case 10:
+      rusMonth = 'октября';
+      break;
+    case 11:
+      rusMonth = 'ноября';
+      break;
+    case 12:
+      rusMonth = 'декабря';
+      break;
+    default:
+      rusMonth = 'месяц';
+  }
+  return '$day $rusMonth $year';
 }
