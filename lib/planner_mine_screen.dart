@@ -2,19 +2,22 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:site_xz/provider.dart';
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/month_circular_face.dart';
 
 
-class MonthlyPlanner extends StatefulWidget {
+class MinePlanner extends StatefulWidget {
   final String title;
+  final Provider provider;
   final double mineWidth;
   final double mineHeight;
   final double widthScaleFactor;
   final double heightScaleFactor;
 
-  const MonthlyPlanner(
+  const MinePlanner(
     this.title,
+    this.provider,
     this.mineWidth,
     this.mineHeight,
     this.widthScaleFactor,
@@ -23,13 +26,13 @@ class MonthlyPlanner extends StatefulWidget {
   ) : super(key: key);
 
   @override
-  State<MonthlyPlanner> createState() => _MonthlyPlannerState();
+  State<MinePlanner> createState() => _MinePlannerState();
 
 }
 
-class _MonthlyPlannerState extends State<MonthlyPlanner> {
+class _MinePlannerState extends State<MinePlanner> {
 
-  _MonthlyPlannerState();
+  _MinePlannerState();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,11 @@ class _MonthlyPlannerState extends State<MonthlyPlanner> {
     // print(height);
     // print(widget.mineHeight);
     // print(widget.mineWidth);
+    // if (widget.provider.authState.token != 'pass') {
+    //   widget.provider.postRequest(widget.provider.authState.token);
+    //   print(widget.provider.postRequest(widget.provider.authState.token));
+    // }
+    print('token: ${widget.provider.authState.token}');
     double scaleFactor = widget.mineWidth / 375;
     return Scaffold(
       body: Container(

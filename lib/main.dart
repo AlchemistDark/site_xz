@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:site_xz/month_circular_face.dart';
 import 'package:site_xz/planner_mine_screen.dart';
+import 'package:site_xz/provider.dart';
+import 'package:site_xz/star_up.dart';
 //import 'package:http/http.dart' as http;
 
 
 void main() {
   //document.documentElement!.requestFullscreen();
+  //String token = await getToken();
   runApp(const MyApp());
+  //print('token $token');
 
 }
 
@@ -36,11 +41,28 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState(title: title);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final String title;
+  final Provider provider = Provider();
+  late String _tkn;
+
+  _MyHomePageState({Key? key, required this.title});
+
   @override
+  void initState() {
+    provider.auth();
+    super.initState();
+  }
+
+
+
+  // void auth() async {
+  //   provider.auth();
+  // }
+  // @override
   // void initState() {
   //   // TODO: implement initState
   //   super.initState();
@@ -55,18 +77,20 @@ class _MyHomePageState extends State<MyHomePage> {
     final double heightScaleFactor = mineWidth / 825;
     //SystemChrome.setEnabledSystemUIOverlays([]);
     //setState(() {document.documentElement!.requestFullscreen();});
-    //response();
     //document.documentElement!.requestFullscreen();
     //document.documentElement!.requestFullscreen();
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-    return (MonthlyPlanner(widget.title, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor));
+    // print(provider.tkn);
+    // provider.postRequest(provider.tkn);
+    print(provider.authState.token);
+    return StartPage(widget.title, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor);
   }
 }
 
-// Future<void> response() async {
+// Future<void> response(String token) async {
 //   Response respons = await post(
 //     Uri.http("qviz.fun", "/api/v1/plannerdata/"),
-//     headers: {"Authorization": ""});
+//     headers: {"Authorization": token});
 //   print(respons);
 //   var data = json.decode(respons.body);
 //   print('data $data');
@@ -74,5 +98,20 @@ class _MyHomePageState extends State<MyHomePage> {
 //     print('datas $data.leight');
 //   }
 // }
+
+// Future<String> getToken() async{
+//   var url = 'https://qviz.fun/auth/token/login';
+//   String token = '';
+//   var response =  await post(
+//       Uri.parse(url),
+//       body: {
+//         'username':'NatalyaBloom',
+//         'password':'NatalyaPass',
+//       }
+//   );
+//   token = response.body.substring(response.body.indexOf(':')+2,response.body.length-2);
+//   return token;
+// }
+
 
 
