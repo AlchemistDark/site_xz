@@ -10,11 +10,11 @@ import 'package:site_xz/theme.dart';
 
 const String assetName = 'assets/images/flutter_logo.svg';
 
-class MonthCircleClockFace extends StatelessWidget {
+class YearCircleClockFace extends StatelessWidget {
   final int _currentDay = DateTime.now().day;
   //final int _currentMonth = DateTime.now().month;
 
-  MonthCircleClockFace({Key? key}) : super(key: key);
+  YearCircleClockFace({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

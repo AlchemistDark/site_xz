@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+//import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:site_xz/planner_mine_screen.dart';
 import 'package:site_xz/provider.dart';
 
 class StartPage extends StatelessWidget {
+
   final Provider provider = Provider();
 
   final String title;
@@ -24,7 +30,7 @@ class StartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<AuthState>(
       stream: provider.token,
-      initialData: AuthState(' ', false),
+      initialData: provider.authState,
       builder: (context, AsyncSnapshot<AuthState> snapshot) {
         final state = snapshot.data;
         switch (state!.isAuthSuccess) {
@@ -36,14 +42,15 @@ class StartPage extends StatelessWidget {
             }
             return StreamBuilder<ResponseState>(
               stream: provider.pResponse,
-              initialData: ResponseState(null, false),
+              initialData: provider.postResponse,
               builder: (context, AsyncSnapshot<ResponseState> snapshot) {
                 final state = snapshot.data;
                 switch (state!.isSuccess) {
                   case false:
                     return const Text('Данные загружаются');
                   case true:
-                    return MinePlanner(title, provider, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor);
+                    print("response: ${provider.postResponse.response.body}");
+                    return MinePlanner(title, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor);
                 }
                 return const Text('Что-то пошло не так...');
               }
@@ -53,5 +60,6 @@ class StartPage extends StatelessWidget {
       }
     );
   }
+
 }
 

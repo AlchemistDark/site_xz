@@ -13,6 +13,7 @@ const mineLightColor = Color(0xFFFFFFFF); // ToDo
 const mineDarkColor = Color(0xFF24262D);
 
 const mineGreenColor = Color(0xFF52B69A);
+const minePinkColor = Color(0xFFCE3B82);
 
 const text1DarkColor = Color(0xFFE0EBED);
 
@@ -24,6 +25,11 @@ const buttonMineDarkColor = Color(0xFF454E54);
 
 const buttonIconDarkColor = Color(0xFFA6ADB5);
 
+const calendarSegmentDarkColor = Color(0xFF1B2826);
+
+const arrowDarkColor = Color(0xFFB4B4B8);
+
+const arrowTailTextDarkColor = Color(0xFFA9BDE3);
 
 ///
 const familyGroupButtonColor = Color(0xFF53AABE);

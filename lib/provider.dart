@@ -10,9 +10,11 @@ class Provider{
   Stream<ResponseState> get pResponse => _rCtrl.stream;
   final StreamController<ResponseState> _rCtrl = StreamController<ResponseState>.broadcast();
   Provider(){
-    authState = AuthState('pass', false);
-    postResponse = ResponseState(null, false);
     auth();
+    //postRequest(authState.token);
+    // authState = AuthState('pass', false);
+    // postResponse = ResponseState(Response('--', 501), false);
+    // auth();
   }
 
   Future auth() async {
@@ -49,7 +51,7 @@ class AuthState {
 }
 
 class ResponseState {
-  final Response? response;
+  final Response response;
   final bool isSuccess;
 
   ResponseState(this.response, this.isSuccess);

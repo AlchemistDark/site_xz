@@ -4,8 +4,15 @@ class PlannerVM{
 
 }
 
-class MonthVM{
+class YearVM{
 
+}
+
+class MonthVM{
+  final List<DayVM> month;
+  MonthVM({
+    required this.month
+  });
 }
 
 class DayVM{
@@ -24,5 +31,11 @@ class DayVM{
     required this.isPresent,
     required this.isCelebrate
   });
-
 }
+
+class Celebration{
+  final int month;
+  final int date;
+  Celebration(this.month, this.date);
+}
+

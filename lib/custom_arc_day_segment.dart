@@ -12,8 +12,12 @@ class CustomArcSegment extends StatelessWidget {
   final String bottomText;
   final Color bottomTextColor;
   final Color bottomColor;
+  final Color pointColor;
   final double numberOfSegments;
   final double clockFaceDiameter;
+  final bool isCurrent;
+  final bool isPresent;
+  final bool isCelebrate;
 
   const CustomArcSegment({
     required this.topText,
@@ -22,8 +26,12 @@ class CustomArcSegment extends StatelessWidget {
     required this.bottomText,
     required this.bottomTextColor,
     required this.bottomColor,
+    required this.pointColor,
     required this.numberOfSegments,
     required this.clockFaceDiameter,
+    required this.isCurrent,
+    required this.isPresent,
+    required this.isCelebrate,
     Key? key}
   ) : super(key: key);
 

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
+
+import 'package:site_xz/theme.dart';
 
 /// This class implements an arrow for a month circular face.
 /// Данный класс реализуе стрелку для месячного циферблата.
@@ -23,7 +26,7 @@ class MonthArrow extends StatelessWidget {
             child: Container(
               width: 194,
               height: 194,
-              color: const Color(0xFFE9549B),
+              color: minePinkColor,
             )
           )
         ),
@@ -33,10 +36,11 @@ class MonthArrow extends StatelessWidget {
           child: Container(
             width: 187,
             height: 187,
-            padding: const EdgeInsets.only(bottom: 76),
-            child: Image.asset(
-              "assets/images/clock_arrow.png",
-              fit: BoxFit.scaleDown
+            padding: const EdgeInsets.only(bottom: 76, right: 1),
+            child: SvgPicture.asset(
+              "assets/images/clock_arrow3.svg",
+              color: arrowDarkColor,
+              fit: BoxFit.fitHeight
             )
           )
         ),
@@ -55,7 +59,7 @@ class MonthArrow extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 12,
                     fontFamily: 'Roboto',
-                    color: Color(0xFF52B69A)
+                    color: mineWhiteColor
                   ),
                 // child: RichText(
                 //   text: TextSpan(
@@ -100,7 +104,7 @@ class MonthArrow extends StatelessWidget {
                     Text(
                       '+14',
                       style: TextStyle(
-                      color: Color(0xFF547CC7),
+                      color: arrowTailTextDarkColor,
                         fontSize: 8,
                         fontFamily: 'Roboto'
                       )
@@ -108,7 +112,7 @@ class MonthArrow extends StatelessWidget {
                     Text(
                       'дней',
                       style: TextStyle(
-                        color: Color(0xFF547CC7),
+                        color: arrowTailTextDarkColor,
                         fontSize: 8,
                         fontFamily: 'Roboto'
                       ),
