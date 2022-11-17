@@ -483,8 +483,6 @@ class _MinePlannerState extends State<MinePlanner> {
                 ]
               )
             ),
-
-
             Expanded(
               flex: 1,
               child: Container(
@@ -503,9 +501,9 @@ class _MinePlannerState extends State<MinePlanner> {
                     callback: (){},
                     buttonColor: familyGroupButtonColor,
                     iconPath: 'assets/images/family_group_icon.svg',
-                    count: '0',
+                    count: usersList[userNumber].peopleCount[0].toString(),
                     buttonName: 'Семья',
-                    date: 'Дата',
+                    date: usersList[userNumber].peopleDates[0],
                   ),
                   /// Separator.
                   Expanded(
@@ -519,9 +517,9 @@ class _MinePlannerState extends State<MinePlanner> {
                     callback: (){},
                     buttonColor: friendsGroupButtonColor,
                     iconPath: 'assets/images/friends_group_icon.svg',
-                    count: '0',
+                    count: usersList[userNumber].peopleCount[1].toString(),
                     buttonName: 'Друзья',
-                    date: 'Дата',
+                    date: usersList[userNumber].peopleDates[1],
                   ),
                   /// Separator.
                   Expanded(
@@ -535,9 +533,9 @@ class _MinePlannerState extends State<MinePlanner> {
                     callback: (){},
                     buttonColor: relativesGroupButtonColor,
                     iconPath: 'assets/images/relatives_group_icon.svg',
-                    count: '0',
+                    count: usersList[userNumber].peopleCount[2].toString(),
                     buttonName: 'Близкие',
-                    date: 'Дата',
+                    date: usersList[userNumber].peopleDates[2],
                   ),
                   /// Separator.
                   Expanded(
@@ -551,9 +549,9 @@ class _MinePlannerState extends State<MinePlanner> {
                     callback: (){},
                     buttonColor: colleaguesGroupButtonColor,
                     iconPath: 'assets/images/colleagues_group_icon.svg',
-                    count: '0',
+                    count: usersList[userNumber].peopleCount[3].toString(),
                     buttonName: 'Коллеги',
-                    date: 'Дата',
+                    date: usersList[userNumber].peopleDates[3],
                   ),
                   /// Separator.
                   Expanded(
@@ -567,9 +565,9 @@ class _MinePlannerState extends State<MinePlanner> {
                     callback: (){},
                     buttonColor: partnersGroupButtonColor,
                     iconPath: 'assets/images/partners_group_icon.svg',
-                    count: '0',
+                    count: usersList[userNumber].peopleCount[4].toString(),
                     buttonName: 'Партнёры',
-                    date: 'Дата',
+                    date: usersList[userNumber].peopleDates[4],
                   )
                 ]
               )
