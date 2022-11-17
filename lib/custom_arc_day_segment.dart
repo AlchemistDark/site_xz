@@ -173,7 +173,7 @@ class CustomArcSegment extends StatelessWidget {
             )
           )
         ),
-        if (1 == 1)
+        if (isCelebrate)
         /// Ray for an icon.
         /// Луча для иконки.
         Center(

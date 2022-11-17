@@ -7,14 +7,37 @@ import 'dart:math' as math;
 
 import 'package:site_xz/planner_view_model.dart';
 import 'package:site_xz/theme.dart';
+import 'package:site_xz/user_class.dart';
 
 const String assetName = 'assets/images/flutter_logo.svg';
 
 class MonthCircleClockFace extends StatelessWidget {
   final int _currentDay = DateTime.now().day;
   //final int _currentMonth = DateTime.now().month;
+  final List<Celebrate> celebrationList;
 
-  MonthCircleClockFace({Key? key}) : super(key: key);
+  bool isCelebrate(List<Celebrate> celebrationList, int day){
+    //bool result;
+    for (var celebrate in celebrationList) {
+      //print('праздник месяц ${celebrate.month}');
+      if (celebrate.month == DateTime.now().month) {
+        //print('что-то не так ${celebrate.month} ${DateTime.now().month}');
+        // result = false;
+        // return result
+        //print('праздник день ${celebrate.date}');
+        if (celebrate.date == day) {
+          //print('ещё не так ${celebrate.date} ${day}');
+          return true;
+        }
+      }
+      //print('всё так1 ${day}');
+
+    }
+    print('всё так ${day}');
+    return false;
+  }
+
+  MonthCircleClockFace({required this.celebrationList, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +202,7 @@ class MonthCircleClockFace extends StatelessWidget {
             /// Рисуем иконки праздников.
             Center(
               child: Container(
-                margin: const EdgeInsets.only(right: 3, bottom: 3),
+                margin: const EdgeInsets.only(right: 3, top: 63),
                 child: Stack(
                   children: celebrationIcons()
                 )
@@ -217,7 +240,7 @@ class MonthCircleClockFace extends StatelessWidget {
     String topText = ' ';
     bool isCurrent = false;
     bool isPresent = true;
-    bool isCelebrate = false;
+    //bool isCelebrate;
     Color topColor = mineGreenColor;
     Color bottomTextColor = mineGreenColor;
     Color pointColor = minePinkColor;
@@ -275,7 +298,7 @@ class MonthCircleClockFace extends StatelessWidget {
             clockFaceDiameter: (262),
             isCurrent: isCurrent,
             isPresent: isPresent,
-            isCelebrate: isCelebrate
+            isCelebrate: isCelebrate(celebrationList, (i + 1))
           )
         )
       );
@@ -287,27 +310,37 @@ class MonthCircleClockFace extends StatelessWidget {
   List<Widget> celebrationIcons() {
     List<Widget> result = [];
     for (int i = 0; i < 31; i++) {
-      result.add(
-        Padding(
-          padding: EdgeInsets.only(
-            top: (187.5 + (161 * (math.cos(math.pi * 2 / 31 * i))) - 22.5),
-            left: (187.5 + (161 * (math.sin(math.pi * 2 / 31 * i))) - 22.5)
-          ),
-          child: Container(
-            width: 45,
-            height: 45,
-            padding: EdgeInsets.all(5),
-            child: SvgPicture.asset(
-              'assets/images/relatives_group_icon.svg',
-              fit: BoxFit.scaleDown
+      if (isCelebrate(celebrationList, (i + 1))) {
+        result.add(
+          Container(
+            alignment: Alignment.topLeft,
+            width: 375,
+            height: 375,
+            margin: EdgeInsets.only(
+              top: ((187.5 - (161 * (math.cos(math.pi * 2 / 31 * (i + 0.5)))) - 22.5)),
+              left: ((187.5 + (161 * (math.sin(math.pi * 2 / 31 * (i + 0.5)))) - 22.5))
             ),
-            decoration: const BoxDecoration(
-              color: Color(0xFF9388CC),
-              shape: BoxShape.circle,
+            child:Container(
+              alignment: Alignment.topLeft,
+              width: 375,
+              height: 375,
+              child: Container(
+                width: 45,
+                height: 45,
+                padding: EdgeInsets.all(5),
+                child: SvgPicture.asset(
+                  'assets/images/relatives_group_icon.svg',
+                  fit: BoxFit.scaleDown
+                ),
+                decoration: const BoxDecoration(
+                  color: relativesGroupButtonColor,
+                  shape: BoxShape.circle,
+                )
+              )
             )
           )
-        )
-      );
+        );
+      }
     }
     return result;
   }

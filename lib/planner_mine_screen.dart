@@ -6,7 +6,6 @@ import 'package:site_xz/month_circular_face.dart';
 import 'package:site_xz/user_class.dart';
 import 'dart:math' as math;
 
-
 class MinePlanner extends StatefulWidget {
   final String title;
   final double mineWidth;
@@ -475,7 +474,9 @@ class _MinePlannerState extends State<MinePlanner> {
                       height: widget.mineWidth,
                       child: Transform.scale(
                         scale: scaleFactor, //scaleFactor,
-                        child: MonthCircleClockFace()
+                        child: MonthCircleClockFace(
+                          celebrationList: usersList[userNumber].holidays
+                        )
                       )
                     )
                   ),

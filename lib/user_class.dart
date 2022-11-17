@@ -4,7 +4,7 @@ import 'dart:core';
 class UserData{
   final String username;
   final String region;
-  final List<Celebration> holidays;
+  final List<Celebrate> holidays;
   final List<String> peopleDates;
   final List<int> peopleCount;
   final String avatarImagePath;
@@ -27,12 +27,12 @@ class UserData{
 
 enum CelebrationCategory{family, friends, relatives, colleagues, partners}
 
-class Celebration{
+class Celebrate{
   final int month;
   final int date;
   CelebrationCategory celebrationCategory;
 
-  Celebration(this.month, this.date, this.celebrationCategory);
+  Celebrate(this.month, this.date, this.celebrationCategory);
 }
 
 
@@ -42,13 +42,13 @@ final List<UserData> usersList = [
     username: 'Наталья Фадеева',
     region: 'г. Тула, Россия',
     holidays: [
-      Celebration(11, 4, CelebrationCategory.relatives),
-      Celebration(11, 7, CelebrationCategory.relatives),
-      Celebration(11, 15, CelebrationCategory.family),
-      Celebration(11, 27, CelebrationCategory.friends),
-      Celebration(12, 3, CelebrationCategory.friends),
-      Celebration(12, 13, CelebrationCategory.friends),
-      Celebration(12, 31, CelebrationCategory.family),
+      Celebrate(11, 4, CelebrationCategory.relatives),
+      Celebrate(11, 7, CelebrationCategory.relatives),
+      Celebrate(11, 15, CelebrationCategory.family),
+      Celebrate(11, 27, CelebrationCategory.friends),
+      Celebrate(12, 3, CelebrationCategory.friends),
+      Celebrate(12, 13, CelebrationCategory.friends),
+      Celebrate(12, 31, CelebrationCategory.family),
     ],
     peopleDates: ['31.12.2022', '27.11.2022', 'n/a', 'n/a', 'n/a'],
     peopleCount: [5, 15, 143, 27, 30],
@@ -61,14 +61,14 @@ final List<UserData> usersList = [
     username: 'Иван Астапов',
     region: 'г. Красноярск, Россия',
     holidays: [
-      Celebration(11, 4, CelebrationCategory.relatives),
-      Celebration(11, 7, CelebrationCategory.relatives),
-      Celebration(11, 25, CelebrationCategory.family),
-      Celebration(11, 28, CelebrationCategory.friends),
-      Celebration(12, 7, CelebrationCategory.friends),
-      Celebration(12, 14, CelebrationCategory.friends),
-      Celebration(12, 19, CelebrationCategory.friends),
-      Celebration(12, 31, CelebrationCategory.family),
+      Celebrate(11, 4, CelebrationCategory.relatives),
+      Celebrate(11, 7, CelebrationCategory.relatives),
+      Celebrate(11, 25, CelebrationCategory.family),
+      Celebrate(11, 28, CelebrationCategory.friends),
+      Celebrate(12, 7, CelebrationCategory.friends),
+      Celebrate(12, 14, CelebrationCategory.friends),
+      Celebrate(12, 19, CelebrationCategory.friends),
+      Celebrate(12, 31, CelebrationCategory.family),
     ],
     peopleDates: ['25.11.2022', '28.11.2022', 'n/a', 'n/a', 'n/a'],
     peopleCount: [15, 40, 54, 47, 73],
@@ -81,14 +81,14 @@ final List<UserData> usersList = [
     username: 'Ирина Иванова',
     region: 'г. Москва, Россия',
     holidays: [
-      Celebration(11, 15, CelebrationCategory.family),
-      Celebration(11, 20, CelebrationCategory.friends),
-      Celebration(11, 29, CelebrationCategory.friends),
-      Celebration(11, 30, CelebrationCategory.colleagues),
-      Celebration(12, 7, CelebrationCategory.colleagues),
-      Celebration(12, 15, CelebrationCategory.friends),
-      Celebration(12, 24, CelebrationCategory.family),
-      Celebration(12, 31, CelebrationCategory.family),
+      Celebrate(11, 15, CelebrationCategory.family),
+      Celebrate(11, 20, CelebrationCategory.friends),
+      Celebrate(11, 29, CelebrationCategory.friends),
+      Celebrate(11, 30, CelebrationCategory.colleagues),
+      Celebrate(12, 7, CelebrationCategory.colleagues),
+      Celebrate(12, 15, CelebrationCategory.friends),
+      Celebrate(12, 24, CelebrationCategory.family),
+      Celebrate(12, 31, CelebrationCategory.family),
     ],
     peopleDates: ['24.12.2022', '20.11.2022', 'n/a', '30.11.2022', 'n/a'],
     peopleCount: [10, 20, 37, 41, 0],
