@@ -40,10 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final double mineWidth = MediaQuery.of(context).size.width;
-    final double mineHeight = MediaQuery.of(context).size.height;
-    final double widthScaleFactor = mineWidth / 375;
-    final double heightScaleFactor = mineWidth / 825;
-    return MinePlanner(title, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor);
+    return MinePlanner(title, mineWidth,);
   }
 }
 

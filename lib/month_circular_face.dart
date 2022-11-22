@@ -17,23 +17,13 @@ class MonthCircleClockFace extends StatelessWidget {
   final List<Celebrate> celebrationList;
 
   bool isCelebrate(List<Celebrate> celebrationList, int day){
-    //bool result;
     for (var celebrate in celebrationList) {
-      //print('праздник месяц ${celebrate.month}');
       if (celebrate.month == DateTime.now().month) {
-        //print('что-то не так ${celebrate.month} ${DateTime.now().month}');
-        // result = false;
-        // return result
-        //print('праздник день ${celebrate.date}');
         if (celebrate.date == day) {
-          //print('ещё не так ${celebrate.date} ${day}');
           return true;
         }
       }
-      //print('всё так1 ${day}');
-
     }
-    print('всё так ${day}');
     return false;
   }
 
@@ -202,7 +192,10 @@ class MonthCircleClockFace extends StatelessWidget {
             /// Рисуем иконки праздников.
             Center(
               child: Container(
-                margin: const EdgeInsets.only(right: 3, top: 63),
+                //color: Colors.deepPurpleAccent.withOpacity(0.75),
+                height: 375,
+                width:  375,
+                margin: const EdgeInsets.only(right: 3),
                 child: Stack(
                   children: celebrationIcons()
                 )

@@ -9,16 +9,10 @@ import 'dart:math' as math;
 class MinePlanner extends StatefulWidget {
   final String title;
   final double mineWidth;
-  final double mineHeight;
-  final double widthScaleFactor;
-  final double heightScaleFactor;
 
   const MinePlanner(
     this.title,
     this.mineWidth,
-    this.mineHeight,
-    this.widthScaleFactor,
-    this.heightScaleFactor,
     {Key? key}
   ) : super(key: key);
 
