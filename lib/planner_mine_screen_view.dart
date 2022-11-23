@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:site_xz/theme.dart';
-import 'package:site_xz/month_circular_face.dart';
+import 'package:site_xz/month_circular_face_view.dart';
 import 'package:site_xz/user_class.dart';
 import 'dart:math' as math;
 

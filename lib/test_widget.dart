@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:site_xz/planner_mine_screen.dart';
+import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/provider.dart';
 
 class TestWidget extends StatefulWidget {

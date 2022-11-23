@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:site_xz/custom_arc_day_segment.dart';
 import 'package:site_xz/month_arrow.dart';
-import 'dart:math' as math;
-
 import 'package:site_xz/planner_view_model.dart';
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/user_class.dart';
+import 'package:site_xz/month_circular_face_logic.dart';
+import 'dart:math' as math;
 
-const String assetName = 'assets/images/flutter_logo.svg';
+//const String assetName = 'assets/images/flutter_logo.svg';
 
 class MonthCircleClockFace extends StatelessWidget {
   final int _currentDay = DateTime.now().day;
-  //final int _currentMonth = DateTime.now().month;
   final List<Celebrate> celebrationList;
 
   bool isCelebrate(List<Celebrate> celebrationList, int day){
@@ -207,7 +206,7 @@ class MonthCircleClockFace extends StatelessWidget {
               angle: ((math.pi * 2 / 31) * (_currentDay - 0.5)),
               child: GestureDetector(
                 onTap: (){},
-                child: MonthArrow(rusDateNow())
+                child: MonthArrow(CustomRusDateNow().rusLongMonth)
               )
             ),
             Center(
@@ -228,10 +227,7 @@ class MonthCircleClockFace extends StatelessWidget {
   /// Draw clock face.
   /// Рисует циферблат.
   List<Widget> segments() {
-    int numberOfDays = 31;
     int day = DateTime.now().day;
-    String topText = ' ';
-    bool isCurrent = false;
     bool isPresent = true;
     //bool isCelebrate;
     Color topColor = mineGreenColor;
@@ -241,23 +237,8 @@ class MonthCircleClockFace extends StatelessWidget {
     /// Clock face drawer.
     for (int i = 0; i < 31; i++) {
       /// Get the day of the week for each day of the month.
-      DateTime date = DateTime(DateTime.now().year, DateTime.now().month, (i + 1));
-      switch (date.weekday){
-        case 1:
-          topText = 'пн';
-          break;
-        case 6:
-          topText = 'сб';
-          break;
-        case 7:
-          topText = 'вс';
-          break;
-        default:
-          topText = ' ';
-      }
-      if (i == 0) {
-        topText = rusMonthNowShort();
-      }
+
+
       /// Elements colors.
       topColor = mineGreenColor;
       bottomTextColor = mineGreenColor;
@@ -267,30 +248,29 @@ class MonthCircleClockFace extends StatelessWidget {
         bottomTextColor = minePinkColor;
         pointColor = mineGreenColor;
       }
-      if ((day == i)) {
-        isCurrent = true;
-      }
-      if ((i + 1) > numberOfDaysInCurrentMonth()) {
+
+      if ((i + 1) > CustomRusDateNow().numberOfDays) {
         isPresent = false;
       }
       if ((i < 2) || !isPresent) {
         topColor = calendarSegmentDarkColor;
       }
+      final DaySegment daySegment = DaySegment(i);
       result.add(
         Transform.rotate(
-          angle: ((math.pi * 2 / 31) * (i + 0.5)),
+          angle: daySegment.angle,
           child: CustomArcSegment(
-            topText: topText,
-            topTextColor: mineWhiteColor,
-            topColor: topColor,
-            bottomText: '${i + 1}',
-            bottomTextColor: bottomTextColor,
-            bottomColor: calendarSegmentDarkColor,
-            pointColor: pointColor,
-            numberOfSegments: 31,
-            clockFaceDiameter: (262),
-            isCurrent: isCurrent,
-            isPresent: isPresent,
+            topText: daySegment.topText,
+            topTextColor: daySegment.topTextColor,
+            topColor: daySegment.topColor,//
+            bottomText: daySegment.bottomText,//
+            bottomTextColor: daySegment.bottomTextColor,//
+            bottomColor: daySegment.bottomColor,//
+            pointColor: daySegment.pointColor,//
+            numberOfSegments: 31,//
+            clockFaceDiameter: 262,//
+            isCurrent: daySegment.isCurrent,
+            isPresent: daySegment.isPresent,//
             isCelebrate: isCelebrate(celebrationList, (i + 1))
           )
         )
@@ -338,153 +318,3 @@ class MonthCircleClockFace extends StatelessWidget {
     return result;
   }
 }
-
-String rusDateNow(){ // ToDo объеденить с остальными подобными.
-  String rusMonth;
-  int day = DateTime.now().day;
-  int month = DateTime.now().month;
-  int year = DateTime.now().year;
-  switch(month){
-    case 1:
-      rusMonth = 'января';
-      break;
-    case 2:
-      rusMonth = 'февраля';
-      break;
-    case 3:
-      rusMonth = 'марта';
-      break;
-    case 4:
-      rusMonth = 'апреля';
-      break;
-    case 5:
-      rusMonth = 'мая';
-      break;
-    case 6:
-      rusMonth = 'июня';
-      break;
-    case 7:
-      rusMonth = 'июля';
-      break;
-    case 8:
-      rusMonth = 'августа';
-      break;
-    case 9:
-      rusMonth = 'сентября';
-      break;
-    case 10:
-      rusMonth = 'октября';
-      break;
-    case 11:
-      rusMonth = 'ноября';
-      break;
-    case 12:
-      rusMonth = 'декабря';
-      break;
-    default:
-      rusMonth = 'месяц';
-  }
-  return '$day $rusMonth $year';
-}
-
-String rusMonthNowShort(){
-  String rusMonth;
-  int month = DateTime.now().month;
-  switch(month){
-    case 1:
-      rusMonth = 'янв';
-      break;
-    case 2:
-      rusMonth = 'фев';
-      break;
-    case 3:
-      rusMonth = 'мар';
-      break;
-    case 4:
-      rusMonth = 'апр';
-      break;
-    case 5:
-      rusMonth = 'май';
-      break;
-    case 6:
-      rusMonth = 'июн';
-      break;
-    case 7:
-      rusMonth = 'июл';
-      break;
-    case 8:
-      rusMonth = 'авг';
-      break;
-    case 9:
-      rusMonth = 'сен';
-      break;
-    case 10:
-      rusMonth = 'окт';
-      break;
-    case 11:
-      rusMonth = 'ноя';
-      break;
-    case 12:
-      rusMonth = 'дек';
-      break;
-    default:
-      rusMonth = 'мес';
-  }
-  return rusMonth;
-}
-
-int numberOfDaysInCurrentMonth(){ // ToDo объеденить с остальными подобными.
-  int month = DateTime.now().month;
-  int result;
-  switch(month){
-    case 1:
-      result = 31;
-      break;
-    case 2:
-      result = 28;  // Todo високосные годы
-      break;
-    case 3:
-      result = 31;
-      break;
-    case 4:
-      result = 30;
-      break;
-    case 5:
-      result = 31;
-      break;
-    case 6:
-      result = 30;
-      break;
-    case 7:
-      result = 31;
-      break;
-    case 8:
-      result = 31;
-      break;
-    case 9:
-      result = 30;
-      break;
-    case 10:
-      result = 31;
-      break;
-    case 11:
-      result = 30;
-      break;
-    case 12:
-      result = 31;
-      break;
-    default:
-      result = 31;
-  }
-  return result;
-}
-
-List<Celebration> celebrations = [
-  Celebration(11, 4),
-  Celebration(11, 7),
-  Celebration(11, 15),
-  Celebration(11, 27),
-  Celebration(12, 3),
-  Celebration(12, 13),
-  Celebration(12, 31),
-];

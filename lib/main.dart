@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:site_xz/planner_mine_screen.dart';
+import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/provider.dart';
 
 void main() {

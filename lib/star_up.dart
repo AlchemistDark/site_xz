@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:site_xz/planner_mine_screen.dart';
+import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/provider.dart';
 
 class StartPage extends StatelessWidget {
@@ -50,7 +50,7 @@ class StartPage extends StatelessWidget {
                     return const Text('Данные загружаются');
                   case true:
                     print("response: ${provider.postResponse.response.body}");
-                    return MinePlanner(title, mineWidth, mineHeight, widthScaleFactor, heightScaleFactor);
+                    return MinePlanner(title, mineWidth);
                 }
                 return const Text('Что-то пошло не так...');
               }
