@@ -1,191 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:site_xz/custom_arc_day_segment.dart';
-import 'package:site_xz/month_arrow.dart';
 import 'dart:math' as math;
-
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/user_class.dart';
-
-const String assetName = 'assets/images/flutter_logo.svg';
-
-class MonthCircleClockFace extends StatelessWidget {
-  final int _currentDay = DateTime.now().day;
-  final List<Celebrate> celebrationList;
-
-  bool isCelebrate(List<Celebrate> celebrationList, int day){
-    for (var celebrate in celebrationList) {
-      if (celebrate.month == DateTime.now().month) {
-        if (celebrate.date == day) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  MonthCircleClockFace({required this.celebrationList, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform.scale(
-      scale: 1, //scaleFactor,
-      child:  Container(
-        //color: Color(0xFF00FF00),
-        width: 375,
-        height: 375,
-        child: Stack(
-          children: <Widget>[
-
-            /// Draw the calendar dial.
-            /// Рисует циферблат календаря.
-            Stack(
-              children: segments()
-            ),
-            /// Draw celebration icons.
-            /// Рисуем иконки праздников.
-            Center(
-              child: Container(
-                //color: Colors.deepPurpleAccent.withOpacity(0.75),
-                height: 375,
-                width:  375,
-                margin: const EdgeInsets.only(right: 3),
-                child: Stack(
-                  children: celebrationIcons()
-                )
-              )
-            ),
-            /// Draw the clock hand.
-            /// Рисуем стрелку.
-            Center(
-              child: Container(
-                width: 5.32,
-                height: 5.32,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF474952),
-                  shape: BoxShape.circle,
-                )
-              )
-            )
-          ]
-        )
-      )
-    );
-  }
-  /// Draw clock face.
-  /// Рисует циферблат.
-  List<Widget> segments() {
-    int numberOfDays = 31;
-    int day = DateTime.now().day;
-    String topText = ' ';
-    bool isCurrent = false;
-    bool isPresent = true;
-    //bool isCelebrate;
-    Color topColor = mineGreenColor;
-    Color bottomTextColor = mineGreenColor;
-    Color pointColor = minePinkColor;
-    List<Widget> result = [];
-    /// Clock face drawer.
-    for (int i = 0; i < 31; i++) {
-      /// Get the day of the week for each day of the month.
-      DateTime date = DateTime(DateTime.now().year, DateTime.now().month, (i + 1));
-      switch (date.weekday){
-        case 1:
-          topText = 'пн';
-          break;
-        case 6:
-          topText = 'сб';
-          break;
-        case 7:
-          topText = 'вс';
-          break;
-        default:
-          topText = ' ';
-      }
-      // if (i == 0) {
-      //   topText = rusMonthNowShort();
-      // }
-      /// Elements colors.
-      topColor = mineGreenColor;
-      bottomTextColor = mineGreenColor;
-      pointColor = minePinkColor;
-      if ((((i + 1) > day) && (i < (day + 15))) || (i < (day - 16)) ) {
-        topColor = minePinkColor;
-        bottomTextColor = minePinkColor;
-        pointColor = mineGreenColor;
-      }
-      if ((day == i)) {
-        isCurrent = true;
-      }
-      // if ((i + 1) > numberOfDaysInCurrentMonth()) {
-      //   isPresent = false;
-      // }
-      if ((i < 2) || !isPresent) {
-        topColor = calendarSegmentDarkColor;
-      }
-      result.add(
-        Transform.rotate(
-          angle: ((math.pi * 2 / 31) * (i + 0.5)),
-          child: CustomArcSegment(
-            topText: topText,
-            topTextColor: mineWhiteColor,
-            topColor: topColor,
-            bottomText: '${i + 1}',
-            bottomTextColor: bottomTextColor,
-            bottomColor: calendarSegmentDarkColor,
-            pointColor: pointColor,
-            numberOfSegments: 31,
-            clockFaceDiameter: (262),
-            isCurrent: isCurrent,
-            isPresent: isPresent,
-            isCelebrate: isCelebrate(celebrationList, (i + 1))
-          )
-        )
-      );
-    }
-    return result;
-  }
-  /// Draw celebration icons.
-  /// Рисует иконки праздников.
-  List<Widget> celebrationIcons() {
-    List<Widget> result = [];
-    for (int i = 0; i < 31; i++) {
-      if (isCelebrate(celebrationList, (i + 1))) {
-        result.add(
-          Container(
-            alignment: Alignment.topLeft,
-            width: 375,
-            height: 375,
-            margin: EdgeInsets.only(
-              top: ((187.5 - (161 * (math.cos(math.pi * 2 / 31 * (i + 0.5)))) - 22.5)),
-              left: ((187.5 + (161 * (math.sin(math.pi * 2 / 31 * (i + 0.5)))) - 22.5))
-            ),
-            child:Container(
-              alignment: Alignment.topLeft,
-              width: 375,
-              height: 375,
-              child: Container(
-                width: 45,
-                height: 45,
-                padding: EdgeInsets.all(5),
-                child: SvgPicture.asset(
-                  'assets/images/relatives_group_icon.svg',
-                  fit: BoxFit.scaleDown
-                ),
-                decoration: const BoxDecoration(
-                  color: relativesGroupButtonColor,
-                  shape: BoxShape.circle,
-                )
-              )
-            )
-          )
-        );
-      }
-    }
-    return result;
-  }
-}
 
 class DaySegment{
 
@@ -194,6 +11,7 @@ class DaySegment{
 
   /// Input.
   final int number;
+  final List<Celebrate> celebrationList;
 
   /// Output.
   late double angle;
@@ -206,11 +24,16 @@ class DaySegment{
   late Color bottomTextColor;
   late Color bottomColor;
   late Color pointColor;
-//   isCelebrate: isCelebrate(celebrationList, (i + 1))
+  late bool isCelebrate;//: isCelebrate(celebrationList, (i + 1))
 
 //   //bool isCelebrate;
 
-  DaySegment(this.number){
+
+
+  DaySegment({
+    required this.number,
+    required this.celebrationList
+  }){
     int i = (number + 1);
     angle = ((math.pi * 2 / 31) * (i - 0.5));
     isCurrent = (day == i);
@@ -222,6 +45,7 @@ class DaySegment{
     bottomTextColor = _getColors(i, isPresent)[2];
     bottomColor = _getColors(i, isPresent)[3];
     pointColor = _getColors(i, isPresent)[4];
+    isCelebrate = _getIsCelebrate(celebrationList, i);
   }
 
   String _getTopText(int i){
@@ -269,6 +93,16 @@ class DaySegment{
     result.add(tempBottomColor);
     result.add(tempPointColor);
     return result;
+  }
+  bool _getIsCelebrate(List<Celebrate> celebrationList, int day){
+    for (var celebrate in celebrationList) {
+      if (celebrate.month == DateTime.now().month) {
+        if (celebrate.date == day) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
 

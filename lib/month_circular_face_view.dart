@@ -136,7 +136,7 @@ class MonthCircleClockFace extends StatelessWidget {
               )
             ),
             Stack(
-              children: segments()
+              children: segments(celebrationList)
             ),
             Center(
               child: Container(
@@ -226,36 +226,10 @@ class MonthCircleClockFace extends StatelessWidget {
   }
   /// Draw clock face.
   /// Рисует циферблат.
-  List<Widget> segments() {
-    int day = DateTime.now().day;
-    bool isPresent = true;
-    //bool isCelebrate;
-    Color topColor = mineGreenColor;
-    Color bottomTextColor = mineGreenColor;
-    Color pointColor = minePinkColor;
+  List<Widget> segments(List<Celebrate> celebrationList) {
     List<Widget> result = [];
-    /// Clock face drawer.
     for (int i = 0; i < 31; i++) {
-      /// Get the day of the week for each day of the month.
-
-
-      /// Elements colors.
-      topColor = mineGreenColor;
-      bottomTextColor = mineGreenColor;
-      pointColor = minePinkColor;
-      if ((((i + 1) > day) && (i < (day + 15))) || (i < (day - 16)) ) {
-        topColor = minePinkColor;
-        bottomTextColor = minePinkColor;
-        pointColor = mineGreenColor;
-      }
-
-      if ((i + 1) > CustomRusDateNow().numberOfDays) {
-        isPresent = false;
-      }
-      if ((i < 2) || !isPresent) {
-        topColor = calendarSegmentDarkColor;
-      }
-      final DaySegment daySegment = DaySegment(i);
+      final DaySegment daySegment = DaySegment(number: i, celebrationList: celebrationList);
       result.add(
         Transform.rotate(
           angle: daySegment.angle,
