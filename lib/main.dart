@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/provider.dart';
+import 'package:site_xz/test_rest_buttons.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Planner', //ToDo это надо изменить.
+      title: 'Planner',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Planner'), //ToDo это надо изменить.
+      home: const MyHomePage(title: 'Planner'),
     );
   }
 }
@@ -40,7 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final double mineWidth = MediaQuery.of(context).size.width;
-    return MinePlanner(title, mineWidth,);
+    //return MinePlanner(title, mineWidth);
+    return Buttons();
   }
 }
 

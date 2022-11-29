@@ -263,7 +263,7 @@ class YearCircleClockFace extends StatelessWidget {
       result.add(
         Transform.rotate(
           angle: ((math.pi * 2 / 31) * (i + 0.5)),
-          child: CustomArcSegment(
+          child: CustomArcDaySegment(
             topText: topText,
             topTextColor: mineWhiteColor,
             topColor: topColor,

@@ -106,7 +106,7 @@ class MonthCircleClockFace extends StatelessWidget {
                     width: 388,
                     height: 388,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(388 / 2),
+                      borderRadius: BorderRadius.circular(194),
                       child: Container(
                         color: mineDarkColor
                       )
@@ -233,7 +233,7 @@ class MonthCircleClockFace extends StatelessWidget {
       result.add(
         Transform.rotate(
           angle: daySegment.angle,
-          child: CustomArcSegment(
+          child: CustomArcDaySegment(
             topText: daySegment.topText,
             topTextColor: daySegment.topTextColor,
             topColor: daySegment.topColor,//

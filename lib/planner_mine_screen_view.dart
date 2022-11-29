@@ -43,7 +43,6 @@ class _MinePlannerState extends State<MinePlanner> {
     setState((){});
   }
 
-
   _MinePlannerState();
 
   @override
