@@ -1,19 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+class AppTheme{
+  final bool isDark;
+  final Color mineColor;
+  final Color appBarColor;
+  final Color appBarButtonColor1;
+  final Color appBarButtonColor2;
+  final Color appBarTextColor;
+
+  final mineGreenColor = const Color(0xFF52B69A);
+  final minePinkColor = const Color(0xFFCE3B82);
+  final buttonIconDarkColor = const Color(0xFFA6ADB5);
+
+  AppTheme.light({
+    this.isDark = false,
+    this.mineColor = const Color(0xFFF0F7FE),
+    this.appBarColor = const Color(0xFFFFFFFF),
+    this.appBarButtonColor1 = const Color(0xFFE0ECFA),
+    this.appBarButtonColor2 = const Color(0xFFFFFFFF),
+    this.appBarTextColor = const Color(0xFF161A1D)
+  });//
+
+  AppTheme.dark({
+    this.isDark = true,
+    this.mineColor = const Color(0xFF24262D),
+    this.appBarColor = const Color(0xFF1B1C22),
+    this.appBarButtonColor1 = const Color(0xFF1C1F26),
+    this.appBarButtonColor2 = const Color(0xFF4B4F5F),
+    this.appBarTextColor = const Color(0xFFFFFFFF)
+  });
+
+}
+
 /// List of all colors.
 /// Список всех цветов.
-
 
 const mineWhiteColor = Color(0xFFFFFFFF);
 
 const appBarLightColor = Color(0xFFFFFFFF); // ToDo
 const appBarDarkColor = Color(0xFF1B1C22);
 const mineLightColor = Color(0xFFFFFFFF); // ToDo
-const mineDarkColor = Color(0xFF24262D);
+const mineDarkColor = Color(0xFF24262D); // ToDO
 
-const mineGreenColor = Color(0xFF52B69A);
-const minePinkColor = Color(0xFFCE3B82);
+const mineGreenColor = Color(0xFF52B69A); // ToDO
+const minePinkColor = Color(0xFFCE3B82); // ToDO
 
 const text1DarkColor = Color(0xFFE0EBED);
 

@@ -1,18 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:site_xz/paths.dart';
+import 'package:site_xz/person_class.dart';
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/month_circular_face_view.dart';
 import 'package:site_xz/user_class.dart';
 import 'dart:math' as math;
 
+import 'buttons.dart';
+
 class MinePlanner extends StatefulWidget {
   final String title;
   final double mineWidth;
+  final Person person;
 
   const MinePlanner(
     this.title,
     this.mineWidth,
+    this.person,
     {Key? key}
   ) : super(key: key);
 
@@ -24,6 +30,20 @@ class MinePlanner extends StatefulWidget {
 class _MinePlannerState extends State<MinePlanner> {
   int userNumber = 0;  // todo логику работы с юзерами придётся переписать.
   String avatarImagePath = "assets/images/avatar.png";
+  AppTheme theme = AppTheme.light();
+  bool isMonth = true;
+
+  void _changeTheme(){
+    if (theme.isDark){
+      theme = AppTheme.light();
+    } else {
+      theme = AppTheme.dark();
+    }
+    setState(() {});
+  }
+  String _period(){
+    return isMonth? 'месяца' : 'года';
+  }
 
   void userNumberDown(){// todo проверить не надо ли будет переписать.
     if (userNumber > 0) {
@@ -50,29 +70,23 @@ class _MinePlannerState extends State<MinePlanner> {
     double scaleFactor = widget.mineWidth / 375;
     return Scaffold(
       body: Container(
-        color: mineDarkColor,
+        color: theme.mineColor,
         child: Column(
           children: <Widget>[
-            /// appBar. // ToDo
+            /// appBar. // ToDo пока вместо AppBar это, так как проще подогнать под дизайн. Но может всё же лучше настоящий AppBar...
             Container(
-              color: appBarDarkColor,
+              color: theme.appBarColor,
               width: widget.mineWidth,
               height: 49,
               child: Row(
                 children: [
                   Container(
-                    height: 36,
-                    width: 36,
                     margin: const EdgeInsets.only(left: 14),
-                    child: FloatingActionButton(
-                      onPressed: (){},
-                      backgroundColor: buttonMineDarkColor,
-                      child: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: buttonIconDarkColor,
-                        size: 16,
-                      ),
-                    ),
+                    child: AppBarButton(
+                      theme: theme,
+                      iconPath: backButtonIcon,
+                      onPressed: (){}//Navigator.pop(context); print('сделано');}, // ToDo у других окон оставить Navigator
+                    )
                   ),
                   Expanded(
                     child: Container(
@@ -80,18 +94,18 @@ class _MinePlannerState extends State<MinePlanner> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(
-                            'События ближайшего месяца',
+                          Text(
+                            "События ближайшего ${_period()}", // ToDo Протестировать
                             style: TextStyle(
-                              color: mineWhiteColor,
+                              color: theme.appBarTextColor,
                               fontSize: 17,
                               fontFamily: 'Roboto'
                             ),
                           ),
                           Text(
-                            'Группа “Natalya Bloom” ($userNumber/${usersList.length})',
-                            style: const TextStyle(
-                              color: mineWhiteColor,
+                            'Группа “Natalya Bloom” (${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
+                            style: TextStyle(
+                              color: theme.appBarTextColor,
                               fontSize: 14,
                               fontFamily: 'Roboto'
                             ),
@@ -101,18 +115,12 @@ class _MinePlannerState extends State<MinePlanner> {
                     )
                   ),
                   Container(
-                    height: 36,
-                    width: 36,
                     margin: const EdgeInsets.only(right: 14),
-                    child: FloatingActionButton(
-                      onPressed: (){},
-                      backgroundColor: buttonMineDarkColor,
-                      child: const Icon(
-                        Icons.wb_sunny_outlined,
-                        color: buttonIconDarkColor,
-                        size: 16,
-                      ),
-                    ),
+                    child: AppBarButton(
+                      theme: theme,
+                      iconPath: theme.isDark? sunButtonIcon : moonButtonIcon,
+                      onPressed: _changeTheme // ToDo смена темы
+                    )
                   )
                 ]
               )

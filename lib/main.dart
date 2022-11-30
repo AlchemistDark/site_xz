@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/provider.dart';
-import 'package:site_xz/test_rest_buttons.dart';
+import 'package:site_xz/star_up.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +12,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Planner',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Planner'),
+      // ToDo возможно здесь будет нужна навигация. Пока X3 какая имеено.
+      // const перед MaterialApp надо будет убрать
+      // routes: <String, WidgetBuilder> {
+      //   '/': (BuildContext context) => MyHomePage(title: 'Planner'),
+      //   '/planner': (BuildContext context) => MinePlanner('Planner', MediaQuery.of(context).size.width, )
+      // },
+      home: MyHomePage(title: 'Planner')
     );
   }
 }
@@ -33,8 +36,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final String title;
-  final Provider provider = Provider();
-  late String token;
 
   _MyHomePageState({Key? key, required this.title});
 
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final double mineWidth = MediaQuery.of(context).size.width;
     //return MinePlanner(title, mineWidth);
-    return Buttons();
+    return StartPage(title, mineWidth);
   }
 }
 

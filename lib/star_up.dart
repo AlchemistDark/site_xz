@@ -1,28 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-//import 'package:dio/dio.dart';
 import 'dart:convert';
-import 'dart:developer';
-
+import 'package:flutter/material.dart';
+import 'package:site_xz/person_class.dart';
 import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/provider.dart';
 
 class StartPage extends StatelessWidget {
 
   final Provider provider = Provider();
+  late String responseAnswer;
+  late Person person;
 
   final String title;
   final double mineWidth;
-  final double mineHeight;
-  final double widthScaleFactor;
-  final double heightScaleFactor;
 
   StartPage(
     this.title,
     this.mineWidth,
-    this.mineHeight,
-    this.widthScaleFactor,
-    this.heightScaleFactor,
     {Key? key}
   ) : super(key: key);
 
@@ -49,8 +42,17 @@ class StartPage extends StatelessWidget {
                   case false:
                     return const Text('Данные загружаются');
                   case true:
-                    print("response: ${provider.postResponse.response.body}");
-                    return MinePlanner(title, mineWidth);
+                    responseAnswer = utf8.decode(provider.postResponse.response.bodyBytes);
+                    // ToDo надо исправить ошибку SyntaxError: Unexpected end of JSON input
+                    // ToDo эта ошибка происходит и при изменении размеров окна
+                    //Future.delayed(const Duration(seconds: 3), (){
+                    //print('всё');
+                    //print(responseAnswer);
+                      person = Person.fromJson(jsonDecode(responseAnswer));
+                      print('${person.userName}, ${person.region}, ${person.peopleCount}, ${person.peopleDates}');
+                      return MinePlanner(title, mineWidth, person);
+                    //});
+                    //return MinePlanner(title, mineWidth);
                 }
                 return const Text('Что-то пошло не так...');
               }
@@ -60,6 +62,7 @@ class StartPage extends StatelessWidget {
       }
     );
   }
-
 }
+
+
 
