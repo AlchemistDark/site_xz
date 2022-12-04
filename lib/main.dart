@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:site_xz/planner_mine_screen_view.dart';
-import 'package:site_xz/provider.dart';
 import 'package:site_xz/star_up.dart';
 
 void main() {

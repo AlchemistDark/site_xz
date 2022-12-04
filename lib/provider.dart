@@ -1,5 +1,8 @@
 import 'dart:async';
+
 import 'package:http/http.dart' as http;
+
+/// Implements communication with the server.
 
 class Provider{
   AuthState authState = AuthState(' ', false);
@@ -39,6 +42,8 @@ class Provider{
     _rCtrl.add(postResponse);
   }
 }
+
+///
 
 class AuthState {
   final String token;

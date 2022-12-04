@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// Custom theme model.
+
 class AppTheme{
   final bool isDark;
   final Color mineColor;

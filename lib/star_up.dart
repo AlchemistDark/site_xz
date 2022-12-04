@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:site_xz/provider.dart';
 import 'package:site_xz/app_controller.dart';
 import 'package:site_xz/person_class.dart';
-import 'package:site_xz/theme.dart';
 import 'package:site_xz/planner_mine_screen_view.dart';
+
+/// Contacts the server and initializes application variables.
 
 class StartPage extends StatelessWidget {
 
@@ -53,8 +54,8 @@ class StartPage extends StatelessWidget {
                     //print('всё');
                     //print(responseAnswer);
                       person = Person.fromJson(jsonDecode(responseAnswer));
-                      globalAppController = AppController(person);
-                      return MinePlanner(title, mineWidth);
+                      AppController appController = AppController(person);
+                      return MinePlanner(title, mineWidth, appController);
                     //});
                     //return MinePlanner(title, mineWidth);
                 }

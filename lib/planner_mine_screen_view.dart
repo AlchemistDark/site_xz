@@ -9,18 +9,23 @@ import 'package:site_xz/calendar_screen_view.dart';
 import 'package:site_xz/paths.dart';
 import 'package:site_xz/person_class.dart';
 import 'package:site_xz/buttons.dart';
+import 'package:site_xz/planner_app_bar.dart';
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/month_circular_face_view.dart';
 import 'package:site_xz/user_class.dart';
 import 'package:site_xz/app_controller.dart';
 
+/// The main window of the application.
+
 class MinePlanner extends StatefulWidget {
   final String title;
   final double mineWidth;
+  final AppController appController;
 
   const MinePlanner(
     this.title,
     this.mineWidth,
+    this.appController,
     {Key? key}
   ) : super(key: key);
 
@@ -34,18 +39,9 @@ class _MinePlannerState extends State<MinePlanner> {
   String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = true;
 
+  /// Constructor.
   _MinePlannerState();
 
-  void _changeTheme(Person person) async {
-    if (globalAppState.theme.isDark) {
-      globalAppController
-        .themeChange(AppState(userData: person, theme: AppTheme.light()));
-    } else {
-      globalAppController
-        .themeChange(AppState(userData: person, theme: AppTheme.dark()));
-    }
-    setState(() {});
-  }
   String _period(){
     return isMonth? 'месяца' : 'года';
   }
@@ -72,50 +68,91 @@ class _MinePlannerState extends State<MinePlanner> {
   Widget build(BuildContext context) {
     double scaleFactor = widget.mineWidth / 375;
     return StreamBuilder<AppState>(
-      initialData: globalAppState,
-      stream: globalAppController.state,
+      initialData: widget.appController.currentAppState,
+      stream: widget.appController.state,
       builder: (context, snapshot) {
         AppTheme theme = snapshot.data!.theme;
         Person person = snapshot.data!.userData;
         print("спун ${theme.isDark}");
         return Scaffold(
+          appBar: PlannerAppBar(
+            callBack: (){},
+            controller: widget.appController,
+            child: Container(
+              margin: const EdgeInsets.only(top: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "События ближайшего ${_period()}", // ToDo Протестировать
+                    style: TextStyle(
+                      color: theme.appBarTextColor,
+                      fontSize: 17,
+                      fontFamily: 'Roboto'
+                    ),
+                  ),
+                  Text(
+                    'Группа “Natalya Bloom” (1/1)',//(${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
+                    style: TextStyle(
+                      color: theme.appBarTextColor,
+                      fontSize: 14,
+                      fontFamily: 'Roboto'
+                    ),
+                  )
+                ]
+              )
+            )
+          ),
           body: Container(
             color: theme.mineColor,
             child: Column(
               children: <Widget>[
-                /// appBar. // ToDo пока вместо AppBar это, так как проще подогнать под дизайн. Но может всё же лучше настоящий AppBar...
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: widget.mineWidth,
+                  )
+                ),
+                /// Contact avatar line.
                 Container(
-                  color: theme.appBarColor,
                   width: widget.mineWidth,
-                  height: 49,
+                  height: 72,
+                  margin: const EdgeInsets.only(left: 16, right: 16),
+                  color: theme.mineColor,
                   child: Row(
                     children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 14),
-                      child: GradientAnimatedButton(
-                        theme: theme,
-                        iconPath: backButtonIcon,
-                        onPressed: (){}//Navigator.pop(context); print('сделано');}, // ToDo у других окон оставить Navigator
+                      /// Avatar.
+                      SizedBox(
+                        height: 54,
+                        width: 54,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(27),
+                          child: Image.asset(
+                          // ToDo Аватар должен браться с сервера
+                          "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
+                          fit:BoxFit.fitHeight,
+                        )
                       )
                     ),
+                    /// Name and address.
                     Expanded(
                       child: Container(
-                        margin: const EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.only(left: 8, top: 16),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "События ближайшего ${_period()}", // ToDo Протестировать
+                              '',//widget.person.userName,//usersList[userNumber].username,
                               style: TextStyle(
-                                color: theme.appBarTextColor,
-                                fontSize: 17,
+                                color: theme.avatarText1Color,
+                                fontSize: 16,
                                 fontFamily: 'Roboto'
                               ),
                             ),
                             Text(
-                              'Группа “Natalya Bloom” (1/1)',//(${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
+                              '',//widget.person.region,//,usersList[userNumber].region,
                               style: TextStyle(
-                                color: theme.appBarTextColor,
+                                color: theme.avatarText2Color,
                                 fontSize: 14,
                                 fontFamily: 'Roboto'
                               ),
@@ -124,134 +161,69 @@ class _MinePlannerState extends State<MinePlanner> {
                         )
                       )
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 14),
-                      child: GradientAnimatedButton(
-                        theme: theme,
-                      iconPath: theme.isDark? sunButtonIcon : moonButtonIcon,
-                      onPressed: (){_changeTheme(snapshot.data!.userData);}
-                    )
-                  )
-                ]
-              )
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: widget.mineWidth,
-              )
-            ),
-            /// Contact avatar line.
-            Container(
-              width: widget.mineWidth,
-              height: 72,
-              margin: const EdgeInsets.only(left: 16, right: 16),
-              color: theme.mineColor,
-              child: Row(
-                children: [
-                  /// Avatar.
-                  SizedBox(
-                    height: 54,
-                    width: 54,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(27),
-                      child: Image.asset(
-                        // ToDo Аватар должен браться с сервера
-                        "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
-                        fit:BoxFit.fitHeight,
-                      )
-                    )
-                  ),
-                  /// Name and address.
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 8, top: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '',//widget.person.userName,//usersList[userNumber].username,
-                            style: TextStyle(
-                              color: theme.avatarText1Color,
-                              fontSize: 16,
-                              fontFamily: 'Roboto'
+                    /// List buttons.
+                    Column(
+                      //crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 34,
+                              width: 34,
+                              child: AnimatedButton(
+                                theme: theme,
+                                iconPath: leftListButtonIcon,
+                                onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                              )
                             ),
-                          ),
-                          Text(
-                            '',//widget.person.region,//,usersList[userNumber].region,
-                            style: TextStyle(
-                              color: theme.avatarText2Color,
-                              fontSize: 14,
-                              fontFamily: 'Roboto'
+                            const SizedBox(
+                              width: 2,
                             ),
-                          )
-                        ]
-                      )
-                    )
-                  ),
-                  /// List buttons.
-                  Column(
-                    //crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            height: 34,
-                            width: 34,
-                            child: AnimatedButton(
-                              theme: theme,
-                              iconPath: leftListButtonIcon,
-                              onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
-                            )
-                          ),
-                          const SizedBox(
-                            width: 2,
-                          ),
-                          SizedBox(
-                            height: 34,
-                            width: 34,
-                            child: AnimatedButton(
-                              theme: theme,
-                              iconPath: rightListButtonIcon,
-                              onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
-                            )
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: (
-                          SizedBox(
-                            height: 34,
-                            width: 34,
-                            child: AnimatedButton(
-                              theme: theme,
-                              iconPath: listListButtonIcon,
-                              onPressed: (){setState(() {
-                                Navigator.push(
-                                  context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return CalendarScreen(widget.title);
-                                    }
-                                  )
-                                );
-                              });}//userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                            SizedBox(
+                              height: 34,
+                              width: 34,
+                              child: AnimatedButton(
+                                theme: theme,
+                                iconPath: rightListButtonIcon,
+                                onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                              )
+                           ),
+                         ],
+                        ),
+                        Center(
+                          child: (
+                            SizedBox(
+                              height: 34,
+                              width: 34,
+                              child: AnimatedButton(
+                                theme: theme,
+                                iconPath: listListButtonIcon,
+                                onPressed: (){setState(() {
+                                  Navigator.push(
+                                    context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return CalendarScreen(widget.title, widget.appController);
+                                      }
+                                    )
+                                  );
+                                });}//userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                              )
                             )
                           )
                         )
-                      )
-                    ]
-                  )
-                ]
-              )
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: widget.mineWidth,
-              )
-            ),
-            /// todo
+                      ]
+                    )
+                  ]
+                )
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  width: widget.mineWidth,
+                )
+              ),
+              /// todo
             Container(
               width: widget.mineWidth,
               height: (widget.mineWidth + 30),

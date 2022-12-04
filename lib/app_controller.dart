@@ -3,38 +3,24 @@ import 'dart:async';
 import 'package:site_xz/person_class.dart';
 import 'package:site_xz/theme.dart';
 
-/// Global variables for application state.
-AppState globalAppState = AppState(
-  userData: Person(
-   userName: 'userName',
-   region: "region",
-   celebrates: [],
-   peopleDates: [],
-   peopleCount: []
-  ),
-  theme: AppTheme.light()
-);
-
-AppController globalAppController = AppController(globalAppState.userData);
-/// End of global variables bloc.
+/// Coordinates the work of different modules.
 
 class AppController{
   final Person userData;
-  late AppState appState;
+  late AppState currentAppState;
 
   Stream<AppState> get state => _sCtrl.stream;
-  StreamController<AppState> _sCtrl = StreamController<AppState>.broadcast();
+  final StreamController<AppState> _sCtrl = StreamController<AppState>.broadcast();
 
+  /// Constructor.
   AppController(this.userData) {
-    appState = AppState(userData: userData, theme: AppTheme.light());
-    _sCtrl.add(appState);
-    globalAppState = appState;
+    currentAppState = AppState(userData: userData, theme: AppTheme.light());
+    _sCtrl.add(currentAppState);
   }
 
   void themeChange(AppState appState) {
-    print("смена темы");
     _sCtrl.add(appState);
-    globalAppState = appState;
+    currentAppState = appState;
   }
 
 }

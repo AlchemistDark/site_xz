@@ -1,4 +1,4 @@
-
+/// Person data model.
 
 class Person{
   final String userName; // server JSON "username":"NatalyaBloom",
