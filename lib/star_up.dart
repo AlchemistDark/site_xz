@@ -1,8 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:site_xz/person_class.dart';
-import 'package:site_xz/planner_mine_screen_view.dart';
+
 import 'package:site_xz/provider.dart';
+import 'package:site_xz/app_controller.dart';
+import 'package:site_xz/person_class.dart';
+import 'package:site_xz/theme.dart';
+import 'package:site_xz/planner_mine_screen_view.dart';
 
 class StartPage extends StatelessWidget {
 
@@ -49,8 +53,8 @@ class StartPage extends StatelessWidget {
                     //print('всё');
                     //print(responseAnswer);
                       person = Person.fromJson(jsonDecode(responseAnswer));
-                      print('${person.userName}, ${person.region}, ${person.peopleCount}, ${person.peopleDates}');
-                      return MinePlanner(title, mineWidth, person);
+                      globalAppController = AppController(person);
+                      return MinePlanner(title, mineWidth);
                     //});
                     //return MinePlanner(title, mineWidth);
                 }

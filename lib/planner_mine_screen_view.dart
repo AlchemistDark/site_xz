@@ -1,24 +1,26 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/svg.dart';
+
+import 'package:site_xz/calendar_screen_view.dart';
 import 'package:site_xz/paths.dart';
 import 'package:site_xz/person_class.dart';
+import 'package:site_xz/buttons.dart';
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/month_circular_face_view.dart';
 import 'package:site_xz/user_class.dart';
-import 'dart:math' as math;
-
-import 'buttons.dart';
+import 'package:site_xz/app_controller.dart';
 
 class MinePlanner extends StatefulWidget {
   final String title;
   final double mineWidth;
-  final Person person;
 
   const MinePlanner(
     this.title,
     this.mineWidth,
-    this.person,
     {Key? key}
   ) : super(key: key);
 
@@ -28,16 +30,19 @@ class MinePlanner extends StatefulWidget {
 }
 
 class _MinePlannerState extends State<MinePlanner> {
-  int userNumber = 0;  // todo логику работы с юзерами придётся переписать.
-  String avatarImagePath = "assets/images/avatar.png";
-  AppTheme theme = AppTheme.light();
+  int userNumber = 0;  // ToDo логику работы с юзерами придётся переписать.
+  String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = true;
 
-  void _changeTheme(){
-    if (theme.isDark){
-      theme = AppTheme.light();
+  _MinePlannerState();
+
+  void _changeTheme(Person person) async {
+    if (globalAppState.theme.isDark) {
+      globalAppController
+        .themeChange(AppState(userData: person, theme: AppTheme.light()));
     } else {
-      theme = AppTheme.dark();
+      globalAppController
+        .themeChange(AppState(userData: person, theme: AppTheme.dark()));
     }
     setState(() {});
   }
@@ -63,63 +68,68 @@ class _MinePlannerState extends State<MinePlanner> {
     setState((){});
   }
 
-  _MinePlannerState();
-
   @override
   Widget build(BuildContext context) {
     double scaleFactor = widget.mineWidth / 375;
-    return Scaffold(
-      body: Container(
-        color: theme.mineColor,
-        child: Column(
-          children: <Widget>[
-            /// appBar. // ToDo пока вместо AppBar это, так как проще подогнать под дизайн. Но может всё же лучше настоящий AppBar...
-            Container(
-              color: theme.appBarColor,
-              width: widget.mineWidth,
-              height: 49,
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 14),
-                    child: AppBarButton(
-                      theme: theme,
-                      iconPath: backButtonIcon,
-                      onPressed: (){}//Navigator.pop(context); print('сделано');}, // ToDo у других окон оставить Navigator
-                    )
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 4),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "События ближайшего ${_period()}", // ToDo Протестировать
-                            style: TextStyle(
-                              color: theme.appBarTextColor,
-                              fontSize: 17,
-                              fontFamily: 'Roboto'
-                            ),
-                          ),
-                          Text(
-                            'Группа “Natalya Bloom” (${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
-                            style: TextStyle(
-                              color: theme.appBarTextColor,
-                              fontSize: 14,
-                              fontFamily: 'Roboto'
-                            ),
-                          )
-                        ]
+    return StreamBuilder<AppState>(
+      initialData: globalAppState,
+      stream: globalAppController.state,
+      builder: (context, snapshot) {
+        AppTheme theme = snapshot.data!.theme;
+        Person person = snapshot.data!.userData;
+        print("спун ${theme.isDark}");
+        return Scaffold(
+          body: Container(
+            color: theme.mineColor,
+            child: Column(
+              children: <Widget>[
+                /// appBar. // ToDo пока вместо AppBar это, так как проще подогнать под дизайн. Но может всё же лучше настоящий AppBar...
+                Container(
+                  color: theme.appBarColor,
+                  width: widget.mineWidth,
+                  height: 49,
+                  child: Row(
+                    children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 14),
+                      child: GradientAnimatedButton(
+                        theme: theme,
+                        iconPath: backButtonIcon,
+                        onPressed: (){}//Navigator.pop(context); print('сделано');}, // ToDo у других окон оставить Navigator
                       )
-                    )
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 14),
-                    child: AppBarButton(
-                      theme: theme,
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "События ближайшего ${_period()}", // ToDo Протестировать
+                              style: TextStyle(
+                                color: theme.appBarTextColor,
+                                fontSize: 17,
+                                fontFamily: 'Roboto'
+                              ),
+                            ),
+                            Text(
+                              'Группа “Natalya Bloom” (1/1)',//(${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
+                              style: TextStyle(
+                                color: theme.appBarTextColor,
+                                fontSize: 14,
+                                fontFamily: 'Roboto'
+                              ),
+                            )
+                          ]
+                        )
+                      )
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 14),
+                      child: GradientAnimatedButton(
+                        theme: theme,
                       iconPath: theme.isDark? sunButtonIcon : moonButtonIcon,
-                      onPressed: _changeTheme // ToDo смена темы
+                      onPressed: (){_changeTheme(snapshot.data!.userData);}
                     )
                   )
                 ]
@@ -136,7 +146,7 @@ class _MinePlannerState extends State<MinePlanner> {
               width: widget.mineWidth,
               height: 72,
               margin: const EdgeInsets.only(left: 16, right: 16),
-              color: mineDarkColor,
+              color: theme.mineColor,
               child: Row(
                 children: [
                   /// Avatar.
@@ -146,7 +156,8 @@ class _MinePlannerState extends State<MinePlanner> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(27),
                       child: Image.asset(
-                        avatarImagePath = usersList[userNumber].avatarImagePath,
+                        // ToDo Аватар должен браться с сервера
+                        "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
                         fit:BoxFit.fitHeight,
                       )
                     )
@@ -159,17 +170,17 @@ class _MinePlannerState extends State<MinePlanner> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            usersList[userNumber].username,
-                            style: const TextStyle(
-                              color: text1DarkColor,
+                            '',//widget.person.userName,//usersList[userNumber].username,
+                            style: TextStyle(
+                              color: theme.avatarText1Color,
                               fontSize: 16,
                               fontFamily: 'Roboto'
                             ),
                           ),
                           Text(
-                            usersList[userNumber].region,
-                            style: const TextStyle(
-                              color: text2DarkColor,
+                            '',//widget.person.region,//,usersList[userNumber].region,
+                            style: TextStyle(
+                              color: theme.avatarText2Color,
                               fontSize: 14,
                               fontFamily: 'Roboto'
                             ),
@@ -185,59 +196,49 @@ class _MinePlannerState extends State<MinePlanner> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            height: 36,
-                            width: 36,
-                            padding: const EdgeInsets.only(right: 2),
-                            //margin: const EdgeInsets.all(0),
-                            child: FloatingActionButton(
-                              onPressed: userNumberDown,
-                              backgroundColor: buttonMineDarkColor,
-                              child: const Icon(
-                                Icons.arrow_back_ios_new,
-                                color: buttonIconDarkColor,
-                                size: 16,
-                              ),
-                            ),
+                          SizedBox(
+                            height: 34,
+                            width: 34,
+                            child: AnimatedButton(
+                              theme: theme,
+                              iconPath: leftListButtonIcon,
+                              onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                            )
                           ),
                           const SizedBox(
-                            width: 5,
+                            width: 2,
                           ),
-                          Container(
-                            height: 36,
-                            width: 36,
-                            padding: const EdgeInsets.only(left: 2),
-                            //margin: const EdgeInsets.all(0),
-                            child: FloatingActionButton(
-                              onPressed: userNumberUp,
-                              backgroundColor: buttonMineDarkColor,
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: buttonIconDarkColor,
-                                size: 16,
-                              ),
-                            ),
-                          )
+                          SizedBox(
+                            height: 34,
+                            width: 34,
+                            child: AnimatedButton(
+                              theme: theme,
+                              iconPath: rightListButtonIcon,
+                              onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                            )
+                          ),
                         ],
                       ),
                       Center(
                         child: (
                           SizedBox(
-                            height: 36,
-                            width: 36,
-                            child: FloatingActionButton(
-                              onPressed: (){},
-                              backgroundColor: buttonMineDarkColor,
-                              child: SvgPicture.asset(
-                                "assets/images/list_button.svg",
-                                fit: BoxFit.scaleDown,
-                                color: buttonIconDarkColor,
-                                width: 16,
-                                height: 16,
-                              ),
-                            ),
+                            height: 34,
+                            width: 34,
+                            child: AnimatedButton(
+                              theme: theme,
+                              iconPath: listListButtonIcon,
+                              onPressed: (){setState(() {
+                                Navigator.push(
+                                  context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return CalendarScreen(widget.title);
+                                    }
+                                  )
+                                );
+                              });}//userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                            )
                           )
-                        ),
+                        )
                       )
                     ]
                   )
@@ -617,8 +618,8 @@ class _MinePlannerState extends State<MinePlanner> {
         )
       )
     );
-  }
-}
+  });
+}}
 
 class MyGroupButton extends StatelessWidget {
   final VoidCallback callback;
