@@ -50,7 +50,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                "Календарь",
+                "Календарь праздников",
                 style: TextStyle(
                   color: theme.appBarTextColor,
                   fontSize: 17,

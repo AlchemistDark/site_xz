@@ -47,7 +47,7 @@ class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(left: 14),
-              child: GradientAnimatedButton(
+              child: GradientAnimatedIconButton(
               theme: theme,
               iconPath: backButtonIcon,
               onPressed: callBack,
@@ -58,7 +58,7 @@ class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Container(
             margin: const EdgeInsets.only(right: 14),
-            child: GradientAnimatedButton(
+            child: GradientAnimatedIconButton(
               theme: theme,
               iconPath: theme.isDark? sunButtonIcon : moonButtonIcon,
               onPressed: _changeTheme
@@ -74,15 +74,14 @@ class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 }
 
-/// Buttons with click animation at the icon and shadow (color changes).
-/// The button itself has a gradient,
-/// and a gradient border that also changes color when clicked.
-class GradientAnimatedButton extends StatefulWidget {
+/// Buttons with click animation at the icon shadow and border (color changes).
+/// The button itself has a gradient and a gradient border.
+class GradientAnimatedIconButton extends StatefulWidget {
   final AppTheme theme;
   final String iconPath;
   final Function onPressed;
 
-  const GradientAnimatedButton({
+  const GradientAnimatedIconButton({
     required this.theme,
     required this.iconPath,
     required this.onPressed,
@@ -90,18 +89,20 @@ class GradientAnimatedButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GradientAnimatedButton> createState() => _GradientAnimatedButtonState();
+  State<GradientAnimatedIconButton> createState() => _GradientAnimatedIconButtonState();
 }
 
-class _GradientAnimatedButtonState extends State<GradientAnimatedButton> {
+class _GradientAnimatedIconButtonState extends State<GradientAnimatedIconButton> {
   int index = 0;
   bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     Color green = widget.theme.mineGreenColor;
-    Color color1 = widget.theme.appBarButtonColor1;
-    Color color2 = widget.theme.appBarButtonColor2;
+    Color color1 = widget.theme.mainButtonBorderColor1;
+    Color color2 = widget.theme.mainButtonBorderColor2;
+    Color color3 = widget.theme.mainButtonFillColor1;
+    Color color4 = widget.theme.mainButtonFillColor2;
     Color iconColor = widget.theme.buttonIconColor;
     List<List<Color>> gradientColours = [[color1, color2],[green, green]];
 
@@ -132,7 +133,7 @@ class _GradientAnimatedButtonState extends State<GradientAnimatedButton> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [color2, color1]
+              colors: [color4, color3]
             )
           ),
           child: isPressed?

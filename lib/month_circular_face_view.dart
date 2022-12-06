@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:site_xz/custom_arc_day_segment.dart';
 import 'package:site_xz/month_arrow.dart';
-import 'package:site_xz/planner_view_model.dart';
 import 'package:site_xz/theme.dart';
 import 'package:site_xz/user_class.dart';
 import 'package:site_xz/month_circular_face_logic.dart';
 import 'dart:math' as math;
 
-//const String assetName = 'assets/images/flutter_logo.svg';
+/// Month circle clock Face for mine Planner screen.
 
 class MonthCircleClockFace extends StatelessWidget {
   final int _currentDay = DateTime.now().day;
@@ -96,25 +95,25 @@ class MonthCircleClockFace extends StatelessWidget {
             // ),
             /// Draw the calendar dial.
             /// Рисует циферблат календаря.
-            Center(
-              child: SizedBox(
-                width: 375,
-                height: 388,
-                child: OverflowBox(
-                  maxWidth: 388,
-                  child: SizedBox(
-                    width: 388,
-                    height: 388,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(194),
-                      child: Container(
-                        color: mineDarkColor
-                      )
-                    )
-                  )
-                )
-              )
-            ),
+            // Center(
+            //   child: SizedBox(
+            //     width: 375,
+            //     height: 388,
+            //     child: OverflowBox(
+            //       maxWidth: 388,
+            //       child: SizedBox(
+            //         width: 388,
+            //         height: 388,
+            //         child: ClipRRect(
+            //           borderRadius: BorderRadius.circular(194),
+            //           child: Container(
+            //             color: mineDarkColor
+            //           )
+            //         )
+            //       )
+            //     )
+            //   )
+            // ),
             Center(
               child: Container(
                 width: 378,
