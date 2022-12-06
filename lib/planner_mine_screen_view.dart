@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
+import 'package:site_xz/app_controller.dart';
+import 'package:site_xz/buttons.dart';
 import 'package:site_xz/calendar_screen_view.dart';
+import 'package:site_xz/month_circular_face_view.dart';
 import 'package:site_xz/paths.dart';
 import 'package:site_xz/person_class.dart';
-import 'package:site_xz/buttons.dart';
 import 'package:site_xz/planner_app_bar.dart';
 import 'package:site_xz/theme.dart';
-import 'package:site_xz/month_circular_face_view.dart';
 import 'package:site_xz/user_class.dart';
-import 'package:site_xz/app_controller.dart';
+import 'package:site_xz/year_circular_face_view.dart';
 
 /// The main window of the application.
 
@@ -246,13 +247,13 @@ class _MinePlannerState extends State<MinePlanner> {
                       ),
                       Center(
                         child: SizedBox(
-                          width: (widget.mineWidth + 13),
-                          height: (widget.mineWidth + 13),
+                          width: (widget.mineWidth + 11),
+                          height: (widget.mineWidth + 11),
                           child: OverflowBox(
-                            maxWidth: (widget.mineWidth + 13),
+                            maxWidth: (widget.mineWidth + 11),
                             child: ClipRRect(
                               borderRadius: BorderRadius
-                                .circular((widget.mineWidth + 13) / 2),
+                                .circular((widget.mineWidth + 11) / 2),
                               child: Container(
                                 color: theme.mineColor
                               )
@@ -265,6 +266,19 @@ class _MinePlannerState extends State<MinePlanner> {
                           onPressed: _periodChange,
                           child: Text('ujl')
                         ),
+                      if (!isMonth)
+                      Center(
+                        child: SizedBox(
+                          height: widget.mineWidth,
+                          child: Transform.scale(
+                            scale: scaleFactor, //scaleFactor,
+                            child: YearCircleClockFace(
+                              theme: theme,
+                              celebrates: person.celebrates
+                            )
+                          )
+                        )
+                      ),
                       if (isMonth)
                         TextButton(
                           onPressed: _periodChange,
@@ -481,6 +495,7 @@ class _MinePlannerState extends State<MinePlanner> {
                   //   ],
                   // ),
                   /// Clock face. // ToDo
+                      if (isMonth)
                   Center(
                     child: SizedBox(
                       height: widget.mineWidth,

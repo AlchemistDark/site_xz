@@ -3,7 +3,7 @@
 class Person{
   final String userName; // server JSON "username":"NatalyaBloom",
   final String region; // server JSON "region":"Тула"
-  final List<dynamic> celebrates; // server JSON "holidays":
+  final List<Celebrate> celebrates; // server JSON "holidays":
   final List<String> peopleDates; // server JSON "people_dates":[null,null,null,null,null]
   final List<int> peopleCount; // server JSON "people_count":[1,0,0,0,0]
 
