@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 
-import 'package:site_xz/theme.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_svg/svg.dart';
+
+import 'package:site_xz/global/theme.dart';
 
 /// This class implements an arrow for a month circular face.
 /// Данный класс реализуе стрелку для месячного циферблата.
@@ -26,7 +28,7 @@ class MonthArrow extends StatelessWidget {
             child: Container(
               width: 194,
               height: 194,
-              color: minePinkColor,
+              color: mainPinkColor,
             )
           )
         ),
@@ -59,7 +61,7 @@ class MonthArrow extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 12,
                     fontFamily: 'Roboto',
-                    color: mineWhiteColor
+                    color: mainWhiteColor
                   ),
                 // child: RichText(
                 //   text: TextSpan(

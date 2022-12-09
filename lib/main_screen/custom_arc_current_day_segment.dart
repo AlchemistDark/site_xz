@@ -1,11 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 /// This class implements a segment of a circular clock face-calendar.
 /// Данный класс реализует сегмент кругового циферблата-календаря.
 
-class CustomArcDaySegment extends StatelessWidget {
+class CustomArcSegment extends StatelessWidget {
   final String topText;
   final Color topTextColor;
   final Color topColor;
@@ -19,7 +20,7 @@ class CustomArcDaySegment extends StatelessWidget {
   final bool isPresent;
   final bool isCelebrate;
 
-  const CustomArcDaySegment({
+  const CustomArcSegment({
     required this.topText,
     required this.topTextColor,
     required this.topColor,
@@ -47,6 +48,7 @@ class CustomArcDaySegment extends StatelessWidget {
         //     height: 222.5,
         //   )
         // ),
+        // // For position test
         // Center(
         //   child: Container(
         //     color: const Color(0xFF8888FF),

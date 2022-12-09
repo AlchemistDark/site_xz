@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:site_xz/person_class.dart';
-import 'package:site_xz/theme.dart';
+import 'package:site_xz/global/person_class.dart';
+import 'package:site_xz/global/theme.dart';
 
 /// Coordinates the work of different modules.
 

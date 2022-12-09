@@ -1,8 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
-import 'package:site_xz/theme.dart';
-import 'package:site_xz/user_class.dart';
+
+import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/global/user_class.dart';
 
 class DaySegment{
 
@@ -67,15 +69,15 @@ class DaySegment{
 
   List<Color> _getColors(int i, bool b){
     List<Color> result = [];
-    Color tempTopTextColor = mineWhiteColor;
-    Color tempTopColor = mineGreenColor;
-    Color tempBottomTextColor = mineGreenColor;
+    Color tempTopTextColor = mainWhiteColor;
+    Color tempTopColor = mainGreenColor;
+    Color tempBottomTextColor = mainGreenColor;
     Color tempBottomColor = calendarSegmentDarkColor;
-    Color tempPointColor = minePinkColor;
+    Color tempPointColor = mainPinkColor;
     if (((i > day) && (i < (day + 14))) || (i < (day - 15)) ) {
-      tempTopColor = minePinkColor;
-      tempBottomTextColor = minePinkColor;
-      tempPointColor = mineGreenColor;
+      tempTopColor = mainPinkColor;
+      tempBottomTextColor = mainPinkColor;
+      tempPointColor = mainGreenColor;
     }
     if (i == 1) {
       tempTopColor = calendarSegmentDarkColor;

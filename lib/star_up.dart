@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'package:site_xz/provider.dart';
-import 'package:site_xz/app_controller.dart';
-import 'package:site_xz/person_class.dart';
-import 'package:site_xz/planner_mine_screen_view.dart';
+import 'package:site_xz/global/app_controller.dart';
+import 'package:site_xz/global/person_class.dart';
+import 'package:site_xz/global/provider.dart';
+import 'package:site_xz/main_screen/planner_main_screen_view.dart';
 
 /// Contacts the server and initializes application variables.
 
@@ -16,11 +16,11 @@ class StartPage extends StatelessWidget {
   late Person person;
 
   final String title;
-  final double mineWidth;
+  final double mainWidth;
 
   StartPage(
     this.title,
-    this.mineWidth,
+    this.mainWidth,
     {Key? key}
   ) : super(key: key);
 
@@ -55,9 +55,9 @@ class StartPage extends StatelessWidget {
                     //print(responseAnswer);
                       person = Person.fromJson(jsonDecode(responseAnswer));
                       AppController appController = AppController(person);
-                      return MinePlanner(title, mineWidth, appController);
+                      return MainPlanner(title, mainWidth, appController);
                     //});
-                    //return MinePlanner(title, mineWidth);
+                    //return MainPlanner(title, mainWidth);
                 }
                 return const Text('Что-то пошло не так...');
               }

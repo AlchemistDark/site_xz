@@ -5,43 +5,42 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import 'package:site_xz/app_controller.dart';
-import 'package:site_xz/buttons.dart';
 import 'package:site_xz/calendar_screen_view.dart';
-import 'package:site_xz/month_circular_face_view.dart';
-import 'package:site_xz/paths.dart';
-import 'package:site_xz/person_class.dart';
-import 'package:site_xz/planner_app_bar.dart';
-import 'package:site_xz/theme.dart';
-import 'package:site_xz/user_class.dart';
-import 'package:site_xz/year_circular_face_view.dart';
+import 'package:site_xz/global/app_controller.dart';
+import 'package:site_xz/global/buttons.dart';
+import 'package:site_xz/global/paths.dart';
+import 'package:site_xz/global/person_class.dart';
+import 'package:site_xz/global/planner_app_bar.dart';
+import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/global/user_class.dart';
+import 'package:site_xz/main_screen/year_circular_face_view.dart';
+import 'package:site_xz/main_screen/month_circular_face_view.dart';
 
 /// The main window of the application.
 
-class MinePlanner extends StatefulWidget {
+class MainPlanner extends StatefulWidget {
   final String title;
-  final double mineWidth;
+  final double mainWidth;
   final AppController appController;
 
-  const MinePlanner(
+  const MainPlanner(
     this.title,
-    this.mineWidth,
+    this.mainWidth,
     this.appController,
     {Key? key}
   ) : super(key: key);
 
   @override
-  State<MinePlanner> createState() => _MinePlannerState();
-
+  State<MainPlanner> createState() => _MainPlannerState();
 }
 
-class _MinePlannerState extends State<MinePlanner> {
+class _MainPlannerState extends State<MainPlanner> {
   int userNumber = 0;  // ToDo логику работы с юзерами придётся переписать.
   String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = false;
 
   /// Constructor.
-  _MinePlannerState();
+  _MainPlannerState();
 
   String _period(){
     return isMonth? 'месяца' : 'года';
@@ -72,7 +71,7 @@ class _MinePlannerState extends State<MinePlanner> {
 
   @override
   Widget build(BuildContext context) {
-    double scaleFactor = widget.mineWidth / 375;
+    double scaleFactor = widget.mainWidth / 375;
     return StreamBuilder<AppState>(
       initialData: widget.appController.currentAppState,
       stream: widget.appController.state,
@@ -109,7 +108,7 @@ class _MinePlannerState extends State<MinePlanner> {
             )
           ),
           body: Container(
-            color: theme.mineColor,
+            color: theme.mainColor,
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -120,7 +119,7 @@ class _MinePlannerState extends State<MinePlanner> {
                 Container(
                   height: 72,
                   margin: const EdgeInsets.only(left: 16, right: 16),
-                  color: theme.mineColor,
+                  color: theme.mainColor,
                   child: Row(
                     children: [
                       /// Avatar.
@@ -219,48 +218,48 @@ class _MinePlannerState extends State<MinePlanner> {
                   ]
                 )
               ),
-                Expanded(
-                  flex: 1,
-                  child: Container()
-                ),
-                /// Rectangular block with buttons and round clock face. ToDo
-                SizedBox(
-                  height: (widget.mineWidth + 45),
-                  child: Stack(
-                    children: <Widget>[
-                      /// BackGround
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            color: theme.clockFaceMineColor,
-                          ),
-                          Expanded(
-                            child: Container()
-                          ),
-                          Container(
-                            height: 85,
-                            color: theme.clockFaceMineColor,
-                            padding: const EdgeInsets.only(bottom: 0),
-                          )
-                        ]
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: (widget.mineWidth + 11),
-                          height: (widget.mineWidth + 11),
-                          child: OverflowBox(
-                            maxWidth: (widget.mineWidth + 11),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius
-                                .circular((widget.mineWidth + 11) / 2),
-                              child: Container(
-                                color: theme.mineColor
-                              )
+              Expanded(
+                flex: 1,
+                child: Container()
+              ),
+              /// Rectangular block with buttons and round clock face. ToDo
+              SizedBox(
+                height: (widget.mainWidth + 45),
+                child: Stack(
+                  children: <Widget>[
+                    /// BackGround
+                    Column(
+                      children: [
+                        Container(
+                          height: 80,
+                          color: theme.clockFaceMainColor,
+                        ),
+                        Expanded(
+                          child: Container()
+                        ),
+                        Container(
+                          height: 85,
+                          color: theme.clockFaceMainColor,
+                          padding: const EdgeInsets.only(bottom: 0),
+                        )
+                      ]
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: (widget.mainWidth + 11),
+                        height: (widget.mainWidth + 11),
+                        child: OverflowBox(
+                          maxWidth: (widget.mainWidth + 11),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius
+                              .circular((widget.mainWidth + 11) / 2),
+                            child: Container(
+                              color: theme.mainColor
                             )
                           )
                         )
-                      ),
+                      )
+                    ),
                       if (!isMonth)
                         TextButton(
                           onPressed: _periodChange,
@@ -269,7 +268,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       if (!isMonth)
                       Center(
                         child: SizedBox(
-                          height: widget.mineWidth,
+                          height: widget.mainWidth,
                           child: Transform.scale(
                             scale: scaleFactor, //scaleFactor,
                             child: YearCircleClockFace(
@@ -289,7 +288,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       //     Container(
                       //       height: 80,
                       //       margin: const EdgeInsets.only(top: 0),
-                      //       color: theme.clockFaceMineColor,
+                      //       color: theme.clockFaceMainColor,
                       //       child: Row(
                       //         children: [
                       //         /// Left button.
@@ -301,7 +300,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       //               const Text(
                       //                 "Добавить",
                       //                 style: TextStyle(
-                      //                   color: mineWhiteColor,
+                      //                   color: mainWhiteColor,
                       //                   fontSize: 12,
                       //                   fontFamily: 'Roboto',
                       //                   height: 0.94
@@ -310,7 +309,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       //               const Text(
                       //                 "повод",
                       //                 style: TextStyle(
-                      //                   color: mineWhiteColor,
+                      //                   color: mainWhiteColor,
                       //                   fontSize: 12,
                       //                   fontFamily: 'Roboto',
                       //                   height: 0.94
@@ -342,7 +341,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       //             const Text(
                       //               "Добавить",
                       //               style: TextStyle(
-                      //                 color: mineWhiteColor,
+                      //                 color: mainWhiteColor,
                       //                 fontSize: 12,
                       //                 fontFamily: 'Roboto'
                       //               ),
@@ -350,7 +349,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       //             const Text(
                       //               "контакт",
                       //               style: TextStyle(
-                      //                 color: mineWhiteColor,
+                      //                 color: mainWhiteColor,
                       //                 fontSize: 12,
                       //                 fontFamily: 'Roboto'
                       //               ),
@@ -361,11 +360,11 @@ class _MinePlannerState extends State<MinePlanner> {
                       //               // margin: const EdgeInsets.only(left: 14),
                       //               child: FloatingActionButton(
                       //                 onPressed: (){print('add');},
-                      //                 backgroundColor: buttonMineDarkColor,
+                      //                 backgroundColor: buttonMainDarkColor,
                       //                 elevation: 5,
                       //                 child: const Icon(
                       //                   Icons.add_outlined,
-                      //                   color: mineGreenColor,
+                      //                   color: mainGreenColor,
                       //                   size: 30,
                       //                 )
                       //               )
@@ -419,7 +418,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       //             Text(
                       //               usersList[userNumber].nextHolidayName,
                       //               style: const TextStyle(
-                      //                 color: mineWhiteColor,
+                      //                 color: mainWhiteColor,
                       //                 fontSize: 12,
                       //                 fontFamily: 'Roboto'
                       //               ),
@@ -457,10 +456,10 @@ class _MinePlannerState extends State<MinePlanner> {
                       //                     //margin: const EdgeInsets.all(0),
                       //                     child: FloatingActionButton(
                       //                       onPressed: userNumberDown,
-                      //                       backgroundColor: buttonMineDarkColor,
+                      //                       backgroundColor: buttonMainDarkColor,
                       //                       child: const Icon(
                       //                         Icons.arrow_back_ios_new,
-                      //                         color: mineGreenColor,
+                      //                         color: mainGreenColor,
                       //                         size: 20,
                       //                       ),
                       //                     ),
@@ -475,10 +474,10 @@ class _MinePlannerState extends State<MinePlanner> {
                       //                     //margin: const EdgeInsets.all(0),
                       //                     child: FloatingActionButton(
                       //                       onPressed: userNumberUp,
-                      //                       backgroundColor: buttonMineDarkColor,
+                      //                       backgroundColor: buttonMainDarkColor,
                       //                       child: const Icon(
                       //                         Icons.arrow_forward_ios,
-                      //                         color: mineGreenColor,
+                      //                         color: mainGreenColor,
                       //                         size: 20,
                       //                       ),
                       //                     ),
@@ -498,7 +497,7 @@ class _MinePlannerState extends State<MinePlanner> {
                       if (isMonth)
                   Center(
                     child: SizedBox(
-                      height: widget.mineWidth,
+                      height: widget.mainWidth,
                       child: Transform.scale(
                         scale: scaleFactor, //scaleFactor,
                         child: MonthCircleClockFace(
@@ -513,12 +512,12 @@ class _MinePlannerState extends State<MinePlanner> {
             Expanded(
               flex: 1,
               child: Container(
-                width: widget.mineWidth,
+                width: widget.mainWidth,
               )
             ),
             /// Groups line.
             Container(
-              width: widget.mineWidth,
+              width: widget.mainWidth,
               height: 90,
               margin: const EdgeInsets.only(left: 16, right: 16),
               child: Row(
@@ -602,12 +601,12 @@ class _MinePlannerState extends State<MinePlanner> {
             Expanded(
               flex: 1,
               child: Container(
-                width: widget.mineWidth,
+                width: widget.mainWidth,
               )
             ),
             /// navBar. // ToDo
             Container(
-              width: widget.mineWidth,
+              width: widget.mainWidth,
               height: 46,
               padding: const EdgeInsets.all(0.0),
               margin: const EdgeInsets.all(0.0),
@@ -740,7 +739,7 @@ class MyGroupButton extends StatelessWidget {
         Text(
           buttonName,
           style: const TextStyle(
-            color: mineWhiteColor,
+            color: mainWhiteColor,
             fontSize: 10,
             fontFamily: 'Roboto'
           ),
@@ -748,7 +747,7 @@ class MyGroupButton extends StatelessWidget {
         Text(
           date,
           style: const TextStyle(
-            color: mineWhiteColor,
+            color: mainWhiteColor,
             fontSize: 10,
             fontFamily: 'Roboto'
           ),

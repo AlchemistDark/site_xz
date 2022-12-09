@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import 'package:site_xz/theme.dart';
+import 'package:site_xz/global/theme.dart';
 
 /// Buttons with clicking animation at the icon and shadow (color changes) without a gradient.
 class AnimatedButton extends StatefulWidget {
@@ -27,7 +27,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
 
   @override
   Widget build(BuildContext context) {
-    Color green = widget.theme.mineGreenColor;
+    Color green = widget.theme.mainGreenColor;
     Color color = widget.theme.listButtonColor;
     Color iconColor = widget.theme.buttonIconColor;
 
@@ -93,7 +93,7 @@ class _GradientAnimatedButtonWithGreenIconState extends State<GradientAnimatedBu
 
   @override
   Widget build(BuildContext context) {
-    Color green = widget.theme.mineGreenColor;
+    Color green = widget.theme.mainGreenColor;
     Color color1 = widget.theme.mainButtonBorderColor1;
     Color color2 = widget.theme.mainButtonBorderColor2;
     Color color3 = widget.theme.mainButtonFillColor1;

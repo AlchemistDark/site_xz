@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:site_xz/planner_mine_screen_view.dart';
 import 'package:site_xz/star_up.dart';
+import 'package:site_xz/main_screen/planner_main_screen_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       // const перед MaterialApp надо будет убрать
       // routes: <String, WidgetBuilder> {
       //   '/': (BuildContext context) => MyHomePage(title: 'Planner'),
-      //   '/planner': (BuildContext context) => MinePlanner('Planner', MediaQuery.of(context).size.width, )
+      //   '/planner': (BuildContext context) => MainPlanner('Planner', MediaQuery.of(context).size.width, )
       // },
       home: MyHomePage(title: 'Planner')
     );
@@ -42,9 +42,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final double mineWidth = MediaQuery.of(context).size.width;
-    //return MinePlanner(title, mineWidth);
-    return StartPage(title, mineWidth);
+    final double mainWidth = MediaQuery.of(context).size.width;
+    //return MainPlanner(title, mainWidth);
+    return StartPage(title, mainWidth);
   }
 }
 

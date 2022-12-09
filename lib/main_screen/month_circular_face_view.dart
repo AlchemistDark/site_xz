@@ -1,14 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:site_xz/custom_arc_day_segment.dart';
-import 'package:site_xz/month_arrow.dart';
-import 'package:site_xz/theme.dart';
-import 'package:site_xz/user_class.dart';
-import 'package:site_xz/month_circular_face_logic.dart';
 import 'dart:math' as math;
 
-/// Month circle clock Face for mine Planner screen.
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_svg/svg.dart';
+
+import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/global/user_class.dart';
+import 'package:site_xz/main_screen/custom_arc_day_segment.dart';
+import 'package:site_xz/main_screen/month_arrow.dart';
+import 'package:site_xz/main_screen/month_circular_face_logic.dart';
+
+/// Month circle clock Face for main Planner screen.
 
 class MonthCircleClockFace extends StatelessWidget {
   final int _currentDay = DateTime.now().day;
@@ -107,7 +110,7 @@ class MonthCircleClockFace extends StatelessWidget {
             //         child: ClipRRect(
             //           borderRadius: BorderRadius.circular(194),
             //           child: Container(
-            //             color: mineDarkColor
+            //             color: mainDarkColor
             //           )
             //         )
             //       )
@@ -119,7 +122,7 @@ class MonthCircleClockFace extends StatelessWidget {
                 width: 378,
                 height: 378,
                 decoration: const BoxDecoration(
-                  color: buttonMineDarkColor,
+                  color: buttonMainDarkColor,
                   shape: BoxShape.circle
                 )
               )

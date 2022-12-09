@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import 'package:site_xz/paths.dart';
-import 'package:site_xz/person_class.dart';
-import 'package:site_xz/planner_app_bar.dart';
-import 'package:site_xz/buttons.dart';
-import 'package:site_xz/theme.dart';
-
-import 'app_controller.dart';
+import 'package:site_xz/global/app_controller.dart';
+import 'package:site_xz/global/buttons.dart';
+import 'package:site_xz/global/paths.dart';
+import 'package:site_xz/global/person_class.dart';
+import 'package:site_xz/global/planner_app_bar.dart';
+import 'package:site_xz/global/theme.dart';
 
 /// Stub.
 
@@ -42,7 +41,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       builder: (context, snapshot) {
         AppTheme theme = snapshot.data!.theme;
         Person person = snapshot.data!.userData;
-        print(theme.isDark);
         return Scaffold(
           appBar: PlannerAppBar(
             callBack: (){Navigator.pop(context);},
@@ -60,7 +58,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             )
           ),
           body: Container(
-            color: theme.mineColor,
+            color: theme.mainColor,
             child: Column(
               children: <Widget>[
                 Expanded(

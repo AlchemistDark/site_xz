@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import 'package:site_xz/paths.dart';
-import 'package:site_xz/person_class.dart';
-import 'package:site_xz/theme.dart';
-import 'package:site_xz/app_controller.dart';
+import 'package:site_xz/global/paths.dart';
+import 'package:site_xz/global/person_class.dart';
+import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/global/app_controller.dart';
 
 /// Custom AppBar for Planner.
 
@@ -98,7 +98,7 @@ class _GradientAnimatedIconButtonState extends State<GradientAnimatedIconButton>
 
   @override
   Widget build(BuildContext context) {
-    Color green = widget.theme.mineGreenColor;
+    Color green = widget.theme.mainGreenColor;
     Color color1 = widget.theme.mainButtonBorderColor1;
     Color color2 = widget.theme.mainButtonBorderColor2;
     Color color3 = widget.theme.mainButtonFillColor1;
