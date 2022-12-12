@@ -142,7 +142,6 @@ class YearCircleClockFace extends StatelessWidget {
     /// Clock face drawer.
 
     for (int i = (_currentMonth); i < (_currentMonth + 12); i++) {
-      print(i);
 
       /// Get the day of the week for each day of the month.
       // DateTime date = DateTime(DateTime.now().year, DateTime.now().month, (i + 1));

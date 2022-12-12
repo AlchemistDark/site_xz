@@ -19,6 +19,8 @@ import 'package:site_xz/main_screen/month_circular_face_view.dart';
 /// The main window of the application.
 
 class MainPlanner extends StatefulWidget {
+  static const route = '/planner';
+
   final String title;
   final double mainWidth;
   final AppController appController;

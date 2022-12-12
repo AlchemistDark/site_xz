@@ -15,6 +15,8 @@ import 'package:site_xz/global/theme.dart';
 /// Stub.
 
 class CalendarScreen extends StatefulWidget {
+  static const route = '/holiday';
+
   final String title;
   final AppController appController;
 

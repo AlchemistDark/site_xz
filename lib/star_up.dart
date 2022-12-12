@@ -10,6 +10,7 @@ import 'package:site_xz/main_screen/planner_main_screen_view.dart';
 /// Contacts the server and initializes application variables.
 
 class StartPage extends StatelessWidget {
+  static const route = '/';
 
   final Provider provider = Provider();
   late String responseAnswer;

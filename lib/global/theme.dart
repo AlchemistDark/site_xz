@@ -12,6 +12,7 @@ class AppTheme{
   final Color clockFaceMainColor;
   final Color clockFaceCircleColor;
   final Color clockFaceCenterColor;
+  final Color currentMonthSegmentTextColor;
   final Color listButtonColor;
   final Color mainButtonBorderColor1;
   final Color mainButtonBorderColor2;
@@ -35,6 +36,7 @@ class AppTheme{
     this.clockFaceMainColor = const Color(0xFFE0EBF5),
     this.clockFaceCircleColor = const Color(0xFFF0F7FE),
     this.clockFaceCenterColor = const Color(0xFFFFFFFF),
+    this.currentMonthSegmentTextColor = const Color(0xFF627684),
     this.listButtonColor = const Color(0xFFDDE8F5),
     this.mainButtonBorderColor1 = const Color(0xFFFFFFFF),
     this.mainButtonBorderColor2 = const Color(0xFFFFFFFF),
@@ -42,7 +44,7 @@ class AppTheme{
     this.mainButtonFillColor2 = const Color(0xFFFFFFFF),
     this.mainColor = const Color(0xFFF0F7FE),
     this.monthSegmentTopColor = const Color(0xFFF0F7FE),
-    this.monthSegmentBottomColor = const Color(0xFFE3F1E1),
+    this.monthSegmentBottomColor = const Color(0xFFDFF0D8),//(0xFFE3F1E1),
     this.monthSegmentLabelColor = const Color(0xFFDFF0D8)
   });
 
@@ -55,6 +57,7 @@ class AppTheme{
     this.clockFaceMainColor = const Color(0xFF2F313A),
     this.clockFaceCircleColor = const Color(0xFF000000),
     this.clockFaceCenterColor = const Color(0xFF474952),
+    this.currentMonthSegmentTextColor = const Color(0xFF8D9392),
     this.listButtonColor = const Color(0xFF454E54),
     this.mainButtonBorderColor1 = const Color(0xFF1C1F26),
     this.mainButtonBorderColor2 = const Color(0xFF4B4F5F),

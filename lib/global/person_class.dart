@@ -25,7 +25,7 @@ class Person{
         .toList(),
       peopleDates: (json["people_dates"] as List<dynamic>)
         .map((dynamic e) {
-          if (e == null) {return 'null';}
+          if (e == null) {return "null";}
           return e as String;
         }).toList(),
       peopleCount: (json["people_count"] as List<dynamic>)

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/main_screen/current_month_segment.dart';
 import 'package:site_xz/main_screen/first_half_month_segment.dart';
+import 'package:site_xz/main_screen/opposite_month_segment.dart';
 import 'package:site_xz/main_screen/second_half_month_segment.dart';
 
 /// This class implements a segment of a circular clock face-calendar.
@@ -30,7 +31,7 @@ class MonthArcSegment extends StatelessWidget {
       case MonthCategory.firstHalf:
         return FirstHalfMonthSegment(theme, number(iterator));
       case MonthCategory.opposite:
-        return CurrentMonthSegment(theme, number(iterator)); // ToDo
+        return OppositeMonthSegment(theme, number(iterator));
       case MonthCategory.secondHalf:
         return SecondHalfMonthSegment(theme, number(iterator));
     } // CurrentMonthSegment

@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:url_strategy/url_strategy.dart';
+
+import 'package:site_xz/calendar_screen_view.dart';
 import 'package:site_xz/star_up.dart';
+import 'package:site_xz/global/app_controller.dart';
 import 'package:site_xz/main_screen/planner_main_screen_view.dart';
 
 void main() {
+  setPathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -13,15 +18,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      initialRoute: StartPage.route,
+      routes: {
+        MainPlanner.route: (context) => MainPlanner(
+          'Planner',
+          ModalRoute.of(context)!.settings.arguments as double,
+          ModalRoute.of(context)!.settings.arguments as AppController
+        ),
+        CalendarScreen.route: (context) => CalendarScreen(
+          'Planner',
+          ModalRoute.of(context)!.settings.arguments as AppController
+        )
+      },
       title: 'Planner',
-      // ToDo возможно здесь будет нужна навигация. Пока X3 какая имеено.
-      // const перед MaterialApp надо будет убрать
-      // routes: <String, WidgetBuilder> {
-      //   '/': (BuildContext context) => MyHomePage(title: 'Planner'),
-      //   '/planner': (BuildContext context) => MainPlanner('Planner', MediaQuery.of(context).size.width, )
-      // },
-      home: MyHomePage(title: 'Planner')
+      home: const MyHomePage(title: 'Planner')
     );
   }
 }
