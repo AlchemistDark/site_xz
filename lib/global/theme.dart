@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:site_xz/global/paths.dart';
+
 /// Custom theme model.
 
 class AppTheme{
   final bool isDark;
+
+  final String logoPath;
+
   final Color appBarColor;
   final Color appBarTextColor;
   final Color avatarText1Color;
@@ -22,13 +27,16 @@ class AppTheme{
   final Color monthSegmentTopColor;
   final Color monthSegmentBottomColor;
   final Color monthSegmentLabelColor;
+  final Color yearCircularFaceDecorTextColor;
 
+  final buttonIconColor = const Color(0xFFA6ADB5);
   final mainGreenColor = const Color(0xFF52B69A);
   final mainPinkColor = const Color(0xFFCE3B82);
-  final buttonIconColor = const Color(0xFFA6ADB5);
+  final yearCircularFaceDecorColor = const Color(0xFF547CC7);
 
   AppTheme.light({
     this.isDark = false,
+    this.logoPath = lightLogo,
     this.appBarColor = const Color(0xFFFFFFFF),
     this.appBarTextColor = const Color(0xFF161A1D),
     this.avatarText1Color = const Color(0xFF161A1D),
@@ -44,12 +52,14 @@ class AppTheme{
     this.mainButtonFillColor2 = const Color(0xFFFFFFFF),
     this.mainColor = const Color(0xFFF0F7FE),
     this.monthSegmentTopColor = const Color(0xFFF0F7FE),
-    this.monthSegmentBottomColor = const Color(0xFFDFF0D8),//(0xFFE3F1E1),
-    this.monthSegmentLabelColor = const Color(0xFFDFF0D8)
+    this.monthSegmentBottomColor = const Color(0xFFE3F1E1),
+    this.monthSegmentLabelColor = const Color(0xFFDFF0D8),
+    this.yearCircularFaceDecorTextColor = const Color(0xFF414E58)
   });
 
   AppTheme.dark({
     this.isDark = true,
+    this.logoPath = darkLogo,
     this.appBarTextColor = const Color(0xFFFFFFFF),
     this.avatarText1Color = const Color(0xFFE0EBED),
     this.avatarText2Color = const Color(0xFFBCC0C8),
@@ -66,7 +76,8 @@ class AppTheme{
     this.mainColor = const Color(0xFF24262D),
     this.monthSegmentTopColor = const Color(0xFF1B2826),
     this.monthSegmentBottomColor = const Color(0xFF1B2826),
-    this.monthSegmentLabelColor = const Color(0xFF1B2826)
+    this.monthSegmentLabelColor = const Color(0xFF1B2826),
+    this.yearCircularFaceDecorTextColor = const Color(0xFFFFFFFF)
   });// 474952
 
 }

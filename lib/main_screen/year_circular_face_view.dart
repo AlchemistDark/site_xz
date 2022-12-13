@@ -60,35 +60,71 @@ class YearCircleClockFace extends StatelessWidget {
             )
           )
         ),
-        Center(
-          child: Container(
-            width: 15,
-            height: 15,
-            decoration: BoxDecoration(
-              color: theme.clockFaceCenterColor,
-              shape: BoxShape.circle,
-            )
-          )
-        ),
         /// Draw the months rings.
         Stack(
           children: segments()
         ),
-
-
-
-          Center (
-            child: Container(
-              width: 52,
-              height: 43,
-              //color: Color(0xFF00FF00),
-              margin: const EdgeInsets.only(bottom: 96),
-              child: Image.asset(
-                "assets/images/logo_dark.png",
-                fit:BoxFit.scaleDown
+        /// Decoration
+        Center(
+          child: CustomPaint(
+            size: const Size(172, 172),
+            painter: DecorPainter(
+              theme: theme
+            )
+          )
+        ),
+        Center(
+          child: Transform.rotate(
+            angle: (math.pi / 2),
+            child: SizedBox(
+              width: 172,
+              height: 172,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 2, top: 75),
+                child: Text(
+                  "${DateTime.now().year + 1}",
+                  style: TextStyle(
+                    color: theme.yearCircularFaceDecorTextColor,
+                    fontSize: 10,
+                    fontFamily: 'Roboto'
+                  ),
+                )
               )
             )
-          ),
+          )
+        ),
+        Center (
+          child: Container(
+            width: 55,
+            height: 45,
+            margin: const EdgeInsets.only(bottom: 70),
+              // child: SvgPicture.asset(
+              //     theme.logoPath,
+               //   color: arrowDarkColor,
+               //   fit: BoxFit.fitHeight
+              // )
+            child: Image.asset(
+              theme.logoPath,
+              scale: 0.5,
+              fit: BoxFit.contain
+            )
+          )
+        ),
+
+
+        Center(
+            child: Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                  color: theme.clockFaceCenterColor,
+                  shape: BoxShape.circle,
+                )
+            )
+        ),
+
+
+
           /// Draw celebration icons.
           /// Рисуем иконки праздников.
           Center(
@@ -122,66 +158,9 @@ class YearCircleClockFace extends StatelessWidget {
       );
   }
   /// Draw clock face.
-  /// Рисует циферблат.
   List<Widget> segments() {
-
-
-
-
-    int numberOfDays = 12;
-    int day = DateTime.now().day;
-    String topText = ' ';
-    bool isCurrent = false;
-    bool isPresent = true;
-    bool isCelebrate = false;
-    Color topColor = mainGreenColor;
-    Color bottomTextColor = mainGreenColor;
-    Color pointColor = mainPinkColor;
     List<Widget> result = [];
-
-    /// Clock face drawer.
-
     for (int i = (_currentMonth); i < (_currentMonth + 12); i++) {
-
-      /// Get the day of the week for each day of the month.
-      // DateTime date = DateTime(DateTime.now().year, DateTime.now().month, (i + 1));
-      // switch (date.weekday){
-      //   case 1:
-      //     topText = 'пн';
-      //     break;
-      //   case 6:
-      //     topText = 'сб';
-      //     break;
-      //   case 7:
-      //     topText = 'вс';
-      //     break;
-      //   default:
-      //     topText = ' ';
-      // }
-      // if (i == 0) {
-      //   topText = rusMonthNowShort();
-      // }
-      // /// Elements colors.
-      // topColor = mainGreenColor;
-      // bottomTextColor = mainGreenColor;
-      // pointColor = mainPinkColor;
-      // if ((((i + 1) > day) && (i < (day + 15))) || (i < (day - 16)) ) {
-      //   topColor = mainPinkColor;
-      //   bottomTextColor = mainPinkColor;
-      //   pointColor = mainGreenColor;
-      // }
-      // if ((day == i)) {
-      //   isCurrent = true;
-      // }
-      // if ((i + 1) > numberOfDaysInCurrentMonth()) {
-      //   isPresent = false;
-      // }
-      // if ((i < 2) || !isPresent) {
-      //   topColor = calendarSegmentDarkColor;
-      // }
-
-      //print(i);
-
       result.add(
         Transform.rotate(
           angle: ((math.pi * 2 / 12) * (i - 0.5)),
@@ -222,5 +201,68 @@ class YearCircleClockFace extends StatelessWidget {
       );
     }
     return result;
+  }
+}
+
+class MyCustomClipper extends CustomClipper<Path> {
+
+  @override
+  Path getClip(Size size) {
+    final width = size.width - 1;
+    Path path = Path()
+      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 1) / 2)))
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width - 1.5)), radius: 1.5)) // Добавить отрезок p2p3
+      ..close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+
+}
+
+class DecorPainter extends CustomPainter{
+  final AppTheme theme;
+
+  const DecorPainter({required this.theme});
+
+  @override
+  void paint(Canvas canvas, Size size){
+
+    final paintHorizontalLine = Paint()
+      ..color = theme.yearCircularFaceDecorColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+    canvas.drawLine(
+      const Offset(0.0, (172.0 / 2)),
+      const Offset(172.0, (172.0 / 2)),
+      paintHorizontalLine
+    );
+
+    final paintVerticalLongLine = Paint()
+      ..color = theme.yearCircularFaceDecorColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+    canvas.drawLine(
+      const Offset((172.0 / 2), 172),
+      const Offset((172.0 / 2), 73.5),
+      paintVerticalLongLine
+    );
+
+    final paintVerticalShortLine = Paint()
+      ..color = theme.yearCircularFaceDecorColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+    canvas.drawLine(
+      const Offset((172.0 / 2), 0),
+      const Offset((172.0 / 2), 25.5),
+      paintVerticalShortLine
+    );
+
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter old){
+    return false;
   }
 }

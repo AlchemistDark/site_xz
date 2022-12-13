@@ -131,137 +131,137 @@ class _MainPlannerState extends State<MainPlanner> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(27),
                           child: Image.asset(
-                          // ToDo Аватар должен браться с сервера
-                          "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
-                          fit:BoxFit.fitHeight,
+                            // ToDo Аватар должен браться с сервера
+                            "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
+                            fit:BoxFit.fitHeight,
+                          )
                         )
-                      )
-                    ),
-                    /// Name and address.
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 8, top: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              person.userName,
-                              style: TextStyle(
-                                color: theme.avatarText1Color,
-                                fontSize: 16,
-                                fontFamily: 'Roboto'
+                      ),
+                      /// Name and address.
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 8, top: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                person.userName,
+                                style: TextStyle(
+                                  color: theme.avatarText1Color,
+                                  fontSize: 16,
+                                  fontFamily: 'Roboto'
+                                ),
                               ),
-                            ),
-                            Text(
-                              person.region,
-                              style: TextStyle(
-                                color: theme.avatarText2Color,
-                                fontSize: 14,
-                                fontFamily: 'Roboto'
+                              Text(
+                                person.region,
+                                style: TextStyle(
+                                  color: theme.avatarText2Color,
+                                  fontSize: 14,
+                                  fontFamily: 'Roboto'
+                                ),
+                              )
+                            ]
+                          )
+                        )
+                      ),
+                      /// List buttons.
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 34,
+                                width: 34,
+                                child: AnimatedButton(
+                                  theme: theme,
+                                  iconPath: leftListButtonIcon,
+                                  onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                )
                               ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              SizedBox(
+                                height: 34,
+                                width: 34,
+                                child: AnimatedButton(
+                                  theme: theme,
+                                  iconPath: rightListButtonIcon,
+                                  onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                )
+                              ),
+                            ],
+                          ),
+                          Center(
+                            child: (
+                              SizedBox(
+                                height: 34,
+                                width: 34,
+                                child: AnimatedButton(
+                                  theme: theme,
+                                  iconPath: listListButtonIcon,
+                                  onPressed: (){setState(() {
+                                    Navigator.push(
+                                      context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return CalendarScreen(widget.title, widget.appController);
+                                        }
+                                      )
+                                    );
+                                  });}//userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                )
+                              )
                             )
-                          ]
-                        )
+                          )
+                        ]
                       )
-                    ),
-                    /// List buttons.
-                    Column(
-                      //crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              height: 34,
-                              width: 34,
-                              child: AnimatedButton(
-                                theme: theme,
-                                iconPath: leftListButtonIcon,
-                                onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
-                              )
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            SizedBox(
-                              height: 34,
-                              width: 34,
-                              child: AnimatedButton(
-                                theme: theme,
-                                iconPath: rightListButtonIcon,
-                                onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
-                              )
-                           ),
-                         ],
-                        ),
-                        Center(
-                          child: (
-                            SizedBox(
-                              height: 34,
-                              width: 34,
-                              child: AnimatedButton(
-                                theme: theme,
-                                iconPath: listListButtonIcon,
-                                onPressed: (){setState(() {
-                                  Navigator.push(
-                                    context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return CalendarScreen(widget.title, widget.appController);
-                                      }
-                                    )
-                                  );
-                                });}//userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                    ]
+                  )
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container()
+                ),
+                /// Rectangular block with buttons and round clock face. ToDo
+                SizedBox(
+                  height: (widget.mainWidth + 45),
+                  child: Stack(
+                    children: <Widget>[
+                      /// BackGround
+                      Column(
+                        children: [
+                          Container(
+                            height: 80,
+                            color: theme.clockFaceMainColor,
+                          ),
+                          Expanded(
+                            child: Container()
+                          ),
+                          Container(
+                            height: 85,
+                            color: theme.clockFaceMainColor,
+                            padding: const EdgeInsets.only(bottom: 0),
+                          )
+                        ]
+                      ),
+                      Center(
+                        child: SizedBox(
+                          width: (widget.mainWidth + 11),
+                          height: (widget.mainWidth + 11),
+                          child: OverflowBox(
+                            maxWidth: (widget.mainWidth + 11),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius
+                                .circular((widget.mainWidth + 11) / 2),
+                              child: Container(
+                                color: theme.mainColor
                               )
                             )
                           )
                         )
-                      ]
-                    )
-                  ]
-                )
-              ),
-              Expanded(
-                flex: 1,
-                child: Container()
-              ),
-              /// Rectangular block with buttons and round clock face. ToDo
-              SizedBox(
-                height: (widget.mainWidth + 45),
-                child: Stack(
-                  children: <Widget>[
-                    /// BackGround
-                    Column(
-                      children: [
-                        Container(
-                          height: 80,
-                          color: theme.clockFaceMainColor,
-                        ),
-                        Expanded(
-                          child: Container()
-                        ),
-                        Container(
-                          height: 85,
-                          color: theme.clockFaceMainColor,
-                          padding: const EdgeInsets.only(bottom: 0),
-                        )
-                      ]
-                    ),
-                    Center(
-                      child: SizedBox(
-                        width: (widget.mainWidth + 11),
-                        height: (widget.mainWidth + 11),
-                        child: OverflowBox(
-                          maxWidth: (widget.mainWidth + 11),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius
-                              .circular((widget.mainWidth + 11) / 2),
-                            child: Container(
-                              color: theme.mainColor
-                            )
-                          )
-                        )
-                      )
-                    ),
+                      ),
+                      /// Clock face.
                       if (!isMonth)
                         TextButton(
                           onPressed: _periodChange,

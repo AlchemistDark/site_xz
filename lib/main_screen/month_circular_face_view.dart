@@ -185,7 +185,7 @@ class MonthCircleClockFace extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 96),
                 child: Image.asset(
                   "assets/images/logo_dark.png",
-                  fit:BoxFit.scaleDown
+                  fit:BoxFit.contain
                 )
               )
             ),
