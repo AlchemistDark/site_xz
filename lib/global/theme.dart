@@ -28,10 +28,13 @@ class AppTheme{
   final Color monthSegmentBottomColor;
   final Color monthSegmentLabelColor;
   final Color yearCircularFaceDecorTextColor;
+  final Color yearCircularArrowColor;
+  final Color yearCircularArrowTextColor;
 
   final buttonIconColor = const Color(0xFFA6ADB5);
   final mainGreenColor = const Color(0xFF52B69A);
   final mainPinkColor = const Color(0xFFCE3B82);
+  final yearArrowTailColor = const Color(0xFF9DA7B0);
   final yearCircularFaceDecorColor = const Color(0xFF547CC7);
 
   AppTheme.light({
@@ -54,7 +57,9 @@ class AppTheme{
     this.monthSegmentTopColor = const Color(0xFFF0F7FE),
     this.monthSegmentBottomColor = const Color(0xFFE3F1E1),
     this.monthSegmentLabelColor = const Color(0xFFDFF0D8),
-    this.yearCircularFaceDecorTextColor = const Color(0xFF414E58)
+    this.yearCircularFaceDecorTextColor = const Color(0xFF414E58),
+    this.yearCircularArrowColor = const Color(0xFF627684),
+    this.yearCircularArrowTextColor = const Color(0xFF627684)
   });
 
   AppTheme.dark({
@@ -77,8 +82,10 @@ class AppTheme{
     this.monthSegmentTopColor = const Color(0xFF1B2826),
     this.monthSegmentBottomColor = const Color(0xFF1B2826),
     this.monthSegmentLabelColor = const Color(0xFF1B2826),
-    this.yearCircularFaceDecorTextColor = const Color(0xFFFFFFFF)
-  });// 474952
+    this.yearCircularFaceDecorTextColor = const Color(0xFFFFFFFF),
+    this.yearCircularArrowColor = const Color(0xFF52B69A),
+    this.yearCircularArrowTextColor = const Color(0xFFFFFFFF)
+  });
 
 }
 

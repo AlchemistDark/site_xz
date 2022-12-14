@@ -263,11 +263,6 @@ class _MainPlannerState extends State<MainPlanner> {
                       ),
                       /// Clock face.
                       if (!isMonth)
-                        TextButton(
-                          onPressed: _periodChange,
-                          child: Text('ujl')
-                        ),
-                      if (!isMonth)
                       Center(
                         child: SizedBox(
                           height: widget.mainWidth,
@@ -275,7 +270,8 @@ class _MainPlannerState extends State<MainPlanner> {
                             scale: scaleFactor, //scaleFactor,
                             child: YearCircleClockFace(
                               theme: theme,
-                              celebrates: person.celebrates
+                              celebrates: person.celebrates,
+                              callback: _periodChange,
                             )
                           )
                         )

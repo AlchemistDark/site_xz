@@ -8,22 +8,31 @@ import 'package:flutter_svg/svg.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/main_screen/custom_arc_day_segment.dart';
+import 'package:site_xz/main_screen/day_position_on_year_circle.dart';
 import 'package:site_xz/main_screen/month_arc_segment.dart';
 import 'package:site_xz/main_screen/month_arrow.dart';
 import 'package:site_xz/main_screen/planner_view_model.dart';
 import 'package:site_xz/main_screen/planner_main_screen_logic.dart';
+import 'package:site_xz/main_screen/rus_month_class.dart';
+import 'package:site_xz/main_screen/year_arrow.dart';
 
 class YearCircleClockFace extends StatelessWidget {
   final AppTheme theme;
   final List<Celebrate> celebrates;
+  final VoidCallback callback;
+
   final int _currentDay = DateTime.now().day; // ToDo
   final int _currentMonth = DateTime.now().month; //ToDo
+  final int _currentYear = DateTime.now().year; //ToDo
 
   YearCircleClockFace({
     required this.theme,
     required this.celebrates,
+    required this.callback,
     Key? key
   }) : super(key: key);
+
+  String _currentDate() => '$_currentDay ${RusMonth(_currentYear, _currentMonth).rusLongMonth} $_currentYear';
 
   @override
   Widget build(BuildContext context) {
@@ -93,16 +102,11 @@ class YearCircleClockFace extends StatelessWidget {
             )
           )
         ),
-        Center (
+        Center(
           child: Container(
             width: 55,
             height: 45,
             margin: const EdgeInsets.only(bottom: 70),
-              // child: SvgPicture.asset(
-              //     theme.logoPath,
-               //   color: arrowDarkColor,
-               //   fit: BoxFit.fitHeight
-              // )
             child: Image.asset(
               theme.logoPath,
               scale: 0.5,
@@ -110,19 +114,24 @@ class YearCircleClockFace extends StatelessWidget {
             )
           )
         ),
-
-
         Center(
-            child: Container(
-                width: 15,
-                height: 15,
-                decoration: BoxDecoration(
-                  color: theme.clockFaceCenterColor,
-                  shape: BoxShape.circle,
-                )
+          child: Container(
+            width: 15,
+            height: 15,
+            decoration: BoxDecoration(
+              color: theme.clockFaceCenterColor,
+              shape: BoxShape.circle,
             )
+          )
         ),
-
+        /// Draw the clock hand.
+        Transform.rotate(
+          angle: DayPosition(_currentYear, _currentMonth, _currentDay).degree,
+          child: GestureDetector(
+            onTap: callback,
+            child: YearArrow(_currentDate(), theme)
+          )
+        ),
 
 
           /// Draw celebration icons.
@@ -135,15 +144,7 @@ class YearCircleClockFace extends StatelessWidget {
               )
             )
           ),
-          /// Draw the clock hand.
-          /// Рисуем стрелку.
-          Transform.rotate(
-            angle: ((math.pi * 2 / 31) * (_currentDay - 0.5)),
-            // child: GestureDetector(
-            //   onTap: (){},
-            //   child: MonthArrow(rusDateNow())
-            // )
-          ),
+
           Center(
             child: Container(
               width: 5.32,
@@ -157,6 +158,7 @@ class YearCircleClockFace extends StatelessWidget {
         ]
       );
   }
+
   /// Draw clock face.
   List<Widget> segments() {
     List<Widget> result = [];
@@ -202,23 +204,6 @@ class YearCircleClockFace extends StatelessWidget {
     }
     return result;
   }
-}
-
-class MyCustomClipper extends CustomClipper<Path> {
-
-  @override
-  Path getClip(Size size) {
-    final width = size.width - 1;
-    Path path = Path()
-      ..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 1) / 2)))
-      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width - 1.5)), radius: 1.5)) // Добавить отрезок p2p3
-      ..close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-
 }
 
 class DecorPainter extends CustomPainter{

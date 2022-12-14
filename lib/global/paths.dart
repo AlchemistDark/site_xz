@@ -7,3 +7,5 @@ const String listListButtonIcon = "assets/images/buttons/list_list_button_icon.s
 
 const String darkLogo = "assets/images/logo_dark.png";
 const String lightLogo = "assets/images/logo_light.png";
+
+const String clockFaceArrow = "assets/images/clock_arrow.svg";
