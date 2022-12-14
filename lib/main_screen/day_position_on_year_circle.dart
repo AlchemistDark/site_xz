@@ -22,10 +22,10 @@ class DayPosition{
 
     /// Indent from the edge where the month begins
     /// to the point where the countdown of days begins.
-    final double border = (math.pi / (258 / 3));
+    const double border = (math.pi / (258 / 3));
 
     /// This is where allotted for days inside the month segment.
-    final double daysPlace = ((math.pi * 2 / 12) - (border * 2));
+    const double daysPlace = ((math.pi * 2 / 12) - (border * 2));
 
     degree = (monthDegree + border + ((daysPlace / daysPerMonth) * day));
     cos = math.cos(degree);

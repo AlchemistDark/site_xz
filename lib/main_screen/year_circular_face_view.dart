@@ -15,11 +15,14 @@ import 'package:site_xz/main_screen/planner_view_model.dart';
 import 'package:site_xz/main_screen/planner_main_screen_logic.dart';
 import 'package:site_xz/main_screen/rus_month_class.dart';
 import 'package:site_xz/main_screen/year_arrow.dart';
+import 'package:site_xz/main_screen/year_circular_face_logic.dart';
 
 class YearCircleClockFace extends StatelessWidget {
   final AppTheme theme;
   final List<Celebrate> celebrates;
   final VoidCallback callback;
+  late final Logic logic;
+
 
   final int _currentDay = DateTime.now().day; // ToDo
   final int _currentMonth = DateTime.now().month; //ToDo
@@ -30,7 +33,9 @@ class YearCircleClockFace extends StatelessWidget {
     required this.celebrates,
     required this.callback,
     Key? key
-  }) : super(key: key);
+  }) : super(key: key) {
+    logic = Logic(theme: theme, celebrates: celebrates, callback: callback);
+  }
 
   String _currentDate() => '$_currentDay ${RusMonth(_currentYear, _currentMonth).rusLongMonth} $_currentYear';
 
@@ -71,7 +76,7 @@ class YearCircleClockFace extends StatelessWidget {
         ),
         /// Draw the months rings.
         Stack(
-          children: segments()
+          children: logic.segments()
         ),
         /// Decoration
         Center(
@@ -91,7 +96,7 @@ class YearCircleClockFace extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 2, top: 75),
                 child: Text(
-                  "${DateTime.now().year + 1}",
+                  "$_currentYear + 1}",
                   style: TextStyle(
                     color: theme.yearCircularFaceDecorTextColor,
                     fontSize: 10,
@@ -132,6 +137,10 @@ class YearCircleClockFace extends StatelessWidget {
             child: YearArrow(_currentDate(), theme)
           )
         ),
+        /// Draw dots that indicate that there is a celebration on this day.
+        Stack(
+          children: logic.celebrationsDots()
+        ),
 
 
           /// Draw celebration icons.
@@ -159,22 +168,7 @@ class YearCircleClockFace extends StatelessWidget {
       );
   }
 
-  /// Draw clock face.
-  List<Widget> segments() {
-    List<Widget> result = [];
-    for (int i = (_currentMonth); i < (_currentMonth + 12); i++) {
-      result.add(
-        Transform.rotate(
-          angle: ((math.pi * 2 / 12) * (i - 0.5)),
-          child: MonthArcSegment(
-            theme: theme,
-            iterator: i
-          )
-        )
-      );
-    }
-    return result;
-  }
+
   /// Draw celebration icons.
   /// Рисует иконки праздников.
   List<Widget> celebrationIcons() {
@@ -186,19 +180,19 @@ class YearCircleClockFace extends StatelessWidget {
             top: (187.5 + (161 * (math.cos(math.pi * 2 / 31 * i))) - 22.5),
             left: (187.5 + (161 * (math.sin(math.pi * 2 / 31 * i))) - 22.5)
           ),
-          child: Container(
-            width: 45,
-            height: 45,
-            padding: EdgeInsets.all(5),
-            child: SvgPicture.asset(
-              'assets/images/relatives_group_icon.svg',
-              fit: BoxFit.scaleDown
-            ),
-            decoration: const BoxDecoration(
-              color: Color(0xFF9388CC),
-              shape: BoxShape.circle,
-            )
-          )
+          // child: Container(
+          //   width: 45,
+          //   height: 45,
+          //   padding: EdgeInsets.all(5),
+          //   child: SvgPicture.asset(
+          //     'assets/images/relatives_group_icon.svg',
+          //     fit: BoxFit.scaleDown
+          //   ),
+          //   decoration: const BoxDecoration(
+          //     color: Color(0xFF9388CC),
+          //     shape: BoxShape.circle,
+          //   )
+          // )
         )
       );
     }
