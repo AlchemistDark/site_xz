@@ -41,8 +41,8 @@ class Celebrate{
   final String date; // server JSON "date":"2022-07-07",
   final int month; // server JSON "month":6,
   final int day; // server JSON "day":8,
-  final int celebrateCategory; // server JSON "holiday_cat":1,
-  final int peopleCategory; // server JSON "people_cat":1,
+  final List<int> celebrateCategory; // server JSON "holiday_cat":1,
+  final List<int> peopleCategory; // server JSON "people_cat":1,
   final String icon; // server JSON "icons":"icon66"},
 
   Celebrate({
@@ -64,8 +64,12 @@ class Celebrate{
       date: json["date"] as String,
       month: json["month"] as int,
       day: json["day"] as int,
-      celebrateCategory: json["holiday_cat"] as int,
-      peopleCategory: json["people_cat"] as int,
+      celebrateCategory: (json["holiday_cat"] as List<dynamic>)
+        .map((dynamic e) => e as int)
+        .toList(),
+      peopleCategory: (json["people_cat"] as List<dynamic>)
+        .map((dynamic e) => e as int)
+        .toList(),
       icon: json["icons"] as String
     );
   }
