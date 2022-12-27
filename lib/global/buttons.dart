@@ -106,7 +106,7 @@ class _GradientAnimatedButtonWithGreenIconState extends State<GradientAnimatedBu
         height: 35,
         width: 35,
           decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(17.5),
+            borderRadius: BorderRadius.circular(17.5),
             boxShadow: [
               BoxShadow(
                 color: isPressed ? green : color1,

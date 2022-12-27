@@ -11,6 +11,7 @@ import 'package:site_xz/main_screen/planner_main_screen_view.dart';
 void main() {
   setPathUrlStrategy();
   runApp(const MyApp());
+  // ToDo добавить возможность зайти без логина.
 }
 
 class MyApp extends StatelessWidget {

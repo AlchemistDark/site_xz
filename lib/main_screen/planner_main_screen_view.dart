@@ -12,7 +12,7 @@ import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/planner_app_bar.dart';
 import 'package:site_xz/global/theme.dart';
-import 'package:site_xz/global/user_class.dart';
+import 'package:site_xz/global/user_class.dart' as temp;
 import 'package:site_xz/main_screen/year_circular_face_view.dart';
 import 'package:site_xz/main_screen/month_circular_face_view.dart';
 
@@ -40,6 +40,11 @@ class _MainPlannerState extends State<MainPlanner> {
   int userNumber = 0;  // ToDo логику работы с юзерами придётся переписать.
   String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = false;
+  int currentYearCelebrate = -1;
+  int currentMonthCelebrate = 0;
+  final int _currentDay = DateTime.now().day; // ToDo
+  final int _currentMonth = DateTime.now().month; //ToDo
+  final int _currentYear = DateTime.now().year; //ToDo
 
   /// Constructor.
   _MainPlannerState();
@@ -48,27 +53,86 @@ class _MainPlannerState extends State<MainPlanner> {
     return isMonth? 'месяца' : 'года';
   }
 
+  /// Changes the calendar mode between monthly and yearly.
   void _periodChange(){
     isMonth = !isMonth;
     setState((){});
   }
 
   void userNumberDown(){// todo проверить не надо ли будет переписать.
-    if (userNumber > 0) {
-      userNumber = userNumber - 1;
-    } else {
-      userNumber = usersList.length - 1;
-    }
-    setState((){});
+    // if (userNumber > 0) {
+    //   userNumber = userNumber - 1;
+    // } else {
+    //   userNumber = usersList.length - 1;
+    // }
+    // setState((){});
   }
 
   void userNumberUp(){// todo проверить не надо ли будет переписать.
-    if (userNumber < usersList.length - 1) {
-      userNumber = userNumber + 1;
-    } else {
-      userNumber = 0;
+    // if (userNumber < usersList.length - 1) {
+    //   userNumber = userNumber + 1;
+    // } else {
+    //   userNumber = 0;
+    // }
+    // setState((){});
+  }
+
+
+  /// Sorts holidays by date starting with the current and the next 365 (in a leap year - 366) days.
+  // There is a very big O(n) here because sorting by dates is needed
+  // and I didn't come up with anything better :/
+  List<Celebrate> sortedCelebratesYear(List<Celebrate> celebrates) {
+    List<Celebrate> result = [];
+    for (int l = _currentDay; l > 0; l--) {
+      for (Celebrate celebrate in celebrates) {
+        if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
+          result.add(celebrate);
+          break;
+        }
+      }
     }
-    setState((){});
+    for (int i = (_currentMonth - 1); i > 0; i--) {
+      for (int l = 31; l > 0; l--) {
+        for (Celebrate celebrate in celebrates) {
+          if ((celebrate.month == i) && (celebrate.day == l)) {
+            result.add(celebrate);
+            break;
+          }
+        }
+      }
+    }
+    for (int i = 12; i > _currentMonth; i--) {
+      for (int l = 31; l > 0; l--) {
+        for (Celebrate celebrate in celebrates) {
+          if ((celebrate.month == i) && (celebrate.day == l)) {
+            result.add(celebrate);
+            break;
+          }
+        }
+      }
+    }
+    for (int l = 31; l > _currentDay; l--) {
+      for (Celebrate celebrate in celebrates) {
+        if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
+          result.add(celebrate);
+          break;
+        }
+      }
+    }
+    if (currentYearCelebrate == -1) {
+      currentYearCelebrate = result.length;
+    }
+    return result;
+  }
+
+  /// Changes the index of the current holiday to the selected one.
+  void currentCelebrateChange(int newIndex){
+    currentYearCelebrate = newIndex;
+    print(newIndex);
+    setState(() {
+
+    });
+    print("sdad $currentYearCelebrate");
   }
 
   @override
@@ -270,8 +334,12 @@ class _MainPlannerState extends State<MainPlanner> {
                             scale: scaleFactor, //scaleFactor,
                             child: YearCircleClockFace(
                               theme: theme,
-                              celebrates: person.celebrates,
-                              callback: _periodChange,
+                              celebrates: sortedCelebratesYear(
+                                person.celebrates
+                              ),
+                              currentCelebrate: currentYearCelebrate,
+                              arrowCallback: _periodChange,
+                              celebrateIconCallback: currentCelebrateChange,
                             )
                           )
                         )
@@ -498,9 +566,9 @@ class _MainPlannerState extends State<MainPlanner> {
                       height: widget.mainWidth,
                       child: Transform.scale(
                         scale: scaleFactor, //scaleFactor,
-                        child: MonthCircleClockFace(
-                          celebrationList: usersList[userNumber].holidays
-                        )
+                        // child: MonthCircleClockFace(
+                        //   celebrationList: usersList[userNumber].holidays
+                        // )
                       )
                     )
                   ),
@@ -525,9 +593,9 @@ class _MainPlannerState extends State<MainPlanner> {
                     callback: (){},
                     buttonColor: familyGroupButtonColor,
                     iconPath: 'assets/images/family_group_icon.svg',
-                    count: usersList[userNumber].peopleCount[0].toString(),
+                    // count: usersList[userNumber].peopleCount[0].toString(),
                     buttonName: 'Семья',
-                    date: usersList[userNumber].peopleDates[0],
+                    // date: usersList[userNumber].peopleDates[0],
                   ),
                   /// Separator.
                   Expanded(
@@ -541,9 +609,9 @@ class _MainPlannerState extends State<MainPlanner> {
                     callback: (){},
                     buttonColor: friendsGroupButtonColor,
                     iconPath: 'assets/images/friends_group_icon.svg',
-                    count: usersList[userNumber].peopleCount[1].toString(),
+                    // count: usersList[userNumber].peopleCount[1].toString(),
                     buttonName: 'Друзья',
-                    date: usersList[userNumber].peopleDates[1],
+                    // date: usersList[userNumber].peopleDates[1],
                   ),
                   /// Separator.
                   Expanded(
@@ -557,9 +625,9 @@ class _MainPlannerState extends State<MainPlanner> {
                     callback: (){},
                     buttonColor: relativesGroupButtonColor,
                     iconPath: 'assets/images/relatives_group_icon.svg',
-                    count: usersList[userNumber].peopleCount[2].toString(),
+                    // count: usersList[userNumber].peopleCount[2].toString(),
                     buttonName: 'Близкие',
-                    date: usersList[userNumber].peopleDates[2],
+                    // date: usersList[userNumber].peopleDates[2],
                   ),
                   /// Separator.
                   Expanded(
@@ -573,9 +641,9 @@ class _MainPlannerState extends State<MainPlanner> {
                     callback: (){},
                     buttonColor: colleaguesGroupButtonColor,
                     iconPath: 'assets/images/colleagues_group_icon.svg',
-                    count: usersList[userNumber].peopleCount[3].toString(),
+                    // count: usersList[userNumber].peopleCount[3].toString(),
                     buttonName: 'Коллеги',
-                    date: usersList[userNumber].peopleDates[3],
+                    // date: usersList[userNumber].peopleDates[3],
                   ),
                   /// Separator.
                   Expanded(
@@ -589,9 +657,9 @@ class _MainPlannerState extends State<MainPlanner> {
                     callback: (){},
                     buttonColor: partnersGroupButtonColor,
                     iconPath: 'assets/images/partners_group_icon.svg',
-                    count: usersList[userNumber].peopleCount[4].toString(),
+                    // count: usersList[userNumber].peopleCount[4].toString(),
                     buttonName: 'Партнёры',
-                    date: usersList[userNumber].peopleDates[4],
+                    // date: usersList[userNumber].peopleDates[4],
                   )
                 ]
               )
@@ -647,17 +715,17 @@ class MyGroupButton extends StatelessWidget {
   final VoidCallback callback;
   final Color buttonColor;
   final String iconPath;
-  final String count;
+  // final String count;
   final String buttonName;
-  final String date;
+  // final String date;
 
   const MyGroupButton({
     required this.callback,
     required this.buttonColor,
     required this.iconPath,
-    required this.count,
+    // required this.count,
     required this.buttonName,
-    required this.date,
+    // required this.date,
     Key? key}
   ) : super(key: key);
 
@@ -721,14 +789,14 @@ class MyGroupButton extends StatelessWidget {
                       color: Colors.white.withOpacity(0.5),
                       shape: BoxShape.circle,
                     ),
-                    child: Text(
-                      count,
-                      style: const TextStyle(
-                        color: croupButtonsTextColor,
-                        fontSize: 13,
-                        fontFamily: 'Roboto'
-                      ),
-                    )
+                    // child: Text(
+                    //   count,
+                    //   style: const TextStyle(
+                    //     color: croupButtonsTextColor,
+                    //     fontSize: 13,
+                    //     fontFamily: 'Roboto'
+                    //   ),
+                    // )
                   )
                 ]
               )
@@ -742,14 +810,14 @@ class MyGroupButton extends StatelessWidget {
             fontFamily: 'Roboto'
           ),
         ),
-        Text(
-          date,
-          style: const TextStyle(
-            color: mainWhiteColor,
-            fontSize: 10,
-            fontFamily: 'Roboto'
-          ),
-        )
+        // Text(
+        //   date,
+        //   style: const TextStyle(
+        //     color: mainWhiteColor,
+        //     fontSize: 10,
+        //     fontFamily: 'Roboto'
+        //   ),
+        // )
       ]
     );
   }

@@ -20,8 +20,10 @@ import 'package:site_xz/main_screen/year_circular_face_logic.dart';
 class YearCircleClockFace extends StatelessWidget {
   final AppTheme theme;
   final List<Celebrate> celebrates;
-  final VoidCallback callback;
-  late final Logic logic;
+  final int currentCelebrate;
+  final VoidCallback arrowCallback;
+  final Function(int) celebrateIconCallback;
+  late final YearCircularFaceLogic logic;
 
 
   final int _currentDay = DateTime.now().day; // ToDo
@@ -31,13 +33,13 @@ class YearCircleClockFace extends StatelessWidget {
   YearCircleClockFace({
     required this.theme,
     required this.celebrates,
-    required this.callback,
+    required this.currentCelebrate,
+    required this.arrowCallback,
+    required this.celebrateIconCallback,
     Key? key
   }) : super(key: key) {
-    logic = Logic(theme: theme, celebrates: celebrates, callback: callback);
+    logic = YearCircularFaceLogic(theme: theme, celebrates: celebrates, celebrateIconCallback: celebrateIconCallback);
   }
-
-  String _currentDate() => '$_currentDay ${RusMonth(_currentYear, _currentMonth).rusLongMonth} $_currentYear';
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,7 @@ class YearCircleClockFace extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 2, top: 75),
                 child: Text(
-                  "$_currentYear + 1}",
+                  "${logic.currentYear + 1}",
                   style: TextStyle(
                     color: theme.yearCircularFaceDecorTextColor,
                     fontSize: 10,
@@ -131,28 +133,28 @@ class YearCircleClockFace extends StatelessWidget {
         ),
         /// Draw the clock hand.
         Transform.rotate(
-          angle: DayPosition(_currentYear, _currentMonth, _currentDay).degree,
+          angle: DayPosition(
+            logic.currentYear,
+            logic.currentMonth,
+            logic.currentDay
+          ).degree,
           child: GestureDetector(
-            onTap: callback,
-            child: YearArrow(_currentDate(), theme)
+            onTap: arrowCallback,
+            child: YearArrow(logic.currentDate(), theme)
           )
         ),
         /// Draw dots that indicate that there is a celebration on this day.
         Stack(
-          children: logic.celebrationsDots()
+          children: logic.celebrationDots()
         ),
+        /// Draw celebration icons.
+        Stack(
+          children: logic.celebrationIcons()
+        ),
+        logic.currentCelebrationIcon(currentCelebrate),//currentCelebrate),
 
 
-          /// Draw celebration icons.
-          /// Рисуем иконки праздников.
-          Center(
-            child: Container(
-              margin: const EdgeInsets.only(right: 3, bottom: 3),
-              child: Stack(
-                children: celebrationIcons()
-              )
-            )
-          ),
+
 
           Center(
             child: Container(
@@ -168,80 +170,5 @@ class YearCircleClockFace extends StatelessWidget {
       );
   }
 
-
-  /// Draw celebration icons.
-  /// Рисует иконки праздников.
-  List<Widget> celebrationIcons() {
-    List<Widget> result = [];
-    for (int i = 0; i < 31; i++) {
-      result.add(
-        Padding(
-          padding: EdgeInsets.only(
-            top: (187.5 + (161 * (math.cos(math.pi * 2 / 31 * i))) - 22.5),
-            left: (187.5 + (161 * (math.sin(math.pi * 2 / 31 * i))) - 22.5)
-          ),
-          // child: Container(
-          //   width: 45,
-          //   height: 45,
-          //   padding: EdgeInsets.all(5),
-          //   child: SvgPicture.asset(
-          //     'assets/images/relatives_group_icon.svg',
-          //     fit: BoxFit.scaleDown
-          //   ),
-          //   decoration: const BoxDecoration(
-          //     color: Color(0xFF9388CC),
-          //     shape: BoxShape.circle,
-          //   )
-          // )
-        )
-      );
-    }
-    return result;
-  }
 }
 
-class DecorPainter extends CustomPainter{
-  final AppTheme theme;
-
-  const DecorPainter({required this.theme});
-
-  @override
-  void paint(Canvas canvas, Size size){
-
-    final paintHorizontalLine = Paint()
-      ..color = theme.yearCircularFaceDecorColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    canvas.drawLine(
-      const Offset(0.0, (172.0 / 2)),
-      const Offset(172.0, (172.0 / 2)),
-      paintHorizontalLine
-    );
-
-    final paintVerticalLongLine = Paint()
-      ..color = theme.yearCircularFaceDecorColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    canvas.drawLine(
-      const Offset((172.0 / 2), 172),
-      const Offset((172.0 / 2), 73.5),
-      paintVerticalLongLine
-    );
-
-    final paintVerticalShortLine = Paint()
-      ..color = theme.yearCircularFaceDecorColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    canvas.drawLine(
-      const Offset((172.0 / 2), 0),
-      const Offset((172.0 / 2), 25.5),
-      paintVerticalShortLine
-    );
-
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter old){
-    return false;
-  }
-}

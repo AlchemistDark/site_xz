@@ -53,7 +53,7 @@ class StartPage extends StatelessWidget {
                     // ToDo эта ошибка происходит и при изменении размеров окна
                     //Future.delayed(const Duration(seconds: 3), (){
                     //print('всё');
-                    //print(responseAnswer);
+                    print(responseAnswer);
                       person = Person.fromJson(jsonDecode(responseAnswer));
                       AppController appController = AppController(person);
                       return MainPlanner(title, mainWidth, appController);

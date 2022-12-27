@@ -3,41 +3,36 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_svg/svg.dart';
-
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/theme.dart';
-import 'package:site_xz/main_screen/custom_arc_day_segment.dart';
+import 'package:site_xz/main_screen/celebrate_widget.dart';
 import 'package:site_xz/main_screen/day_position_on_year_circle.dart';
 import 'package:site_xz/main_screen/month_arc_segment.dart';
-import 'package:site_xz/main_screen/month_arrow.dart';
-import 'package:site_xz/main_screen/planner_view_model.dart';
-import 'package:site_xz/main_screen/planner_main_screen_logic.dart';
 import 'package:site_xz/main_screen/rus_month_class.dart';
-import 'package:site_xz/main_screen/year_arrow.dart';
 
-class Logic {
+class YearCircularFaceLogic {
   final AppTheme theme;
   final List<Celebrate> celebrates;
-  final VoidCallback callback;
+  final Function(int) celebrateIconCallback;
 
-  final int _currentDay = DateTime.now().day; // ToDo
-  final int _currentMonth = DateTime.now().month; //ToDo
-  final int _currentYear = DateTime.now().year; //ToDo
 
-  Logic({
+  final int currentDay = DateTime.now().day; // ToDo
+  final int currentMonth = DateTime.now().month; //ToDo
+  final int currentYear = DateTime.now().year; //ToDo
+
+  YearCircularFaceLogic({
     required this.theme,
     required this.celebrates,
-    required this.callback,
+    required this.celebrateIconCallback,
   });
 
   /// Arrow text.
-  String currentDate() => '$_currentDay ${RusMonth(_currentYear, _currentMonth).rusLongMonth} $_currentYear';
+  String currentDate() => '$currentDay ${RusMonth(currentYear, currentMonth).rusLongMonth} $currentYear';
 
   /// Draw clock face.
   List<Widget> segments() {
     List<Widget> result = [];
-    for (int i = (_currentMonth); i < (_currentMonth + 12); i++) {
+    for (int i = (currentMonth); i < (currentMonth + 12); i++) {
       result.add(
         Transform.rotate(
           angle: ((math.pi * 2 / 12) * (i - 0.5)),
@@ -52,7 +47,7 @@ class Logic {
   }
 
   /// Draw dots that indicate that there is a celebration on this day.
-  List<Widget> celebrationsDots() {
+  List<Widget> celebrationDots() {
     List<Widget> result = [];
     int year;
     int month;
@@ -60,7 +55,7 @@ class Logic {
     for (Celebrate celebrate in celebrates) {
       day = celebrate.day;
       month = celebrate.month;
-      year = (month < _currentMonth)? (_currentYear + 1) : _currentYear;
+      year = (month < currentMonth)? (currentYear + 1) : currentYear;
       result.add(
         Transform.rotate(
           angle: DayPosition(year, month, day).degree,
@@ -88,35 +83,81 @@ class Logic {
   }
 
   /// Draw celebration icons.
-  /// Рисует иконки праздников.
   List<Widget> celebrationIcons() {
     List<Widget> result = [];
-    for (int i = 0; i < 31; i++) {
+    DayPosition position;
+    int year;
+    int month;
+    int day;
+    int indexOfCurrent = 0;
+    for (Celebrate celebrate in celebrates) {
+      day = celebrate.day;
+      month = celebrate.month;
+      year = (month < currentMonth)? (currentYear + 1) : currentYear;
+      position = DayPosition(year, month, day);
       result.add(
-          Padding(
-            padding: EdgeInsets.only(
-                top: (187.5 + (161 * (math.cos(math.pi * 2 / 31 * i))) - 22.5),
-                left: (187.5 + (161 * (math.sin(math.pi * 2 / 31 * i))) - 22.5)
-            ),
-            // child: Container(
-            //   width: 45,
-            //   height: 45,
-            //   padding: EdgeInsets.all(5),
-            //   child: SvgPicture.asset(
-            //     'assets/images/relatives_group_icon.svg',
-            //     fit: BoxFit.scaleDown
-            //   ),
-            //   decoration: const BoxDecoration(
-            //     color: Color(0xFF9388CC),
-            //     shape: BoxShape.circle,
-            //   )
-            // )
+        Center(
+          child: SizedBox(
+            width: 371,
+            height: 375,
+            child: Align(
+              alignment: Alignment(position.sin, (-position.cos)),
+              child: CelebrateWidget(
+                theme: theme,
+                celebrate: celebrate,
+                isCurrent: false,
+                haveStatus: false,
+                isForYear: true,
+                mainCallback: celebrateIconCallback,
+                indexOfCurrent: indexOfCurrent,
+                statusCallback: (){},
+              )
+            )
           )
+        )
       );
+      indexOfCurrent++;
     }
     return result;
   }
+
+  /// Draw current celebration icon.
+  Widget currentCelebrationIcon(int indexOfCurrent) {
+    indexOfCurrent = (indexOfCurrent == 0)? indexOfCurrent : (indexOfCurrent - 1);
+    Widget result;
+    DayPosition position;
+    int year;
+    int month;
+    int day;
+    Celebrate celebrate = celebrates[(indexOfCurrent)];
+    day = celebrate.day;
+    month = celebrate.month;
+    year = (month < currentMonth)? (currentYear + 1) : currentYear;
+    position = DayPosition(year, month, day);
+    result = Center(
+      child: SizedBox(
+        width: 371,
+        height: 375,
+        child: Align(
+          alignment: Alignment(position.sin, (-position.cos)),
+          child: CelebrateWidget(
+            theme: theme,
+            celebrate: celebrate,
+            isCurrent: true,
+            haveStatus: false,
+            isForYear: true,
+            mainCallback: celebrateIconCallback,
+            indexOfCurrent: indexOfCurrent,
+            statusCallback: (){},
+          )
+        )
+      )
+    );
+    return result;
+  }
+
 }
+
 
 class DecorPainter extends CustomPainter{
   final AppTheme theme;

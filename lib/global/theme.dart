@@ -14,6 +14,9 @@ class AppTheme{
   final Color appBarTextColor;
   final Color avatarText1Color;
   final Color avatarText2Color;
+  final Color celebrateStatusColor;
+  final Color celebrateTextBackgroundColor;
+  final Color celebrateTextColor;
   final Color clockFaceMainColor;
   final Color clockFaceCircleColor;
   final Color clockFaceCenterColor;
@@ -34,8 +37,18 @@ class AppTheme{
   final buttonIconColor = const Color(0xFFA6ADB5);
   final mainGreenColor = const Color(0xFF52B69A);
   final mainPinkColor = const Color(0xFFCE3B82);
+  final mainWhiteColor = const Color(0xFFFFFFFF);
+
   final yearArrowTailColor = const Color(0xFF9DA7B0);
   final yearCircularFaceDecorColor = const Color(0xFF547CC7);
+
+  final familyGroupButtonColor = const Color(0xFF53AABE);
+  final friendsGroupButtonColor = const Color(0xFF678FDA);
+  final relativesGroupButtonColor = const Color(0xFF7B6CE8);
+  final colleaguesGroupButtonColor = const Color(0xFFB668EC);
+  final partnersGroupButtonColor = const Color(0xFFEC69E4);
+
+  final celebrateIconDefaultColor = const Color(0xFF9388CC);
 
   AppTheme.light({
     this.isDark = false,
@@ -44,9 +57,12 @@ class AppTheme{
     this.appBarTextColor = const Color(0xFF161A1D),
     this.avatarText1Color = const Color(0xFF161A1D),
     this.avatarText2Color = const Color(0xFF627684),
+    this.celebrateStatusColor = const Color(0xFFFFFFFF),
     this.clockFaceMainColor = const Color(0xFFE0EBF5),
     this.clockFaceCircleColor = const Color(0xFFF0F7FE),
     this.clockFaceCenterColor = const Color(0xFFFFFFFF),
+    this.celebrateTextBackgroundColor = const Color(0xFFFFFFFF),
+    this.celebrateTextColor = const Color(0xFF627684),
     this.currentMonthSegmentTextColor = const Color(0xFF627684),
     this.listButtonColor = const Color(0xFFDDE8F5),
     this.mainButtonBorderColor1 = const Color(0xFFFFFFFF),
@@ -69,6 +85,9 @@ class AppTheme{
     this.avatarText1Color = const Color(0xFFE0EBED),
     this.avatarText2Color = const Color(0xFFBCC0C8),
     this.appBarColor = const Color(0xFF1B1C22),
+    this.celebrateStatusColor = const Color(0xFF43484E),
+    this.celebrateTextBackgroundColor = const Color(0xFF24262D),
+    this.celebrateTextColor = const Color(0xFF8F99A3),
     this.clockFaceMainColor = const Color(0xFF2F313A),
     this.clockFaceCircleColor = const Color(0xFF000000),
     this.clockFaceCenterColor = const Color(0xFF474952),
@@ -113,4 +132,3 @@ const friendsGroupButtonColor = Color(0xFF678FDA);
 const relativesGroupButtonColor = Color(0xFF7B6CE8);
 const colleaguesGroupButtonColor = Color(0xFFB668EC);
 const partnersGroupButtonColor = Color(0xFFEC69E4);
-const croupButtonsTextColor = Color(0xFF393939);

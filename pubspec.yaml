@@ -64,6 +64,8 @@ flutter:
   assets:
       - assets/images/
       - assets/images/buttons/
+      - assets/images/celebrates/
+      - assets/images/actions/
 
   #  - images/back_arrow_bt_dark.png
 
