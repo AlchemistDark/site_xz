@@ -123,9 +123,6 @@ class YearCircularFaceLogic {
 
   /// Draw current celebration icon.
   Widget currentCelebrationIcon(int indexOfCurrent) {
-    print("ind1 $indexOfCurrent");
-    //indexOfCurrent = (indexOfCurrent != 84)? indexOfCurrent : (indexOfCurrent -;
-    print("ind2 $indexOfCurrent");
     Widget result;
     DayPosition position;
     int year;
@@ -174,9 +171,9 @@ class DecorPainter extends CustomPainter{
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     canvas.drawLine(
-        const Offset(0.0, (172.0 / 2)),
-        const Offset(172.0, (172.0 / 2)),
-        paintHorizontalLine
+      const Offset(0.0, (172.0 / 2)),
+      const Offset(172.0, (172.0 / 2)),
+      paintHorizontalLine
     );
 
     final paintVerticalLongLine = Paint()
@@ -184,9 +181,9 @@ class DecorPainter extends CustomPainter{
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     canvas.drawLine(
-        const Offset((172.0 / 2), 172),
-        const Offset((172.0 / 2), 73.5),
-        paintVerticalLongLine
+      const Offset((172.0 / 2), 172),
+      const Offset((172.0 / 2), 73.5),
+      paintVerticalLongLine
     );
 
     final paintVerticalShortLine = Paint()
@@ -194,9 +191,9 @@ class DecorPainter extends CustomPainter{
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     canvas.drawLine(
-        const Offset((172.0 / 2), 0),
-        const Offset((172.0 / 2), 25.5),
-        paintVerticalShortLine
+      const Offset((172.0 / 2), 0),
+      const Offset((172.0 / 2), 25.5),
+      paintVerticalShortLine
     );
 
   }
