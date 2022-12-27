@@ -31,6 +31,7 @@ class AppTheme{
   final Color monthSegmentBottomColor;
   final Color monthSegmentLabelColor;
   final Color yearCircularFaceDecorTextColor;
+  final Color yearCircularArrowCenterColor;
   final Color yearCircularArrowColor;
   final Color yearCircularArrowTextColor;
 
@@ -74,6 +75,7 @@ class AppTheme{
     this.monthSegmentBottomColor = const Color(0xFFE3F1E1),
     this.monthSegmentLabelColor = const Color(0xFFDFF0D8),
     this.yearCircularFaceDecorTextColor = const Color(0xFF414E58),
+    this.yearCircularArrowCenterColor = const Color(0xFFFFFFFF),
     this.yearCircularArrowColor = const Color(0xFF627684),
     this.yearCircularArrowTextColor = const Color(0xFF627684)
   });
@@ -102,6 +104,7 @@ class AppTheme{
     this.monthSegmentBottomColor = const Color(0xFF1B2826),
     this.monthSegmentLabelColor = const Color(0xFF1B2826),
     this.yearCircularFaceDecorTextColor = const Color(0xFFFFFFFF),
+    this.yearCircularArrowCenterColor = const Color(0xFF43454E),
     this.yearCircularArrowColor = const Color(0xFF52B69A),
     this.yearCircularArrowTextColor = const Color(0xFFFFFFFF)
   });

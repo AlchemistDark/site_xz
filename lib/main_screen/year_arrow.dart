@@ -9,8 +9,6 @@ import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/theme.dart';
 
 /// This class implements an arrow for a month circular face.
-/// Данный класс реализуе стрелку для месячного циферблата.
-
 class YearArrow extends StatelessWidget {
   final String data;
   final AppTheme theme;

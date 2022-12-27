@@ -3,17 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_svg/svg.dart';
-
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/theme.dart';
-import 'package:site_xz/main_screen/custom_arc_day_segment.dart';
 import 'package:site_xz/main_screen/day_position_on_year_circle.dart';
-import 'package:site_xz/main_screen/month_arc_segment.dart';
-import 'package:site_xz/main_screen/month_arrow.dart';
-import 'package:site_xz/main_screen/planner_view_model.dart';
-import 'package:site_xz/main_screen/planner_main_screen_logic.dart';
-import 'package:site_xz/main_screen/rus_month_class.dart';
 import 'package:site_xz/main_screen/year_arrow.dart';
 import 'package:site_xz/main_screen/year_circular_face_logic.dart';
 
@@ -24,11 +16,6 @@ class YearCircleClockFace extends StatelessWidget {
   final VoidCallback arrowCallback;
   final Function(int) celebrateIconCallback;
   late final YearCircularFaceLogic logic;
-
-
-  final int _currentDay = DateTime.now().day; // ToDo
-  final int _currentMonth = DateTime.now().month; //ToDo
-  final int _currentYear = DateTime.now().year; //ToDo
 
   YearCircleClockFace({
     required this.theme,
@@ -143,6 +130,16 @@ class YearCircleClockFace extends StatelessWidget {
             child: YearArrow(logic.currentDate(), theme)
           )
         ),
+        Center(
+          child: Container(
+            width: 5.5,
+            height: 5.5,
+            decoration: BoxDecoration(
+              color: theme.yearCircularArrowCenterColor,
+              shape: BoxShape.circle,
+            )
+          )
+        ),
         /// Draw dots that indicate that there is a celebration on this day.
         Stack(
           children: logic.celebrationDots()
@@ -152,22 +149,8 @@ class YearCircleClockFace extends StatelessWidget {
           children: logic.celebrationIcons()
         ),
         logic.currentCelebrationIcon(currentCelebrate),//currentCelebrate),
-
-
-
-
-          Center(
-            child: Container(
-              width: 5.32,
-              height: 5.32,
-              decoration: const BoxDecoration(
-                color: Color(0xFF474952),
-                shape: BoxShape.circle,
-              )
-            )
-          )
-        ]
-      );
+      ]
+    );
   }
 
 }
