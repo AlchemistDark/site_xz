@@ -120,19 +120,18 @@ class _MainPlannerState extends State<MainPlanner> {
       }
     }
     if (currentYearCelebrate == -1) {
-      currentYearCelebrate = result.length;
+      currentYearCelebrate = (result.length - 1);
     }
     return result;
   }
 
   /// Changes the index of the current holiday to the selected one.
   void currentCelebrateChange(int newIndex){
-    currentYearCelebrate = newIndex;
-    print(newIndex);
+    print("newIndex $newIndex");
     setState(() {
-
+      currentYearCelebrate = newIndex;
     });
-    print("sdad $currentYearCelebrate");
+    print("currentYearCelebrate $currentYearCelebrate");
   }
 
   @override

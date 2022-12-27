@@ -123,7 +123,9 @@ class YearCircularFaceLogic {
 
   /// Draw current celebration icon.
   Widget currentCelebrationIcon(int indexOfCurrent) {
-    indexOfCurrent = (indexOfCurrent == 0)? indexOfCurrent : (indexOfCurrent - 1);
+    print("ind1 $indexOfCurrent");
+    //indexOfCurrent = (indexOfCurrent != 84)? indexOfCurrent : (indexOfCurrent -;
+    print("ind2 $indexOfCurrent");
     Widget result;
     DayPosition position;
     int year;
