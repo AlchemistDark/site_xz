@@ -21,6 +21,19 @@ class AppTheme{
   final Color clockFaceCircleColor;
   final Color clockFaceCenterColor;
   final Color currentMonthSegmentTextColor;
+
+  final Color daySegmentBottomColor = const Color(0xFF52B69A);
+  final Color daySegmentBottomTextColor = const Color(0xFFFFFFFF);
+  final Color daySegmentPointColor = const Color(0xFF52B69A);
+  final Color daySegmentTopColor = const Color(0xFF52B69A);
+  final Color daySegmentTopTextColor = const Color(0xFFFFFFFF);
+
+  //Color tempTopTextColor = mainWhiteColor;
+  //     Color tempTopColor = mainGreenColor;
+  //     Color tempBottomTextColor = mainGreenColor;
+  //     Color tempBottomColor = calendarSegmentDarkColor;
+  //     Color tempPointColor = mainPinkColor;
+
   final Color listButtonColor;
   final Color mainButtonBorderColor1;
   final Color mainButtonBorderColor2;

@@ -12,7 +12,6 @@ import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/planner_app_bar.dart';
 import 'package:site_xz/global/theme.dart';
-import 'package:site_xz/global/user_class.dart' as temp;
 import 'package:site_xz/main_screen/year_circular_face_view.dart';
 import 'package:site_xz/main_screen/month_circular_face_view.dart';
 
@@ -331,7 +330,7 @@ class _MainPlannerState extends State<MainPlanner> {
                           height: widget.mainWidth,
                           child: Transform.scale(
                             scale: scaleFactor, //scaleFactor,
-                            child: YearCircleClockFace(
+                            child: YearCircularClockFace(
                               theme: theme,
                               celebrates: sortedCelebratesYear(
                                 person.celebrates
@@ -344,10 +343,28 @@ class _MainPlannerState extends State<MainPlanner> {
                         )
                       ),
                       if (isMonth)
-                        TextButton(
+                        TextButton( // ToDo
                           onPressed: _periodChange,
                           child: Text('vtczw')
                         ),
+                      if (isMonth)
+                        Center(
+                          child: SizedBox(
+                            height: widget.mainWidth,
+                            child: Transform.scale(
+                              scale: scaleFactor, //scaleFactor,
+                              child: MonthCircularClockFace(
+                                theme: theme,
+                                celebrates: sortedCelebratesYear(
+                                  person.celebrates
+                                ),
+                                currentCelebrate: currentYearCelebrate,
+                                  arrowCallback: _periodChange,
+                                    celebrateIconCallback: currentCelebrateChange,
+                                  )
+                              )
+                          )
+                      ),
 
                       /// Add buttons line. ToDo
                       //     Container(

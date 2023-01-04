@@ -9,15 +9,15 @@ import 'package:site_xz/main_screen/day_position_on_year_circle.dart';
 import 'package:site_xz/main_screen/year_arrow.dart';
 import 'package:site_xz/main_screen/year_circular_face_logic.dart';
 
-class YearCircleClockFace extends StatelessWidget {
+class YearCircularClockFace extends StatelessWidget {
   final AppTheme theme;
   final List<Celebrate> celebrates;
   final int currentCelebrate;
   final VoidCallback arrowCallback;
   final Function(int) celebrateIconCallback;
-  late final YearCircularFaceLogic logic;
+  late final YearCircularClockFaceLogic logic;
 
-  YearCircleClockFace({
+  YearCircularClockFace({
     required this.theme,
     required this.celebrates,
     required this.currentCelebrate,
@@ -25,7 +25,11 @@ class YearCircleClockFace extends StatelessWidget {
     required this.celebrateIconCallback,
     Key? key
   }) : super(key: key) {
-    logic = YearCircularFaceLogic(theme: theme, celebrates: celebrates, celebrateIconCallback: celebrateIconCallback);
+    logic = YearCircularClockFaceLogic(
+      theme: theme,
+      celebrates: celebrates,
+      celebrateIconCallback: celebrateIconCallback
+    );
   }
 
   @override
@@ -65,7 +69,7 @@ class YearCircleClockFace extends StatelessWidget {
         ),
         /// Draw the months rings.
         Stack(
-          children: logic.segments()
+          children: logic.segments(arrowCallback)
         ),
         /// Decoration
         Center(
@@ -125,10 +129,7 @@ class YearCircleClockFace extends StatelessWidget {
             logic.currentMonth,
             logic.currentDay
           ).degree,
-          child: GestureDetector(
-            onTap: arrowCallback,
-            child: YearArrow(logic.currentDate(), theme)
-          )
+          child: YearArrow(logic.currentDate(), theme, arrowCallback)
         ),
         Center(
           child: Container(

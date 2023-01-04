@@ -10,17 +10,16 @@ import 'package:site_xz/main_screen/day_position_on_year_circle.dart';
 import 'package:site_xz/main_screen/month_arc_segment.dart';
 import 'package:site_xz/main_screen/rus_month_class.dart';
 
-class YearCircularFaceLogic {
+class YearCircularClockFaceLogic {
   final AppTheme theme;
   final List<Celebrate> celebrates;
   final Function(int) celebrateIconCallback;
 
+  final int currentDay = DateTime.now().day;
+  final int currentMonth = DateTime.now().month;
+  final int currentYear = DateTime.now().year;
 
-  final int currentDay = DateTime.now().day; // ToDo
-  final int currentMonth = DateTime.now().month; //ToDo
-  final int currentYear = DateTime.now().year; //ToDo
-
-  YearCircularFaceLogic({
+  YearCircularClockFaceLogic({
     required this.theme,
     required this.celebrates,
     required this.celebrateIconCallback,
@@ -30,19 +29,31 @@ class YearCircularFaceLogic {
   String currentDate() => '$currentDay ${RusMonth(currentYear, currentMonth).rusLongMonth} $currentYear';
 
   /// Draw clock face.
-  List<Widget> segments() {
+  List<Widget> segments(VoidCallback segmentCallback) {
     List<Widget> result = [];
-    for (int i = (currentMonth); i < (currentMonth + 12); i++) {
+    for (int i = (currentMonth + 1); i < (currentMonth + 12); i++) {
       result.add(
         Transform.rotate(
           angle: ((math.pi * 2 / 12) * (i - 0.5)),
           child: MonthArcSegment(
             theme: theme,
-            iterator: i
+            iterator: i,
+            callback: segmentCallback
           )
         )
       );
     }
+    // It is necessary that the current month is added last.
+    result.add(
+      Transform.rotate(
+        angle: ((math.pi * 2 / 12) * (currentMonth - 0.5)),
+        child: MonthArcSegment(
+          theme: theme,
+          iterator: currentMonth,
+          callback: segmentCallback
+        )
+      )
+    );
     return result;
   }
 

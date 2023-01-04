@@ -10,10 +10,12 @@ import 'package:site_xz/global/theme.dart';
 class CurrentMonthSegment extends StatelessWidget {
   final AppTheme theme;
   final int number;
+  final VoidCallback callback;
 
   const CurrentMonthSegment(
     this.theme,
     this.number,
+    this.callback,
     {Key? key}
   ) : super(key: key);
 
@@ -100,18 +102,31 @@ class CurrentMonthSegment extends StatelessWidget {
           heightFactor: 375,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 218),
-            child: Text(
-              RusMonth(DateTime.now().year, number).rusCapitalLettersShortMonth,
-              style: TextStyle(
-                color: theme.mainGreenColor,
-                fontSize: (16),
-                fontFamily: 'Roboto',
-                height: 1.195,
-                decoration: TextDecoration.underline
-              ),
+            child: GestureDetector(
+              onTap: (){print('три');},
+              child: Container(
+                width: 55,
+                height: 40,
+                // It is not clear why, but for some reason it does not work
+                // without this line of code...
+                color: Colors.red.withOpacity(0.0),
+                child: Center(
+                  child: Text(
+                    RusMonth(DateTime.now().year, number)
+                      .rusCapitalLettersShortMonth,
+                    style: TextStyle(
+                      color: theme.mainGreenColor,
+                      fontSize: (16),
+                      fontFamily: 'Roboto',
+                      height: 1.195,
+                      decoration: TextDecoration.underline
+                    )
+                  )
+                )
+              )
             )
           )
-        ),
+        )
       ],
     );
   }

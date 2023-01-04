@@ -12,8 +12,14 @@ import 'package:site_xz/global/theme.dart';
 class YearArrow extends StatelessWidget {
   final String data;
   final AppTheme theme;
+  final VoidCallback callback;
 
-  const YearArrow(this.data, this.theme, {Key? key}) : super(key: key);
+  const YearArrow(
+    this.data,
+    this.theme,
+    this.callback,
+    {Key? key}
+  ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,25 +139,28 @@ class YearArrow extends StatelessWidget {
         Center(
           child: Transform.rotate(
             angle: (-math.pi / 2),
-            child: Center(
-              widthFactor: 172,
-              heightFactor: 172,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 90, bottom: 18.0),
-                child: Center(
-                  child: Text(
-                    data,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontFamily: 'Roboto',
-                      color: theme.yearCircularArrowTextColor
-                    )
-                  ),
-                )
-              ),
+            child: GestureDetector(
+              onTap: callback,
+              child: Center(
+                widthFactor: 172,
+                heightFactor: 172,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 90, bottom: 18.0),
+                  child: Center(
+                    child: Text(
+                      data,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: 'Roboto',
+                        color: theme.yearCircularArrowTextColor
+                      )
+                    ),
+                  )
+                ),
+              )
             )
-          ),
-        ),
+          )
+        )
       ],
     );
   }
