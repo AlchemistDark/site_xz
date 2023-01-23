@@ -17,92 +17,109 @@ class MonthCircularClockFaceLogic{
   final int currentMonth = DateTime.now().month;
   final int currentYear = DateTime.now().year;
 
+  late final List<Celebrate> currentCelebrates;
+
   MonthCircularClockFaceLogic({
     required this.theme,
     required this.celebrates,
     required this.celebrateIconCallback,
-  });
+  }) {
+    currentCelebrates = _getCurrentCelebrates();
+    for (Celebrate celebrate in currentCelebrates){
+      print('дата праздника ${celebrate.day} ${celebrate.month}');
+    }
+  }
+
+  /// Returns from the list of all celebrations only those celebrations
+  /// that should be displayed on the current screen.
+  List<Celebrate> _getCurrentCelebrates(){
+    List<Celebrate> result = [];
+    for(Celebrate celebrate in celebrates){
+      if(celebrate.month == currentMonth && celebrate.day >= currentDay) {
+        result.add(celebrate);
+      }
+      if(celebrate.month == (currentMonth + 1) && celebrate.day < currentDay) {
+        result.add(celebrate);
+      }
+    }
+    return result;
+  }
 
   /// Arrow text.
   String currentDate() => '$currentDay ${RusMonth(currentYear, currentMonth).rusLongMonth} $currentYear';
-
 
   /// Draw clock face.
   List<Widget> segments(List<Celebrate> celebrates) {
     List<Widget> result = [];
     int count = 0;
-    print("cd $currentDay");
-    for (int i = currentDay; i < (currentDay + 31); i++) {
-      //print('test ${(!(i > RusMonth(currentYear, currentMonth).numberOfDays))} ${(i != currentDay)} ${((!(i > RusMonth(currentYear, currentMonth).numberOfDays)) || (i != currentDay))}');
-      if (i != currentDay) {
-        print("testtest $i");
+    for (int i = (currentDay + 1); i < (currentDay + 31); i++) {
+      bool isPresent = false;
+      int number = (i < 32)? i : (i - 31);
+      int month = (i < 32)? currentMonth : (currentMonth + 1);
+      if (number <= RusMonth(currentYear, currentMonth).numberOfDays) {
         count++;
+        isPresent = true;
       }
-
-
-      // if ((!(i > RusMonth(currentYear, currentMonth)
-      //   .numberOfDays)) && (i != currentDay)) {
-      //   print("testtest $i");
-      //   count++;
-      // }
-      print("count $count");
       final DaySegment daySegment = DaySegment(
-        number: i,
-        count: count
+        number: number,
+        count: count,
+        isPresent: isPresent,
+        theme: theme,
       );
-      // final OldDaySegment oldDaySegment = OldDaySegment(
-      //   number: i,
-      //   celebrates: celebrates
-      // );
       result.add(
-        Transform.rotate(
-          angle: daySegment.angle,
-          child: CustomArcDaySegment(
-            topText: daySegment.topText,
-            topTextColor: daySegment.topTextColor,
-            topColor: daySegment.topColor,//
-            bottomText: daySegment.bottomText,//
-            bottomTextColor: daySegment.bottomTextColor,//
-            bottomColor: daySegment.bottomColor,//
-            pointColor: daySegment.pointColor,//
-            numberOfSegments: 31,//
-            clockFaceDiameter: 262,//
-            isCurrent: daySegment.isCurrent,
-            isPresent: daySegment.isPresent,//
-            isCelebrate: isCelebrate(celebrates, (i + 1))
+      Transform.rotate(
+        angle: daySegment.angle,
+        child: CustomArcDaySegment(
+          topText: daySegment.topText,
+          topTextColor: daySegment.topTextColor,
+          topColor: daySegment.topColor,
+          bottomText: daySegment.bottomText,
+          bottomTextColor: daySegment.bottomTextColor,
+          bottomColor: daySegment.bottomColor,
+          pointColor: daySegment.pointColor,
+          clockFaceDiameter: 262,
+          isCurrent: false,
+          isPresent: isPresent,
+          isCelebrate: isCelebrate(number, month)// ToDo
           )
         )
       );
     }
+
+    /// The last segment is special.
+    CurrentDaySegment currentDaySegment = CurrentDaySegment(
+      number: currentDay,
+      theme: theme
+    );
+    result.add(
+      Transform.rotate(
+        angle: currentDaySegment.angle,
+        child: CustomArcDaySegment(
+          topText: currentDaySegment.topText,
+          topTextColor: currentDaySegment.topTextColor,
+          topColor: currentDaySegment.topColor,
+          bottomText: currentDaySegment.bottomText,
+          bottomTextColor: currentDaySegment.bottomTextColor,
+          bottomColor: currentDaySegment.bottomColor,
+          pointColor: currentDaySegment.pointColor,
+          clockFaceDiameter: 262,
+          isCurrent: true,
+          isPresent: true,
+          isCelebrate: isCelebrate(currentDay, currentMonth)
+        )
+      )
+    );
     return result;
   }
 
-
-  // /// Draw clock face.
-  // List<Widget> segments() {
-  //   List<Widget> result = [];
-  //   for (int i = (currentMonth); i < (currentMonth + 12); i++) {
-  //     result.add(
-  //         Transform.rotate(
-  //             angle: ((math.pi * 2 / 12) * (i - 0.5)),
-  //             child: MonthArcSegment(
-  //                 theme: theme,
-  //                 iterator: i
-  //             )
-  //         )
-  //     );
-  //   }
-  //   return result;
-  // }
-
-  bool isCelebrate(List<Celebrate> celebrates, int day){
-    for (var celebrate in celebrates) {
-      if (celebrate.month == DateTime.now().month) {
-        if (celebrate.day == day) {
-          return true;
-        }
+  bool isCelebrate(int day, int month){
+    for (var celebrate in currentCelebrates) {
+      if (celebrate.day == day && celebrate.month == month) {
+        print('праздник $day ${celebrate.day}');
+        return true;
       }
     }
+    print('будня $day');
     return false;
   }
 
@@ -117,45 +134,46 @@ class DaySegment{
   /// Input.
   final int number;
   final int count;
+  final bool isPresent;
+  final AppTheme theme;
 
   /// Output.
   late double angle;
-  late bool isCurrent;
-  late bool isPresent;
   late String topText;
-  late Color topTextColor = mainWhiteColor;
-  late Color topColor  = mainGreenColor;
+  late Color topTextColor;
+  late Color topColor;
   late String bottomText;
-  late Color bottomTextColor = mainWhiteColor;
-  late Color bottomColor  = mainGreenColor;
-  late Color pointColor  = mainGreenColor;
-  late bool isCelebrate = false;//: isCelebrate(celebrationList, (i + 1))
-
+  late Color bottomTextColor;
+  late Color bottomColor;
+  late Color pointColor;
 
   DaySegment({
     required this.number,
-    required this.count
+    required this.count,
+    required this.isPresent,
+    required this.theme
   }){
-    int i = (number > 31)? (number - 31) : number;
-    angle = ((math.pi * 2 / 31) * (i - 0.5));
-    isCurrent = (count == 0);
-    isPresent = (!(i > RusMonth(currentYear, currentMonth).numberOfDays));
-    topText = _getTopText(i);
-    bottomText = '$i';
-
-
+    angle = ((math.pi * 2 / 31) * (number - 0.5));
+    topText = _getTopText(number);
+    topTextColor = _getColors()[0];
+    topColor = _getColors()[1];
+    bottomText = '$number';
+    bottomTextColor = _getColors()[2];
+    bottomColor = _getColors()[3];
+    pointColor = _getColors()[4];
   }
 
   String _getTopText(int i){
-    print('i $i');
+    if (!isPresent) {
+      return '';
+    }
     if (i == 1) {
-      int monthText = (currentMonth > 12)? (currentMonth - 12) : currentMonth;
-      return  RusMonth(currentYear, monthText).rusShortMonth;
+      int monthText = (currentMonth < 12)? (currentMonth + 1) : 1;
+      return RusMonth(currentYear, monthText).rusShortMonth;
     }
     DateTime today = DateTime(currentYear, currentMonth, currentDay);
-    int start = (today.weekday + count) % 7;
-    print("day $start ${today.weekday} $count");
-    switch (start){
+    int topCount = (today.weekday + count) % 7;
+    switch (topCount){
       case 1:
         return 'пн';
       case 6:
@@ -167,28 +185,20 @@ class DaySegment{
     }
   }
 
-  List<Color> _getColors(int i, bool b){
+  List<Color> _getColors(){
     List<Color> result = [];
-    Color tempTopTextColor = mainWhiteColor;
-    Color tempTopColor = mainGreenColor;
-    Color tempBottomTextColor = mainGreenColor;
-    Color tempBottomColor = calendarSegmentDarkColor;
-    Color tempPointColor = mainPinkColor;
-    // if (((i > day) && (i < (day + 14))) || (i < (day - 15)) ) {
-    //   tempTopColor = mainPinkColor;
-    //   tempBottomTextColor = mainPinkColor;
-    //   tempPointColor = mainGreenColor;
-    // }
-    if (i == 1) {
-      tempTopColor = calendarSegmentDarkColor;
+    double opacity = isPresent? 1.00 : 0.50;
+    Color tempTopTextColor = theme.mainWhiteColor.withOpacity(opacity);
+    Color tempTopColor = theme.mainGreenColor.withOpacity(opacity);
+    Color tempBottomTextColor = theme.mainGreenColor.withOpacity(opacity);
+    Color tempBottomColor = theme.daySegmentColor.withOpacity(opacity);
+    Color tempPointColor = theme.mainPinkColor.withOpacity(opacity);
+    if (count < 15) {
+      tempTopColor = theme.mainPinkColor.withOpacity(opacity);
+      tempBottomTextColor = theme.mainPinkColor.withOpacity(opacity);
+      tempPointColor = theme.mainGreenColor.withOpacity(opacity);
     }
-    if (!b){
-      // tempTopTextColor = tempTopTextColor.withOpacity(opacity);
-      // tempTopColor = tempTopColor.withOpacity(opacity);
-      // tempBottomTextColor = tempBottomTextColor.withOpacity(opacity);
-      // tempBottomColor = tempBottomColor.withOpacity(opacity);
-      // tempPointColor = tempPointColor.withOpacity(opacity);
-    }
+
     result.add(tempTopTextColor);
     result.add(tempTopColor);
     result.add(tempBottomTextColor);
@@ -196,185 +206,39 @@ class DaySegment{
     result.add(tempPointColor);
     return result;
   }
-
-
 }
 
-class OldDaySegment{
+class CurrentDaySegment{
 
-  final int day = DateTime.now().day;
-  final double opacity = 0.50;
+  final int currentDay = DateTime.now().day;
+  final int currentMonth = DateTime.now().month;
+  final int currentYear = DateTime.now().year;
 
   /// Input.
   final int number;
-  final List<Celebrate> celebrates;
+  final AppTheme theme;
 
   /// Output.
   late double angle;
-  late bool isCurrent;
-  late bool isPresent;
   late String topText;
-  late Color topTextColor;
-  late Color topColor;
+  late Color topTextColor = theme.mainWhiteColor;
+  late Color topColor = theme.mainGreenColor;
   late String bottomText;
-  late Color bottomTextColor;
-  late Color bottomColor;
-  late Color pointColor;
-  late bool isCelebrate;//: isCelebrate(celebrationList, (i + 1))
+  late Color bottomTextColor = theme.mainWhiteColor;
+  late Color bottomColor = theme.mainGreenColor;
+  late Color pointColor = theme.mainGreenColor;
 
-  OldDaySegment({
+  CurrentDaySegment({
     required this.number,
-    required this.celebrates
+    required this.theme
   }){
-    int i = (number > 31)? (number - 31) : number;
-    angle = ((math.pi * 2 / 31) * (i - 0.5));
-    isCurrent = (day == i);
-    isPresent = (!(i > CustomRusDateNow().numberOfDays));
-    topText = _getTopText(i);
-    bottomText = '$i';
-    topTextColor = _getColors(i, isPresent)[0];
-    topColor = _getColors(i, isPresent)[1];
-    bottomTextColor = _getColors(i, isPresent)[2];
-    bottomColor = _getColors(i, isPresent)[3];
-    pointColor = _getColors(i, isPresent)[4];
-    isCelebrate = _getIsCelebrate(celebrates, i);
-  }
-
-  String _getTopText(int i){
-    DateTime date = DateTime(DateTime.now().year, DateTime.now().month, (i));
-    if (i == 1) {
-      return CustomRusDateNow().rusShortMonth;
-    }
-    switch (date.weekday){
-      case 1:
-        return 'пн';
-      case 6:
-        return 'сб';
-      case 7:
-        return 'вс';
-      default:
-        return '';
-    }
-  }
-
-  List<Color> _getColors(int i, bool b){
-    List<Color> result = [];
-    Color tempTopTextColor = mainWhiteColor;
-    Color tempTopColor = mainGreenColor;
-    Color tempBottomTextColor = mainGreenColor;
-    Color tempBottomColor = calendarSegmentDarkColor;
-    Color tempPointColor = mainPinkColor;
-    if (((i > day) && (i < (day + 14))) || (i < (day - 15)) ) {
-      tempTopColor = mainPinkColor;
-      tempBottomTextColor = mainPinkColor;
-      tempPointColor = mainGreenColor;
-    }
-    if (i == 1) {
-      tempTopColor = calendarSegmentDarkColor;
-    }
-    if (!b){
-      tempTopTextColor = tempTopTextColor.withOpacity(opacity);
-      tempTopColor = tempTopColor.withOpacity(opacity);
-      tempBottomTextColor = tempBottomTextColor.withOpacity(opacity);
-      tempBottomColor = tempBottomColor.withOpacity(opacity);
-      tempPointColor = tempPointColor.withOpacity(opacity);
-    }
-    result.add(tempTopTextColor);
-    result.add(tempTopColor);
-    result.add(tempBottomTextColor);
-    result.add(tempBottomColor);
-    result.add(tempPointColor);
-    return result;
-  }
-  bool _getIsCelebrate(List<Celebrate> celebrationList, int day){
-    for (var celebrate in celebrationList) {
-      if (celebrate.month == DateTime.now().month) {
-        if (celebrate.date == day) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-}
-
-class CustomRusDateNow{
-  late String rusLongMonth;
-  late String rusShortMonth;
-  late int numberOfDays;
-
-  CustomRusDateNow(){
-    int day = DateTime.now().day;
-    int month = DateTime.now().month;
-    int year = DateTime.now().year;
-    switch(month){
-      case 1:
-        rusLongMonth = 'января';
-        rusShortMonth = 'янв';
-        numberOfDays = 31;
-        break;
-      case 2:
-        rusLongMonth = 'февраля';
-        rusShortMonth = 'фев';
-        if ((year % 4) == 0) {
-          numberOfDays = 29;
-        } else {
-          numberOfDays = 28;
-        }
-        break;
-      case 3:
-        rusLongMonth = 'марта';
-        rusShortMonth = 'мар';
-        numberOfDays = 31;
-        break;
-      case 4:
-        rusLongMonth = 'апреля';
-        rusShortMonth = 'апр';
-        numberOfDays = 30;
-        break;
-      case 5:
-        rusLongMonth = 'мая';
-        rusShortMonth = 'май';
-        numberOfDays = 31;
-        break;
-      case 6:
-        rusLongMonth = 'июня';
-        rusShortMonth = 'июн';
-        numberOfDays = 30;
-        break;
-      case 7:
-        rusLongMonth = 'июля';
-        rusShortMonth = 'июл';
-        numberOfDays = 31;
-        break;
-      case 8:
-        rusLongMonth = 'августа';
-        rusShortMonth = 'авг';
-        numberOfDays = 31;
-        break;
-      case 9:
-        rusLongMonth = 'сентября';
-        rusShortMonth = 'сен';
-        numberOfDays = 30;
-        break;
-      case 10:
-        rusLongMonth = 'октября';
-        rusShortMonth = 'окт';
-        numberOfDays = 31;
-        break;
-      case 11:
-        rusLongMonth = 'ноября';
-        rusShortMonth = 'ноя';
-        numberOfDays = 30;
-        break;
-      case 12:
-        rusLongMonth = 'декабря';
-        rusShortMonth = 'дек';
-        numberOfDays = 31;
-        break;
-      default:
-        rusLongMonth = 'месяц';
-        rusShortMonth = 'мес';
-    }
+    angle = ((math.pi * 2 / 31) * (number - 0.5));
+    topText = RusMonth(currentYear, currentMonth).rusShortMonth;
+    topTextColor = theme.daySegmentBorderColor;
+    topColor = theme.clockFaceMainColor;
+    bottomText = '$number';
+    bottomTextColor = theme.daySegmentBottomTextColor;
+    bottomColor = theme.daySegmentBorderColor;
+    pointColor = theme.mainPinkColor;
   }
 }

@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// This class implements a segment of a circular clock face-calendar.
-/// Данный класс реализует сегмент кругового циферблата-календаря.
-
 class CustomArcDaySegment extends StatelessWidget {
   final String topText;
   final Color topTextColor;
@@ -14,11 +12,12 @@ class CustomArcDaySegment extends StatelessWidget {
   final Color bottomTextColor;
   final Color bottomColor;
   final Color pointColor;
-  final double numberOfSegments;
   final double clockFaceDiameter;
   final bool isCurrent;
   final bool isPresent;
   final bool isCelebrate;
+
+  final double numberOfSegments = 31;
 
   const CustomArcDaySegment({
     required this.topText,
@@ -28,7 +27,6 @@ class CustomArcDaySegment extends StatelessWidget {
     required this.bottomTextColor,
     required this.bottomColor,
     required this.pointColor,
-    required this.numberOfSegments,
     required this.clockFaceDiameter,
     required this.isCurrent,
     required this.isPresent,
@@ -56,129 +54,59 @@ class CustomArcDaySegment extends StatelessWidget {
         //   )
         // ),
 
-        /// The top fillet of the top element.
-        /// Верхнее скругление верхнего элемента.
         Center(
           child: CustomPaint(
             size: const Size(258, 258),
-            painter: MyPainterWithRoundStrokeCap(
+            painter: DaySegmentPainter(
+              isCurrent: isCurrent,
+              topColor: topColor,
+              bottomColor: bottomColor,
               width: 258,
-              quantity: numberOfSegments,
-              color: topColor, //Color(0xFFFF8888),
-              strokeWidth: 4,
             ),
           )
         ),
-        /// The top element.
-        /// Верхний элемент.
-        Center(
-          child: CustomPaint(
-            size: const Size(249.5, 249.5),
-            painter: MyPainterWithoutStrokeCap(
-              width: 249.5,
-              quantity: numberOfSegments,
-              color: topColor, //Color(0xFF88FF88),
-              strokeWidth: 9
-            ),
-          )
-        ),
-        /// The bottom fillet of the top element.
-        /// Нижнее скругление верхнего элемента.
-        Center(
-          child: CustomPaint(
-            size: const Size(241, 241),
-            painter: MyPainterWithRoundStrokeCap(
-              width: 241,
-              quantity: numberOfSegments,
-              color: topColor,
-              strokeWidth: 4,
-            ),
-          )
-        ),
-        /// The top fillet of the bottom element.
-        /// Верхнее скругление нижнего элемента.
-        Center(
-          child: CustomPaint(
-            size: const Size(230, 230),
-              painter: MyPainterWithRoundStrokeCap(
-                width: 230,
-                quantity: numberOfSegments,
-                color: bottomColor,
-                strokeWidth: 4,
-              ),
-            )
-        ),
-        /// The bottom element.
-        /// Нижний элемент.
-        Center(
-          child: CustomPaint(
-            size: const Size(212, 212),
-            painter: MyPainterWithoutStrokeCap(
-              width: 212,
-              quantity: numberOfSegments,
-              color: bottomColor,
-              strokeWidth: 18
-            ),
-          )
-        ),
-        /// The bottom fillet of the bottom element.
-        /// Нижнее скругление нижнего элемента.
-        Center(
-          widthFactor: clockFaceDiameter,
-          heightFactor: clockFaceDiameter,
-          child: Padding(
-            padding: const EdgeInsets.all(0),
-            child: CustomPaint(
-              size: const Size(194, 194),
-              painter: MyPainterWithRoundStrokeCap(
-                width: 194,
-                quantity: numberOfSegments,
-                color: bottomColor,
-                strokeWidth: 4,
-              ),
-            )
-          ),
-        ),
+
         /// Top text.
-        /// Верхний текст.
         Center(
           widthFactor: clockFaceDiameter,
           heightFactor: clockFaceDiameter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 251),
+            padding: const EdgeInsets.only(bottom: 246),
             child: Text(
               topText,
               style: TextStyle(
                 color: topTextColor,
-                fontSize: 10.5,
-                fontFamily: 'Roboto'
+                fontSize: 10,
+                fontFamily: 'Roboto',
+                height: 1.15
               ),
             )
           )
         ),
+
         /// Bottom text.
-        /// Нижний текст.
         Center(
           widthFactor: clockFaceDiameter,
           heightFactor: clockFaceDiameter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 213),
+            padding: const EdgeInsets.only(bottom: 210),
             child: Text(
               bottomText,
               style: TextStyle(
                 color: bottomTextColor,
-                fontSize: (16),
-                fontFamily: 'Roboto'
+                fontSize: 14,
+                fontFamily: 'Roboto',
+                height: 1.4
               ),
             )
           )
         ),
+
         if (isCelebrate)
-        /// Ray for an icon.
-        /// Луча для иконки.
+        /// Celebrate dot.
         Center(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 294),
+            padding: const EdgeInsets.only(bottom: 292),
             child: SizedBox(
               width: 37,
               height: 37,
@@ -187,7 +115,7 @@ class CustomArcDaySegment extends StatelessWidget {
                 child: Container(
                   width: 37,
                   height: 37,
-                  color: const Color(0xFF7FA4EA),
+                  color: pointColor,
                 )
               )
             )
@@ -198,103 +126,79 @@ class CustomArcDaySegment extends StatelessWidget {
   }
 }
 
-class MyPainterWithRoundStrokeCap extends CustomPainter{
-
-  /// The diameter of the circle that the arc should be part of.
-  /// Диаметр круга, частью которого должна быть дуга.
-  final double width;
+/// Arc segment painter.
+class DaySegmentPainter extends CustomPainter{
 
   /// This number is inversely proportional to the length of the arc.
   /// It determines how many such arcs fit on a full circle.
-  /// Данное число обратно пропорционально длине дуги.
-  /// Оно определяет сколько таких дуг поместится на полную окружность.
-  final double quantity;
+  final double quantity = 31;
 
-  /// Parameters of the line that draws the arc.
-  /// Параметры линии, которой рисуется дуга.
-  final Color color;
-  final double strokeWidth;
+  /// Input.
+  final bool isCurrent;
+  final Color topColor;
+  final Color bottomColor;
 
-  const MyPainterWithRoundStrokeCap({
-    required this.width,
-    required this.quantity,
-    required this.color,
-    required this.strokeWidth,
+  /// The diameter of the area in which the arcs fit.
+  final double width;
+
+  const DaySegmentPainter({
+    required this.isCurrent,
+    required this.topColor,
+    required this.bottomColor,
+    required this.width
   });
 
   @override
   void paint(Canvas canvas, Size size){
-    /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
-    /// Координаты центра, ширина и высота прямоугольника, в который вписан элипс, частью которого является дуга.
-    final rect = Rect.fromCenter(center: Offset((width / 2), (width / 2)), width: width, height: width);
-    /// (-90 degrees) - (length of circle / number of circle segments / 2) +
-    /// + (0.5 degree is half the spacing between segments) + ([strokeWidth] / 2 is rounding radius)
-    /// (-90 градусов) - (длина окружности / число сегментов окружности / 2) +
-    /// + (0,5 градуса это половина интервала между сегментами) + ([strokeWidth] / 2 это радиус скругления)
-    final startAngle = ((-math.pi / 2) - (math.pi / quantity) + (math.pi / 360)) + (math.pi * strokeWidth / width / 3);
-    /// (length of circle / number of circle segments) - (1 degree is the spacing between segments) +
-    /// + ([strokeWidth] / 2 is rounding radius)
-    /// (длина окружности / число сегментов окружности) - 1 градус это половина интервала между сегментами) +
-    /// + ([strokeWidth] / 2 это радиус скругления)
-    final sweepAngle = ((math.pi * 2 / quantity) - (math.pi / 180) - (math.pi * strokeWidth / width / 1.5));
-    const useCenter = false;
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = strokeWidth;
-    canvas.drawArc(rect, startAngle, sweepAngle, useCenter, paint);
-  }
 
-  @override
-  bool shouldRepaint(CustomPainter old){
-    return false;
-  }
-}
+    bool useCenter = false;
 
-class MyPainterWithoutStrokeCap extends CustomPainter{
+    /// Angular size of one segment.
+    double angSegmentSize = (2 * math.pi / quantity);
 
-  /// The diameter of the circle that the arc should be part of.
-  /// Диаметр круга, частью которого должна быть дуга.
-  final double width;
+    /// Bottom arc
 
-  /// This number is inversely proportional to the length of the arc.
-  /// It determines how many such arcs fit on a full circle.
-  /// Данное число обратно пропорционально длине дуги.
-  /// Оно определяет сколько таких дуг поместится на полную окружность.
-  final double quantity;
-
-  /// Parameters of the line that draws the arc.
-  /// Параметры линии, которой рисуется дуга.
-  final Color color;
-  final double strokeWidth;
-
-  const MyPainterWithoutStrokeCap({
-    required this.width,
-    required this.quantity,
-    required this.color,
-    required this.strokeWidth
-  });
-
-  @override
-  void paint(Canvas canvas, Size size){
-    /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
-    /// Координаты центра, ширина и высота прямоугольника, в который вписан элипс, частью которого является дуга.
-    final rect = Rect.fromCenter(center: Offset((width / 2), (width / 2)), width: width, height: width);
-    /// (-90 degrees) - (length of circle / number of circle segments / 2) +
+    /// (-90 degrees) - (angular size of one segment / 2) +
     /// + (0.5 degree is half the spacing between segments)
-    /// (-90 градусов) - (длина окружности / число сегментов окружности / 2) +
-    /// + (0,5 градуса это половина интервала между сегментами)
-    final startAngle = ((-math.pi / 2) - (math.pi / quantity) + (math.pi / 360));
-    /// (length of circle / number of circle segments) - (1 degree is the spacing between segments)
-    /// (длина окружности / число сегментов окружности) - (1 градус это половина интервала между сегментами)
-    final sweepAngle = ((math.pi * 2 / quantity) - (math.pi / 180));
-    const useCenter = false;
-    final paint = Paint()
-      ..color = color
+    double startAngle = ((-math.pi / 2) - (angSegmentSize / 2) + (math.pi / 360));
+
+    /// angular size of one segment - (1 degree is the spacing between segments)
+    double sweepAngle = (angSegmentSize - (math.pi / 180));
+
+    /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
+    final double bottomArcMargin = isCurrent? 41 : 56;
+    final double bottomArcStrokeWidth = isCurrent? 41 : 26;
+    final bottomRect = Rect.fromCenter(
+      center: Offset(((width) / 2), ((width) / 2)),
+      width: (width - bottomArcMargin),
+      height: (width - bottomArcMargin)
+    );
+
+    final paintBottom = Paint()
+      ..color = bottomColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth;
-    canvas.drawArc(rect, startAngle, sweepAngle, useCenter, paint);
+      ..strokeWidth = bottomArcStrokeWidth;
+    canvas.drawArc(bottomRect, startAngle, sweepAngle, useCenter, paintBottom);
+
+    /// Top arc.
+    final double topArcStartMargin = isCurrent? (math.pi / (width - 56)) : 0;
+    final startTopAngle = startAngle + topArcStartMargin;
+    final sweepTopAngle = sweepAngle - topArcStartMargin * 2;
+
+    /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
+    final double topArcMargin = isCurrent? 41 : 13;
+    final double topArcStrokeWidth = isCurrent? 37 : 13;
+    final topRect = Rect.fromCenter(
+      center: Offset(((width) / 2), ((width) / 2)),
+      width: (width - topArcMargin),
+      height: (width - topArcMargin)
+    );
+
+    final paintLabel = Paint()
+      ..color = topColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = topArcStrokeWidth;
+    canvas.drawArc(topRect, startTopAngle, sweepTopAngle, useCenter, paintLabel);
   }
 
   @override
@@ -303,22 +207,18 @@ class MyPainterWithoutStrokeCap extends CustomPainter{
   }
 }
 
-/// Drawing a ray for an icon.
-/// Отрисовка луча для иконки.
+/// Drawing a dot for an icon.
 class MyCustomClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
     final width = size.width - 2;
     Path path = Path()
-      //..addRect(Rect.fromLTWH((((size.width) / 2) - 0.5), (width / 2), 1, ((width - 2) / 2)))
-      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: 2)) // Добавить отрезок p2p3
+      ..addOval(Rect.fromCircle(center: Offset((size.width / 2), (width)), radius: 2))
       ..close();
     return path;
   }
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-
 }
-

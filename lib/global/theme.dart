@@ -21,18 +21,9 @@ class AppTheme{
   final Color clockFaceCircleColor;
   final Color clockFaceCenterColor;
   final Color currentMonthSegmentTextColor;
-
-  final Color daySegmentBottomColor = const Color(0xFF52B69A);
-  final Color daySegmentBottomTextColor = const Color(0xFFFFFFFF);
-  final Color daySegmentPointColor = const Color(0xFF52B69A);
-  final Color daySegmentTopColor = const Color(0xFF52B69A);
-  final Color daySegmentTopTextColor = const Color(0xFFFFFFFF);
-
-  //Color tempTopTextColor = mainWhiteColor;
-  //     Color tempTopColor = mainGreenColor;
-  //     Color tempBottomTextColor = mainGreenColor;
-  //     Color tempBottomColor = calendarSegmentDarkColor;
-  //     Color tempPointColor = mainPinkColor;
+  final Color daySegmentBorderColor;
+  final Color daySegmentBottomTextColor;
+  final Color daySegmentColor;
 
   final Color listButtonColor;
   final Color mainButtonBorderColor1;
@@ -78,6 +69,9 @@ class AppTheme{
     this.celebrateTextBackgroundColor = const Color(0xFFFFFFFF),
     this.celebrateTextColor = const Color(0xFF627684),
     this.currentMonthSegmentTextColor = const Color(0xFF627684),
+    this.daySegmentBorderColor = const Color(0xFF627684),
+    this.daySegmentBottomTextColor = const Color(0xFF161A1D),
+    this.daySegmentColor = const Color(0xFFF0F7FE),
     this.listButtonColor = const Color(0xFFDDE8F5),
     this.mainButtonBorderColor1 = const Color(0xFFFFFFFF),
     this.mainButtonBorderColor2 = const Color(0xFFFFFFFF),
@@ -107,6 +101,9 @@ class AppTheme{
     this.clockFaceCircleColor = const Color(0xFF000000),
     this.clockFaceCenterColor = const Color(0xFF474952),
     this.currentMonthSegmentTextColor = const Color(0xFF8D9392),
+    this.daySegmentBorderColor = const Color(0xFFFFFFFF),
+    this.daySegmentBottomTextColor = const Color(0xFFFFFFFF),
+    this.daySegmentColor = const Color(0xFF1B2826),
     this.listButtonColor = const Color(0xFF454E54),
     this.mainButtonBorderColor1 = const Color(0xFF1C1F26),
     this.mainButtonBorderColor2 = const Color(0xFF4B4F5F),

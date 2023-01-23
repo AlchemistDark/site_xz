@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/global/person_class.dart';
-import 'package:site_xz/main_screen/day_arc_segment.dart';
 import 'package:site_xz/main_screen/month_arrow.dart';
 import 'package:site_xz/main_screen/month_circular_face_logic.dart';
 
@@ -34,9 +33,6 @@ class MonthCircularClockFace extends StatelessWidget {
       celebrateIconCallback: celebrateIconCallback
     );
   }
-
-  // final int _currentDay = DateTime.now().day;
-  //final List<Celebrate> celebrationList;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +72,16 @@ class MonthCircularClockFace extends StatelessWidget {
         /// Draw the days rings.
         Stack(
           children: logic.segments(celebrates)
+        ),
+        Center(
+          child: Container(
+            width: 15,
+            height: 15,
+            decoration: BoxDecoration(
+              color: theme.clockFaceCenterColor,
+              shape: BoxShape.circle,
+            )
+          )
         ),
 
       ]
@@ -147,34 +153,7 @@ class MonthCircularClockFace extends StatelessWidget {
       // )
     // );
   // }
-  // /// Draw clock face.
-  // /// Рисует циферблат.
-  // List<Widget> segments(List<Celebrate> celebrationList) {
-  //   List<Widget> result = [];
-  //   for (int i = 0; i < 31; i++) {
-  //     final DaySegment daySegment = DaySegment(number: i, celebrationList: celebrationList);
-  //     result.add(
-  //       Transform.rotate(
-  //         angle: daySegment.angle,
-  //         child: CustomArcDaySegment(
-  //           topText: daySegment.topText,
-  //           topTextColor: daySegment.topTextColor,
-  //           topColor: daySegment.topColor,//
-  //           bottomText: daySegment.bottomText,//
-  //           bottomTextColor: daySegment.bottomTextColor,//
-  //           bottomColor: daySegment.bottomColor,//
-  //           pointColor: daySegment.pointColor,//
-  //           numberOfSegments: 31,//
-  //           clockFaceDiameter: 262,//
-  //           isCurrent: daySegment.isCurrent,
-  //           isPresent: daySegment.isPresent,//
-  //           isCelebrate: isCelebrate(celebrationList, (i + 1))
-  //         )
-  //       )
-  //     );
-  //   }
-  //   return result;
-  // }
+
   // /// Draw celebration icons.
   // /// Рисует иконки праздников.
   // List<Widget> celebrationIcons() {

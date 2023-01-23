@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final double mainWidth = MediaQuery.of(context).size.width;
     //return MainPlanner(title, mainWidth);
-    return MokStartPage(title, mainWidth);
+    return StartPage(title, mainWidth);
   }
 }
 

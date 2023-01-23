@@ -90,7 +90,7 @@ class CurrentMonthSegment extends StatelessWidget {
         Center(
           child: CustomPaint(
             size: const Size(258, 258),
-            painter: FirstHalfMonthSegmentPainter(
+            painter: CurrentMonthSegmentPainter(
               width: 258,
               theme: theme
             ),
@@ -103,7 +103,7 @@ class CurrentMonthSegment extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 218),
             child: GestureDetector(
-              onTap: (){print('три');},
+              onTap: callback,
               child: Container(
                 width: 55,
                 height: 40,
@@ -132,7 +132,7 @@ class CurrentMonthSegment extends StatelessWidget {
   }
 }
 
-class FirstHalfMonthSegmentPainter extends CustomPainter{
+class CurrentMonthSegmentPainter extends CustomPainter{
 
   /// The diameter of the area in which the arcs fit.
   final double width;
@@ -143,7 +143,7 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
 
   final AppTheme theme;
 
-  const FirstHalfMonthSegmentPainter({
+  const CurrentMonthSegmentPainter({
     required this.width,
     required this.theme
   });
