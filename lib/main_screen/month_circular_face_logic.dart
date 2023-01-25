@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/global/person_class.dart';
+import 'package:site_xz/main_screen/celebrate_widget.dart';
 import 'package:site_xz/main_screen/day_arc_segment.dart';
 import 'package:site_xz/main_screen/rus_month_class.dart';
+
+// ToDo протестировать декабрь и следующий за ним январь на согласованность, так как у них разные годы.
 
 class MonthCircularClockFaceLogic{
   final AppTheme theme;
@@ -25,10 +28,10 @@ class MonthCircularClockFaceLogic{
     required this.celebrateIconCallback,
   }) {
     currentCelebrates = _getCurrentCelebrates();
-    for (Celebrate celebrate in currentCelebrates){
-      print('дата праздника ${celebrate.day} ${celebrate.month}');
-    }
   }
+
+  /// Arrow text.
+  String currentDate() => '$currentDay ${RusMonth(currentYear, currentMonth).rusLongMonth} $currentYear';
 
   /// Returns from the list of all celebrations only those celebrations
   /// that should be displayed on the current screen.
@@ -46,26 +49,38 @@ class MonthCircularClockFaceLogic{
   }
 
   /// Arrow text.
-  String currentDate() => '$currentDay ${RusMonth(currentYear, currentMonth).rusLongMonth} $currentYear';
+  String getCurrentDate() => '$currentDay ${RusMonth(currentYear, currentMonth).rusLongMonth} $currentYear';
+
+  /// Returns the rotation angle of the arrow's tail.
+  double getArrowTailAngle(){
+    int turnSegmentsNumber = 14;
+    int numberOfDays = RusMonth(currentYear, currentMonth).numberOfDays;
+    if ((numberOfDays - currentDay) < 14) {
+      /// 45 = 31 (number of screen segments) + 14 (two weeks).
+      turnSegmentsNumber = 45 - numberOfDays;
+    }
+    return ((-math.pi / 2) + ((math.pi * 2 / 31) * (currentDay - 15.5 + turnSegmentsNumber)));
+  }
 
   /// Draw clock face.
   List<Widget> segments(List<Celebrate> celebrates) {
     List<Widget> result = [];
-    int count = 0;
+    int count = 1;
     for (int i = (currentDay + 1); i < (currentDay + 31); i++) {
-      bool isPresent = false;
       int number = (i < 32)? i : (i - 31);
       int month = (i < 32)? currentMonth : (currentMonth + 1);
-      if (number <= RusMonth(currentYear, currentMonth).numberOfDays) {
-        count++;
-        isPresent = true;
-      }
+      bool isPresent =
+        (number <= RusMonth(currentYear, currentMonth).numberOfDays)
+          ?  true : false;
       final DaySegment daySegment = DaySegment(
         number: number,
         count: count,
         isPresent: isPresent,
         theme: theme,
       );
+      if (number <= RusMonth(currentYear, currentMonth).numberOfDays) {
+        count++;
+      }
       result.add(
       Transform.rotate(
         angle: daySegment.angle,
@@ -115,13 +130,77 @@ class MonthCircularClockFaceLogic{
   bool isCelebrate(int day, int month){
     for (var celebrate in currentCelebrates) {
       if (celebrate.day == day && celebrate.month == month) {
-        print('праздник $day ${celebrate.day}');
         return true;
       }
     }
-    print('будня $day');
     return false;
   }
+
+  // ToDo провести рефакторинг.
+  /// Draw celebration icons.
+  List<Widget> celebrationIcons() {
+    List<Widget> result = [];
+    int day;
+    int indexOfCurrent = 0;
+    for (Celebrate celebrate in currentCelebrates) {
+      day = (celebrate.day - 1);
+      double cos = math.cos(math.pi * 2 / 31 * (day + 0.5));
+      double sin = math.sin(math.pi * 2 / 31 * (day + 0.5));
+      result.add(
+        Center(
+          child: SizedBox(
+            width: 371,
+            height: 375,
+              child: Align(
+                alignment: Alignment(sin, -cos),
+                child: CelebrateWidget(
+                  theme: theme,
+                  celebrate: celebrate,
+                  isCurrent: false,
+                  haveStatus: false,
+                  isForYear: true,
+                  mainCallback: celebrateIconCallback,
+                  indexOfCurrent: indexOfCurrent,
+                  statusCallback: (){},
+                )
+              )
+            )
+          )
+      );
+      indexOfCurrent++;
+    }
+    return result;
+  }
+
+  /// Draw current celebration icon.
+  Widget currentCelebrationIcon(int indexOfCurrent) {
+    Widget result;
+    Celebrate celebrate = currentCelebrates[(indexOfCurrent)];
+    int day = (celebrate.day - 1);
+    double cos = math.cos(math.pi * 2 / 31 * (day + 0.5));
+    double sin = math.sin(math.pi * 2 / 31 * (day + 0.5));
+    result = Center(
+      child: SizedBox(
+        width: 371,
+        height: 375,
+        child: Align(
+          alignment: Alignment(sin, -cos),
+          child: CelebrateWidget(
+            theme: theme,
+            celebrate: celebrate,
+            isCurrent: true,
+            haveStatus: false,
+            isForYear: true,
+            mainCallback: celebrateIconCallback,
+            indexOfCurrent: indexOfCurrent,
+            statusCallback: (){},
+          )
+        )
+      )
+    );
+    return result;
+  }
+
 
 }
 
@@ -241,4 +320,5 @@ class CurrentDaySegment{
     bottomColor = theme.daySegmentBorderColor;
     pointColor = theme.mainPinkColor;
   }
+
 }

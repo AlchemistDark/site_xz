@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/main_screen/month_arrow.dart';
+import 'package:site_xz/main_screen/month_arrow_tail.dart';
 import 'package:site_xz/main_screen/month_circular_face_logic.dart';
 
 /// Month circle clock Face for main Planner screen.
@@ -73,6 +74,19 @@ class MonthCircularClockFace extends StatelessWidget {
         Stack(
           children: logic.segments(celebrates)
         ),
+        /// Decoration.
+        Center(
+          child: Container(
+            width: 55,
+            height: 45,
+            margin: const EdgeInsets.only(bottom: 70),
+            child: Image.asset(
+              theme.logoPath,
+              scale: 0.5,
+              fit: BoxFit.contain
+            )
+          )
+        ),
         Center(
           child: Container(
             width: 15,
@@ -83,76 +97,45 @@ class MonthCircularClockFace extends StatelessWidget {
             )
           )
         ),
-
+        Transform.rotate(
+          angle: logic.getArrowTailAngle(),//(-math.pi / 2),//((math.pi * 2 / 31) * (_currentDay - 0.5)),
+          child: GestureDetector(
+            onTap: (){},
+            child: const MonthArrowTail()
+          )
+        ),
+        /// Draw the clock hand.
+        Transform.rotate(
+          angle: ((math.pi * 2 / 31) * (logic.currentDay - 0.5)),
+          child: GestureDetector(
+            onTap: (){},
+            child: MonthArrow(
+              logic.currentDate(),
+              theme,
+              arrowCallback,
+              logic.currentDay
+            )
+          )
+        ),
+        Center(
+          child: Container(
+            width: 5.5,
+            height: 5.5,
+            decoration: BoxDecoration(
+              color: theme.yearCircularArrowCenterColor,
+              shape: BoxShape.circle,
+            )
+          )
+        ),
+        /// Draw celebration icons.
+        Stack(
+          children: logic.celebrationIcons()
+        ),
+        logic.currentCelebrationIcon(currentCelebrate)
       ]
     );
   }  // child: Stack(
-        //   children: <Widget>[
-        //     /// Draw the calendar dial.
-        //     /// Рисует циферблат календаря.
-        //     Stack(
-        //       children: segments(celebrationList)
-        //     ),
 
-        //     Center(
-        //       child: Container(
-        //         width: 15.5,
-        //         height: 15.5,
-        //         decoration: const BoxDecoration(
-        //           color: Color(0xFF474952),
-        //           shape: BoxShape.circle,
-        //         )
-        //       )
-        //     ),
-        //     Center (
-        //       child: Container(
-        //         width: 52,
-        //         height: 43,
-        //         //color: Color(0xFF00FF00),
-        //         margin: const EdgeInsets.only(bottom: 96),
-        //         child: Image.asset(
-        //           "assets/images/logo_dark.png",
-        //           fit:BoxFit.contain
-        //         )
-        //       )
-        //     ),
-        //     /// Draw celebration icons.
-        //     /// Рисуем иконки праздников.
-        //     Center(
-        //       child: Container(
-        //         //color: Colors.deepPurpleAccent.withOpacity(0.75),
-        //         height: 375,
-        //         width:  375,
-        //         margin: const EdgeInsets.only(right: 3),
-        //         child: Stack(
-        //           children: celebrationIcons()
-        //         )
-        //       )
-        //     ),
-        //     /// Draw the clock hand.
-        //     /// Рисуем стрелку.
-        //     Transform.rotate(
-        //       angle: ((math.pi * 2 / 31) * (_currentDay - 0.5)),
-        //       child: GestureDetector(
-        //         onTap: (){},
-        //         child: MonthArrow(CustomRusDateNow().rusLongMonth)
-        //       )
-        //     ),
-        //     Center(
-        //       child: Container(
-        //         width: 5.32,
-        //         height: 5.32,
-        //         decoration: const BoxDecoration(
-        //           color: Color(0xFF474952),
-        //           shape: BoxShape.circle,
-        //         )
-        //       )
-        //     )
-        //   ]
-        // )
-      // )
-    // );
-  // }
 
   // /// Draw celebration icons.
   // /// Рисует иконки праздников.

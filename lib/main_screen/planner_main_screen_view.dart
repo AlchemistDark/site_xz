@@ -39,7 +39,7 @@ class _MainPlannerState extends State<MainPlanner> {
   int userNumber = 0;  // ToDo логику работы с юзерами придётся переписать.
   String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = false;
-  int currentYearCelebrate = -1;
+  int currentYearCelebrate = 0;
   int currentMonthCelebrate = 0;
   final int _currentDay = DateTime.now().day; // ToDo
   final int _currentMonth = DateTime.now().month; //ToDo
@@ -82,6 +82,14 @@ class _MainPlannerState extends State<MainPlanner> {
   // and I didn't come up with anything better :/
   List<Celebrate> sortedCelebratesYear(List<Celebrate> celebrates) {
     List<Celebrate> result = [];
+    for (int l = 31; l > _currentDay; l--) {
+      for (Celebrate celebrate in celebrates) {
+        if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
+          result.add(celebrate);
+          break;
+        }
+      }
+    }
     for (int l = _currentDay; l > 0; l--) {
       for (Celebrate celebrate in celebrates) {
         if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
@@ -110,16 +118,8 @@ class _MainPlannerState extends State<MainPlanner> {
         }
       }
     }
-    for (int l = 31; l > _currentDay; l--) {
-      for (Celebrate celebrate in celebrates) {
-        if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
-          result.add(celebrate);
-          break;
-        }
-      }
-    }
     if (currentYearCelebrate == -1) {
-      currentYearCelebrate = (result.length - 1);
+      currentYearCelebrate = 0;
     }
     return result;
   }

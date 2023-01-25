@@ -93,6 +93,7 @@ class YearCircularClockFaceLogic {
     return result;
   }
 
+  // ToDo Провести рефакторинг.
   /// Draw celebration icons.
   List<Widget> celebrationIcons() {
     List<Widget> result = [];
@@ -140,7 +141,7 @@ class YearCircularClockFaceLogic {
     int month;
     int day;
     Celebrate celebrate = celebrates[(indexOfCurrent)];
-    day = celebrate.day;
+    day = (celebrate.day - 1);
     month = celebrate.month;
     year = (month < currentMonth)? (currentYear + 1) : currentYear;
     position = DayPosition(year, month, day);

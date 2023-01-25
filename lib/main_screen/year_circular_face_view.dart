@@ -71,7 +71,7 @@ class YearCircularClockFace extends StatelessWidget {
         Stack(
           children: logic.segments(arrowCallback)
         ),
-        /// Decoration
+        /// Decoration.
         Center(
           child: CustomPaint(
             size: const Size(172, 172),
@@ -129,7 +129,12 @@ class YearCircularClockFace extends StatelessWidget {
             logic.currentMonth,
             logic.currentDay
           ).degree,
-          child: YearArrow(logic.currentDate(), theme, arrowCallback)
+          child: YearArrow(
+            logic.currentDate(),
+            theme,
+            arrowCallback,
+            logic.currentMonth
+          )
         ),
         Center(
           child: Container(
@@ -149,7 +154,7 @@ class YearCircularClockFace extends StatelessWidget {
         Stack(
           children: logic.celebrationIcons()
         ),
-        logic.currentCelebrationIcon(currentCelebrate),//currentCelebrate),
+        logic.currentCelebrationIcon(currentCelebrate)
       ]
     );
   }

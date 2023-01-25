@@ -25,9 +25,9 @@ class DayPosition{
     const double border = (math.pi / (258 / 3));
 
     /// This is where allotted for days inside the month segment.
-    const double daysPlace = ((math.pi * 2 / 12) - (border * 2));
+    const double dayPlace = ((math.pi * 2 / 12) - (border * 2));
 
-    degree = (monthDegree + border + ((daysPlace / daysPerMonth) * day));
+    degree = (monthDegree + border + ((dayPlace / daysPerMonth) * day));
     cos = math.cos(degree);
     sin = math.sin(degree);
   }

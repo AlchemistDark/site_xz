@@ -13,11 +13,13 @@ class YearArrow extends StatelessWidget {
   final String data;
   final AppTheme theme;
   final VoidCallback callback;
+  final int currentMonth;
 
   const YearArrow(
     this.data,
     this.theme,
     this.callback,
+    this.currentMonth,
     {Key? key}
   ) : super(key: key);
 
@@ -136,6 +138,7 @@ class YearArrow extends StatelessWidget {
           )
         ),
         /// Arrow text
+        if (currentMonth < 7)
         Center(
           child: Transform.rotate(
             angle: (-math.pi / 2),
@@ -146,6 +149,32 @@ class YearArrow extends StatelessWidget {
                 heightFactor: 172,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 90, bottom: 18.0),
+                  child: Center(
+                    child: Text(
+                      data,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: 'Roboto',
+                        color: theme.yearCircularArrowTextColor
+                      )
+                    ),
+                  )
+                ),
+              )
+            )
+          )
+        ),
+        if (currentMonth > 6)
+        Center(
+          child: Transform.rotate(
+            angle: (math.pi / 2),
+            child: GestureDetector(
+              onTap: callback,
+              child: Center(
+                widthFactor: 172,
+                heightFactor: 172,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 90, bottom: 18.0),
                   child: Center(
                     child: Text(
                       data,
