@@ -39,8 +39,11 @@ class _MainPlannerState extends State<MainPlanner> {
   int userNumber = 0;  // ToDo логику работы с юзерами придётся переписать.
   String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = false;
-  int currentYearCelebrate = 0;
-  int currentMonthCelebrate = 0;
+  // int currentYearCelebrate = 0;
+  // int currentMonthCelebrate = 0;
+  int currentCelebrate = 0;
+  int numberOfYearCelebrates = 0;
+  int numberOfMonthCelebrates = 0;
   final int _currentDay = DateTime.now().day; // ToDo
   final int _currentMonth = DateTime.now().month; //ToDo
   final int _currentYear = DateTime.now().year; //ToDo
@@ -54,6 +57,7 @@ class _MainPlannerState extends State<MainPlanner> {
 
   /// Changes the calendar mode between monthly and yearly.
   void _periodChange(){
+    //currentCelebrate = 1;
     isMonth = !isMonth;
     setState((){});
   }
@@ -76,11 +80,10 @@ class _MainPlannerState extends State<MainPlanner> {
     // setState((){});
   }
 
-
   /// Sorts holidays by date starting with the current and the next 365 (in a leap year - 366) days.
   // There is a very big O(n) here because sorting by dates is needed
   // and I didn't come up with anything better :/
-  List<Celebrate> sortedCelebratesYear(List<Celebrate> celebrates) {
+  List<Celebrate> getSortedYearCelebrates(List<Celebrate> celebrates) {
     List<Celebrate> result = [];
     for (int l = 31; l > _currentDay; l--) {
       for (Celebrate celebrate in celebrates) {
@@ -118,19 +121,30 @@ class _MainPlannerState extends State<MainPlanner> {
         }
       }
     }
-    if (currentYearCelebrate == -1) {
-      currentYearCelebrate = 0;
+    numberOfYearCelebrates = result.length;
+    return result;
+  }
+  /// Returns from the list of all celebrations only those celebrations
+  /// that should be displayed on the current screen.
+  List<Celebrate> getSortedMonthCelebrates(List<Celebrate> celebrates){
+    List<Celebrate> result = [];
+    for(Celebrate celebrate in celebrates){
+      if(celebrate.month == _currentMonth && celebrate.day >= _currentDay) {
+        result.add(celebrate);
+      }
+      if(celebrate.month == (_currentMonth + 1) && celebrate.day < _currentDay) {
+        result.add(celebrate);
+      }
     }
+    numberOfMonthCelebrates = result.length;
     return result;
   }
 
   /// Changes the index of the current holiday to the selected one.
   void currentCelebrateChange(int newIndex){
-    print("newIndex $newIndex");
     setState(() {
-      currentYearCelebrate = newIndex;
+      currentCelebrate = newIndex;
     });
-    print("currentYearCelebrate $currentYearCelebrate");
   }
 
   @override
@@ -142,6 +156,11 @@ class _MainPlannerState extends State<MainPlanner> {
       builder: (context, snapshot) {
         AppTheme theme = snapshot.data!.theme;
         Person person = snapshot.data!.userData;
+        List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
+        List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
+        currentCelebrate = (isMonth)
+          ? (numberOfMonthCelebrates - 1) : (numberOfYearCelebrates - 1);
+        print('currentCelebrate $currentCelebrate');
         return Scaffold(
           appBar: PlannerAppBar(
             callBack: (){},
@@ -332,21 +351,14 @@ class _MainPlannerState extends State<MainPlanner> {
                             scale: scaleFactor, //scaleFactor,
                             child: YearCircularClockFace(
                               theme: theme,
-                              celebrates: sortedCelebratesYear(
-                                person.celebrates
-                              ),
-                              currentCelebrate: currentYearCelebrate,
+                              celebrates: yearCelebrates,
+                              currentCelebrate: currentCelebrate,
                               arrowCallback: _periodChange,
                               celebrateIconCallback: currentCelebrateChange,
                             )
                           )
                         )
                       ),
-                      if (isMonth)
-                        TextButton( // ToDo
-                          onPressed: _periodChange,
-                          child: Text('vtczw')
-                        ),
                       if (isMonth)
                         Center(
                           child: SizedBox(
@@ -355,16 +367,14 @@ class _MainPlannerState extends State<MainPlanner> {
                               scale: scaleFactor, //scaleFactor,
                               child: MonthCircularClockFace(
                                 theme: theme,
-                                celebrates: sortedCelebratesYear(
-                                  person.celebrates
-                                ),
-                                currentCelebrate: currentYearCelebrate,
-                                  arrowCallback: _periodChange,
-                                    celebrateIconCallback: currentCelebrateChange,
-                                  )
+                                celebrates: monthCelebrates,
+                                currentCelebrate: currentCelebrate,
+                                arrowCallback: _periodChange,
+                                celebrateIconCallback: currentCelebrateChange,
                               )
+                            )
                           )
-                      ),
+                        ),
 
                       /// Add buttons line. ToDo
                       //     Container(

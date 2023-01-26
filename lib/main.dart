@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:site_xz/mok_up.dart';
+//import 'package:site_xz/mok_up.dart';
 
 import 'package:url_strategy/url_strategy.dart';
 
