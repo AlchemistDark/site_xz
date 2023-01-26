@@ -43,20 +43,20 @@ class MonthArrow extends StatelessWidget {
         ),
         /// Arrow text
         if (currentDay < 17)
-          Center(
-            child: Transform.rotate(
-              angle: (-math.pi / 2),
-              child: GestureDetector(
-                onTap: callback,
-                child: Center(
-                  widthFactor: 172,
-                  heightFactor: 172,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 90, bottom: 18.0),
-                    child: Center(
-                      child: Text(
-                        data,
-                        style: TextStyle(
+        Center(
+          child: Transform.rotate(
+            angle: (-math.pi / 2),
+            child: GestureDetector(
+              onTap: callback,
+              child: Center(
+                widthFactor: 172,
+                heightFactor: 172,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 90, bottom: 18.0),
+                  child: Center(
+                    child: Text(
+                      data,
+                      style: TextStyle(
                         fontSize: 10,
                         fontFamily: 'Roboto',
                         color: theme.yearCircularArrowTextColor

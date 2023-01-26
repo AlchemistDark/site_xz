@@ -1,4 +1,4 @@
-//import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,9 @@ import 'package:site_xz/global/theme.dart';
 
 class MonthArrowTail extends StatelessWidget {
 
-  const MonthArrowTail({Key? key}) : super(key: key);
+  final int currentDay;
+
+  const MonthArrowTail(this.currentDay, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +29,51 @@ class MonthArrowTail extends StatelessWidget {
           )
         ),
         /// Tail text
+        if (currentDay < 17)
+        Center(
+          child: SizedBox(
+            width: 186,
+            height: 186,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 150, top: 83.5),
+              child: Column(
+                children: const [
+                  Text(
+                    '+14',
+                    style: TextStyle(
+                    color: arrowTailTextDarkColor,
+                      fontSize: 8,
+                      fontFamily: 'Roboto'
+                    )
+                  ),
+                  Text(
+                    'дней',
+                    style: TextStyle(
+                      color: arrowTailTextDarkColor,
+                      fontSize: 8,
+                      fontFamily: 'Roboto'
+                    ),
+                  )
+                ]
+              )
+            ),
+          ),
+        ),
+        if (currentDay > 16)
         Center(
           child: Transform.rotate(
-            angle: 0,//(-math.pi / 2),
+            angle: math.pi,
             child: SizedBox(
               width: 186,
               height: 186,
               child: Padding(
-                padding: const EdgeInsets.only(right: 150, top: 83.5),
+                padding: const EdgeInsets.only(left: 150, top: 83.5),
                 child: Column(
                   children: const [
                     Text(
                       '+14',
                       style: TextStyle(
-                      color: arrowTailTextDarkColor,
+                        color: arrowTailTextDarkColor,
                         fontSize: 8,
                         fontFamily: 'Roboto'
                       )

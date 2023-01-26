@@ -44,6 +44,7 @@ class _MainPlannerState extends State<MainPlanner> {
   int currentCelebrate = 0;
   int numberOfYearCelebrates = 0;
   int numberOfMonthCelebrates = 0;
+  bool resetCurrentCelebration = true;
   final int _currentDay = DateTime.now().day; // ToDo
   final int _currentMonth = DateTime.now().month; //ToDo
   final int _currentYear = DateTime.now().year; //ToDo
@@ -58,6 +59,7 @@ class _MainPlannerState extends State<MainPlanner> {
   /// Changes the calendar mode between monthly and yearly.
   void _periodChange(){
     //currentCelebrate = 1;
+    resetCurrentCelebration = true;
     isMonth = !isMonth;
     setState((){});
   }
@@ -142,6 +144,7 @@ class _MainPlannerState extends State<MainPlanner> {
 
   /// Changes the index of the current holiday to the selected one.
   void currentCelebrateChange(int newIndex){
+    resetCurrentCelebration = false;
     setState(() {
       currentCelebrate = newIndex;
     });
@@ -158,9 +161,11 @@ class _MainPlannerState extends State<MainPlanner> {
         Person person = snapshot.data!.userData;
         List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
         List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
-        currentCelebrate = (isMonth)
-          ? (numberOfMonthCelebrates - 1) : (numberOfYearCelebrates - 1);
-        print('currentCelebrate $currentCelebrate');
+        if (resetCurrentCelebration) {
+          currentCelebrate = (isMonth)
+            ? (numberOfMonthCelebrates - 1)
+            : (numberOfYearCelebrates - 1);
+        }
         return Scaffold(
           appBar: PlannerAppBar(
             callBack: (){},

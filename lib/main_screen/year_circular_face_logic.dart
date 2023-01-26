@@ -94,6 +94,8 @@ class YearCircularClockFaceLogic {
   }
 
   // ToDo Провести рефакторинг.
+  // ToDo очень усложнило код в MainPlanner(State) то,
+  // что я сразу не догадался праздники с конца считать.
   /// Draw celebration icons.
   List<Widget> celebrationIcons() {
     List<Widget> result = [];

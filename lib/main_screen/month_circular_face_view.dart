@@ -98,10 +98,10 @@ class MonthCircularClockFace extends StatelessWidget {
           )
         ),
         Transform.rotate(
-          angle: logic.getArrowTailAngle(),//(-math.pi / 2),//((math.pi * 2 / 31) * (_currentDay - 0.5)),
+          angle: logic.getArrowTailAngle(),
           child: GestureDetector(
             onTap: (){},
-            child: const MonthArrowTail()
+            child: MonthArrowTail(logic.currentDay)
           )
         ),
         /// Draw the clock hand.
