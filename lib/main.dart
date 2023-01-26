@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:site_xz/mok_up.dart';
+import 'package:site_xz/mok_up.dart';
 
 import 'package:url_strategy/url_strategy.dart';
 
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final double mainWidth = MediaQuery.of(context).size.width;
     //return MainPlanner(title, mainWidth);
-    return StartPage(title, mainWidth);
+    return MokStartPage(title, mainWidth);
   }
 }
 
