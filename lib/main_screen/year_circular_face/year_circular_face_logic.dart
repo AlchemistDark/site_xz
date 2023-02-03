@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/main_screen/celebrate_widget.dart';
-import 'package:site_xz/main_screen/day_position_on_year_circle.dart';
-import 'package:site_xz/main_screen/month_arc_segment.dart';
 import 'package:site_xz/main_screen/rus_month_class.dart';
+import 'package:site_xz/main_screen/year_circular_face/day_position_on_year_circle.dart';
+import 'package:site_xz/main_screen/year_circular_face/month_arc_segment.dart';
 
 class YearCircularClockFaceLogic {
   final AppTheme theme;

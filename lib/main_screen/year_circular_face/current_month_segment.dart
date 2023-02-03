@@ -3,17 +3,19 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:site_xz/main_screen/rus_month_class.dart';
 import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/main_screen/rus_month_class.dart';
 
 /// This class implements the monthly segment for the first half of the year circle.
-class FirstHalfMonthSegment extends StatelessWidget {
+class CurrentMonthSegment extends StatelessWidget {
   final AppTheme theme;
   final int number;
+  final VoidCallback callback;
 
-  const FirstHalfMonthSegment(
+  const CurrentMonthSegment(
     this.theme,
     this.number,
+    this.callback,
     {Key? key}
   ) : super(key: key);
 
@@ -88,7 +90,7 @@ class FirstHalfMonthSegment extends StatelessWidget {
         Center(
           child: CustomPaint(
             size: const Size(258, 258),
-            painter: FirstHalfMonthSegmentPainter(
+            painter: CurrentMonthSegmentPainter(
               width: 258,
               theme: theme
             ),
@@ -99,24 +101,38 @@ class FirstHalfMonthSegment extends StatelessWidget {
           widthFactor: 375,
           heightFactor: 375,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 205),
-            child: Text(
-              RusMonth(DateTime.now().year, number).rusCapitalLettersShortMonth,
-              style: TextStyle(
-                color: theme.mainGreenColor,
-                fontSize: (14),
-                fontFamily: 'Roboto',
-                height: 1.595
-              ),
+            padding: const EdgeInsets.only(bottom: 218),
+            child: GestureDetector(
+              onTap: callback,
+              child: Container(
+                width: 55,
+                height: 40,
+                // It is not clear why, but for some reason it does not work
+                // without this line of code...
+                color: Colors.red.withOpacity(0.0),
+                child: Center(
+                  child: Text(
+                    RusMonth(DateTime.now().year, number)
+                      .rusCapitalLettersShortMonth,
+                    style: TextStyle(
+                      color: theme.mainGreenColor,
+                      fontSize: (16),
+                      fontFamily: 'Roboto',
+                      height: 1.195,
+                      decoration: TextDecoration.underline
+                    )
+                  )
+                )
+              )
             )
           )
-        ),
+        )
       ],
     );
   }
 }
 
-class FirstHalfMonthSegmentPainter extends CustomPainter{
+class CurrentMonthSegmentPainter extends CustomPainter{
 
   /// The diameter of the area in which the arcs fit.
   final double width;
@@ -127,7 +143,7 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
 
   final AppTheme theme;
 
-  const FirstHalfMonthSegmentPainter({
+  const CurrentMonthSegmentPainter({
     required this.width,
     required this.theme
   });
@@ -135,42 +151,31 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
   @override
   void paint(Canvas canvas, Size size){
 
-    /// (-90 degrees) - (length of circle / number of circle segments / 2) +
-    /// + (0.5 degree is half the spacing between segments)
-    final startAngle = ((-math.pi / 2) - (math.pi / quantity) + (math.pi / 360));
-
-    /// (length of circle / number of circle segments) - (1 degree is the spacing between segments)
-    final sweepAngle = ((math.pi * 2 / quantity) - (math.pi / 180));
     const useCenter = false;
 
-    /// Top arc.
-
-    /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
-    final topRect = Rect.fromCenter(
-      center: Offset(((width) / 2), ((width) / 2)),
-      width: (width - 13),
-      height: (width - 13)
-    );
-
-    final paintTop = Paint()
-      ..color = theme.mainGreenColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 13;
-    canvas.drawArc(topRect, startAngle, sweepAngle, useCenter, paintTop);
+    /// Angular size of one segment.
+    const angSegmentSize = (math.pi / 6);
 
     /// Bottom arc
+
+    /// (-90 degrees) - (angular size of one segment / 2) +
+    /// + (0.5 degree is half the spacing between segments)
+    const startAngle = ((-math.pi / 2) - (angSegmentSize / 2) + (math.pi / 360));
+
+    /// angular size of one segment - (1 degree is the spacing between segments)
+    const sweepAngle = (angSegmentSize - (math.pi / 180));
 
     /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
     final bottomRect = Rect.fromCenter(
       center: Offset(((width) / 2), ((width) / 2)),
-      width: (width - 56),
-      height: (width - 56)
+      width: (width - 41),
+      height: (width - 41)
     );
 
     final paintBottom = Paint()
-      ..color = theme.monthSegmentBottomColor
+      ..color = theme.mainGreenColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 26;
+      ..strokeWidth = 41;
     canvas.drawArc(bottomRect, startAngle, sweepAngle, useCenter, paintBottom);
 
     /// Label arc.
@@ -188,13 +193,14 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
     /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
     final labelRect = Rect.fromCenter(
       center: Offset(((width) / 2), ((width) / 2)),
-      width: (width - 56),
-      height: (width - 56)
+      width: (width - 41),
+      height: (width - 41)
     );
+
     final paintLabel = Paint()
-      ..color = theme.monthSegmentLabelColor
+      ..color = theme.clockFaceMainColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 24;
+      ..strokeWidth = 37;
     canvas.drawArc(labelRect, startLabelAngle, sweepLabelAngle, useCenter, paintLabel);
   }
 

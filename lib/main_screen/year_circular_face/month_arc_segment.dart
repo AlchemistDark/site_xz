@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:site_xz/global/theme.dart';
-import 'package:site_xz/main_screen/current_month_segment.dart';
-import 'package:site_xz/main_screen/first_half_month_segment.dart';
-import 'package:site_xz/main_screen/opposite_month_segment.dart';
-import 'package:site_xz/main_screen/second_half_month_segment.dart';
+import 'package:site_xz/main_screen/year_circular_face/current_month_segment.dart';
+import 'package:site_xz/main_screen/year_circular_face/first_half_month_segment.dart';
+import 'package:site_xz/main_screen/year_circular_face/opposite_month_segment.dart';
+import 'package:site_xz/main_screen/year_circular_face/second_half_month_segment.dart';
 
 /// This class implements a segment of a circular clock face-calendar.
 

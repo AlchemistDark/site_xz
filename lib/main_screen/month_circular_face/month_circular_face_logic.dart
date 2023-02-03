@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/main_screen/celebrate_widget.dart';
-import 'package:site_xz/main_screen/day_arc_segment.dart';
+import 'package:site_xz/main_screen/month_circular_face/day_arc_segment.dart';
 import 'package:site_xz/main_screen/rus_month_class.dart';
 
 // ToDo протестировать декабрь и следующий за ним январь на согласованность, так как у них разные годы.

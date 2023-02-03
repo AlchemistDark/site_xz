@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
-import 'package:site_xz/global/paths.dart';
 
+import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/theme.dart';
 
 /// This class implements an arrow for a month circular face.

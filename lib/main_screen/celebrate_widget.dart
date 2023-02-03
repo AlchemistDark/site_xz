@@ -46,8 +46,8 @@ class CelebrateWidget extends StatelessWidget {
               child: Container(
                 width: 49,
                 height: 49,
-                decoration: const BoxDecoration(
-                  color: mainWhiteColor,
+                decoration: BoxDecoration(
+                  color: theme.mainWhiteColor,
                   shape: BoxShape.circle
                 )
               )

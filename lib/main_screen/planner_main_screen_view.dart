@@ -12,8 +12,8 @@ import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/planner_app_bar.dart';
 import 'package:site_xz/global/theme.dart';
-import 'package:site_xz/main_screen/year_circular_face_view.dart';
-import 'package:site_xz/main_screen/month_circular_face_view.dart';
+import 'package:site_xz/main_screen/month_circular_face/month_circular_face_view.dart';
+import 'package:site_xz/main_screen/year_circular_face/year_circular_face_view.dart';
 
 /// The main window of the application.
 
@@ -365,22 +365,21 @@ class _MainPlannerState extends State<MainPlanner> {
                         )
                       ),
                       if (isMonth)
-                        Center(
-                          child: SizedBox(
-                            height: widget.mainWidth,
-                            child: Transform.scale(
-                              scale: scaleFactor, //scaleFactor,
-                              child: MonthCircularClockFace(
-                                theme: theme,
-                                celebrates: monthCelebrates,
-                                currentCelebrate: currentCelebrate,
-                                arrowCallback: _periodChange,
-                                celebrateIconCallback: currentCelebrateChange,
-                              )
+                      Center(
+                        child: SizedBox(
+                          height: widget.mainWidth,
+                          child: Transform.scale(
+                            scale: scaleFactor, //scaleFactor,
+                            child: MonthCircularClockFace(
+                              theme: theme,
+                              celebrates: monthCelebrates,
+                              currentCelebrate: currentCelebrate,
+                              arrowCallback: _periodChange,
+                              celebrateIconCallback: currentCelebrateChange,
                             )
                           )
-                        ),
-
+                        )
+                      ),
                       /// Add buttons line. ToDo
                       //     Container(
                       //       height: 80,
@@ -459,11 +458,11 @@ class _MainPlannerState extends State<MainPlanner> {
                       //                 onPressed: (){print('add');},
                       //                 backgroundColor: buttonMainDarkColor,
                       //                 elevation: 5,
-                      //                 child: const Icon(
-                      //                   Icons.add_outlined,
-                      //                   color: mainGreenColor,
-                      //                   size: 30,
-                      //                 )
+                      //                 // child: const Icon(
+                      //                 //   Icons.add_outlined,
+                      //                 //   color: mainGreenColor,
+                      //                 //   size: 30,
+                      //                 // )
                       //               )
                       //             ),
                       //           ]
@@ -472,14 +471,52 @@ class _MainPlannerState extends State<MainPlanner> {
                       //     ]
                       //   )
                       // ),
+                      /// Left top button.
+                      Container(
+                        margin: const EdgeInsets.only(left: 12, top: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Добавить",
+                              style: TextStyle(
+                              color: theme.clockFaceButtonTextColor,
+                              fontSize: 12,
+                              fontFamily: 'Roboto',
+                              height: 0.94
+                            )
+                          ),
+                          Text(
+                            "повод",
+                            style: TextStyle(
+                              color: theme.clockFaceButtonTextColor,
+                              fontSize: 12,
+                              fontFamily: 'Roboto',
+                              height: 0.94
+                            )
+                          ),
+                          Container(
+                            height: 35,
+                            width: 35,
+                           // color: Colors.red,
+                            margin: const EdgeInsets.only(top: 5),
+                            child: GradientAnimatedButtonWithGreenIcon(
+                              theme: theme,
+                              iconPath: leftListButtonIcon,
+                              onPressed: (){print('ryjgrf');}
+                            )
+                          )
+                        ]
+                      )
+                    ),
                       // Expanded(
                       //   child: Container()
                       // ),
-                      // /// Celebration line.
+                      /// Celebration line.
                       // Container(
                       //   height: 85,
                       //   margin: EdgeInsets.only(bottom: 0),
-                      //   color: buttonDarkDarkColor,
+                      //   // color: buttonDarkDarkColor,
                       //   child: Row(
                       //     children: [
                       //       /// Celebration group.
@@ -495,31 +532,31 @@ class _MainPlannerState extends State<MainPlanner> {
                       //                 borderRadius: BorderRadius.circular(22.5),
                       //                 child: Container(
                       //                   color: friendsGroupButtonColor,
-                      //                   child: SvgPicture.asset(
-                      //                     usersList[userNumber].nextHolidayIconPath,
-                      //                     fit: BoxFit.scaleDown,
-                      //                     height: 35,
-                      //                     width: 35,
-                      //                   )
+                      //                   // child: SvgPicture.asset(
+                      //                   //   usersList[userNumber].nextHolidayIconPath,
+                      //                   //   fit: BoxFit.scaleDown,
+                      //                   //   height: 35,
+                      //                   //   width: 35,
+                      //                   // )
                       //                 )
                       //               )
                       //             ),
-                      //             Text(
-                      //               usersList[userNumber].nextHoliday,
-                      //               style: const TextStyle(
-                      //                 color: text2DarkColor,
-                      //                 fontSize: 11,
-                      //                 fontFamily: 'Roboto'
-                      //               ),
-                      //             ),
-                      //             Text(
-                      //               usersList[userNumber].nextHolidayName,
-                      //               style: const TextStyle(
-                      //                 color: mainWhiteColor,
-                      //                 fontSize: 12,
-                      //                 fontFamily: 'Roboto'
-                      //               ),
-                      //             ),
+                      //             // Text(
+                      //             //   usersList[userNumber].nextHoliday,
+                      //             //   style: const TextStyle(
+                      //             //     color: text2DarkColor,
+                      //             //     fontSize: 11,
+                      //             //     fontFamily: 'Roboto'
+                      //             //   ),
+                      //             // ),
+                      //             // Text(
+                      //             //   usersList[userNumber].nextHolidayName,
+                      //             //   style: const TextStyle(
+                      //             //     color: mainWhiteColor,
+                      //             //     fontSize: 12,
+                      //             //     fontFamily: 'Roboto'
+                      //             //   ),
+                      //             // ),
                       //           ]
                       //         )
                       //       ),
@@ -556,7 +593,7 @@ class _MainPlannerState extends State<MainPlanner> {
                       //                       backgroundColor: buttonMainDarkColor,
                       //                       child: const Icon(
                       //                         Icons.arrow_back_ios_new,
-                      //                         color: mainGreenColor,
+                      //                         // color: mainGreenColor,
                       //                         size: 20,
                       //                       ),
                       //                     ),
@@ -574,7 +611,7 @@ class _MainPlannerState extends State<MainPlanner> {
                       //                       backgroundColor: buttonMainDarkColor,
                       //                       child: const Icon(
                       //                         Icons.arrow_forward_ios,
-                      //                         color: mainGreenColor,
+                      //                         // color: mainGreenColor,
                       //                         size: 20,
                       //                       ),
                       //                     ),
@@ -588,24 +625,24 @@ class _MainPlannerState extends State<MainPlanner> {
                       //     ]
                       //   )
                       // )
-                  //   ],
-                  // ),
-                  /// Clock face. // ToDo
-                      if (isMonth)
-                  Center(
-                    child: SizedBox(
-                      height: widget.mainWidth,
-                      child: Transform.scale(
-                        scale: scaleFactor, //scaleFactor,
-                        // child: MonthCircleClockFace(
-                        //   celebrationList: usersList[userNumber].holidays
-                        // )
-                      )
-                    )
+                    ],
                   ),
-                ]
-              )
-            ),
+                  // /// Clock face. // ToDo
+                  //     if (isMonth)
+                  // Center(
+                  //   child: SizedBox(
+                  //     height: widget.mainWidth,
+                  //     child: Transform.scale(
+                  //       scale: scaleFactor, //scaleFactor,
+                  //       // child: MonthCircleClockFace(
+                  //       //   celebrationList: usersList[userNumber].holidays
+                  //       // )
+                  //     )
+                  //   )
+                  ),
+                // ]
+              // )
+            // ),
             Expanded(
               flex: 1,
               child: Container(
@@ -835,7 +872,7 @@ class MyGroupButton extends StatelessWidget {
         ),
         Text(
           buttonName,
-          style: const TextStyle(
+          style: TextStyle(
             color: mainWhiteColor,
             fontSize: 10,
             fontFamily: 'Roboto'

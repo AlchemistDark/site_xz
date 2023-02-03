@@ -81,7 +81,8 @@ class GradientAnimatedButtonWithGreenIcon extends StatefulWidget {
     required this.iconPath,
     required this.onPressed,
     Key? key
-  }) : super(key: key);
+  }
+  ) : super(key: key);
 
   @override
   State<GradientAnimatedButtonWithGreenIcon> createState() => _GradientAnimatedButtonWithGreenIconState();
@@ -98,7 +99,7 @@ class _GradientAnimatedButtonWithGreenIconState extends State<GradientAnimatedBu
     Color color2 = widget.theme.mainButtonBorderColor2;
     Color color3 = widget.theme.mainButtonFillColor1;
     Color color4 = widget.theme.mainButtonFillColor2;
-    Color iconColor = widget.theme.buttonIconColor;
+    Color iconColor = widget.theme.mainGreenColor;
     List<List<Color>> gradientColours = [[color1, color2],[green, green]];
 
     return Listener(
@@ -149,14 +150,12 @@ class _GradientAnimatedButtonWithGreenIconState extends State<GradientAnimatedBu
             )
         ),
         onPointerDown: (_) {
-          print('pressed');
           setState(() {
             index = 1;
             isPressed = true;
           });
         },
         onPointerUp: (_) {
-          print('upped');
           setState(() {
             index = 0;
             isPressed = false;

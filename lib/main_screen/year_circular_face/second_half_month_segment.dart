@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:site_xz/main_screen/rus_month_class.dart';
 import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/main_screen/rus_month_class.dart';
 
 /// This class implements the monthly segment for the first half of the year circle.
 class SecondHalfMonthSegment extends StatelessWidget {

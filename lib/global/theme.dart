@@ -17,14 +17,14 @@ class AppTheme{
   final Color celebrateStatusColor;
   final Color celebrateTextBackgroundColor;
   final Color celebrateTextColor;
-  final Color clockFaceMainColor;
-  final Color clockFaceCircleColor;
+  final Color clockFaceButtonTextColor;
   final Color clockFaceCenterColor;
+  final Color clockFaceCircleColor;
+  final Color clockFaceMainColor;
   final Color currentMonthSegmentTextColor;
   final Color daySegmentBorderColor;
   final Color daySegmentBottomTextColor;
   final Color daySegmentColor;
-
   final Color listButtonColor;
   final Color mainButtonBorderColor1;
   final Color mainButtonBorderColor2;
@@ -58,14 +58,15 @@ class AppTheme{
   AppTheme.light({
     this.isDark = false,
     this.logoPath = lightLogo,
-    this.appBarColor = const Color(0xFFFFFFFF),
+    this.appBarColor = const Color(0xFFF0F7FE),
     this.appBarTextColor = const Color(0xFF161A1D),
     this.avatarText1Color = const Color(0xFF161A1D),
     this.avatarText2Color = const Color(0xFF627684),
     this.celebrateStatusColor = const Color(0xFFFFFFFF),
-    this.clockFaceMainColor = const Color(0xFFE0EBF5),
-    this.clockFaceCircleColor = const Color(0xFFF0F7FE),
+    this.clockFaceButtonTextColor = const Color(0xFF414E58),
     this.clockFaceCenterColor = const Color(0xFFFFFFFF),
+    this.clockFaceCircleColor = const Color(0xFFF0F7FE),
+    this.clockFaceMainColor = const Color(0xFFE0EBF5),
     this.celebrateTextBackgroundColor = const Color(0xFFFFFFFF),
     this.celebrateTextColor = const Color(0xFF627684),
     this.currentMonthSegmentTextColor = const Color(0xFF627684),
@@ -97,9 +98,10 @@ class AppTheme{
     this.celebrateStatusColor = const Color(0xFF43484E),
     this.celebrateTextBackgroundColor = const Color(0xFF24262D),
     this.celebrateTextColor = const Color(0xFF8F99A3),
-    this.clockFaceMainColor = const Color(0xFF2F313A),
-    this.clockFaceCircleColor = const Color(0xFF000000),
+    this.clockFaceButtonTextColor= const Color(0xFFFFFFFF),
     this.clockFaceCenterColor = const Color(0xFF474952),
+    this.clockFaceCircleColor = const Color(0xFF000000),
+    this.clockFaceMainColor = const Color(0xFF2F313A),
     this.currentMonthSegmentTextColor = const Color(0xFF8D9392),
     this.daySegmentBorderColor = const Color(0xFFFFFFFF),
     this.daySegmentBottomTextColor = const Color(0xFFFFFFFF),
@@ -122,13 +124,12 @@ class AppTheme{
 }
 
 /// List of all colors.
-/// Список всех цветов.
+/// Список всех цветов. 414E58
 
 const mainWhiteColor = Color(0xFFFFFFFF);
 
 const appBarDarkColor = Color(0xFF1B1C22);
 
-const mainGreenColor = Color(0xFF52B69A); // ToDo
 const mainPinkColor = Color(0xFFCE3B82); // ToDo
 
 const buttonMainDarkColor = Color(0xFF454E54);
