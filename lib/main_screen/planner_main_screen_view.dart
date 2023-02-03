@@ -45,8 +45,8 @@ class _MainPlannerState extends State<MainPlanner> {
   int numberOfYearCelebrates = 0;
   int numberOfMonthCelebrates = 0;
   bool resetCurrentCelebration = true;
-  final int _currentDay = DateTime.now().day; // ToDo
-  final int _currentMonth = DateTime.now().month; //ToDo
+  final int _currentDay = DateTime.now().day;
+  final int _currentMonth = DateTime.now().month;
   final int _currentYear = DateTime.now().year; //ToDo
 
   /// Constructor.
@@ -261,7 +261,7 @@ class _MainPlannerState extends State<MainPlanner> {
                                 width: 34,
                                 child: AnimatedButton(
                                   theme: theme,
-                                  iconPath: leftListButtonIcon,
+                                  iconPath: leftArrowButtonIcon,
                                   onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
                                 )
                               ),
@@ -273,7 +273,7 @@ class _MainPlannerState extends State<MainPlanner> {
                                 width: 34,
                                 child: AnimatedButton(
                                   theme: theme,
-                                  iconPath: rightListButtonIcon,
+                                  iconPath: rightArrowButtonIcon,
                                   onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
                                 )
                               ),
@@ -286,16 +286,19 @@ class _MainPlannerState extends State<MainPlanner> {
                                 width: 34,
                                 child: AnimatedButton(
                                   theme: theme,
-                                  iconPath: listListButtonIcon,
+                                  iconPath: listButtonIcon,
                                   onPressed: (){setState(() {
                                     Navigator.push(
                                       context, MaterialPageRoute(
                                         builder: (context) {
-                                          return CalendarScreen(widget.title, widget.appController);
+                                          return CalendarScreen(
+                                            widget.title,
+                                            widget.appController
+                                          );
                                         }
                                       )
                                     );
-                                  });}//userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                  });}
                                 )
                               )
                             )
@@ -309,7 +312,7 @@ class _MainPlannerState extends State<MainPlanner> {
                   flex: 1,
                   child: Container()
                 ),
-                /// Rectangular block with buttons and round clock face. ToDo
+                /// Rectangular block with buttons and round clock face.
                 SizedBox(
                   height: (widget.mainWidth + 45),
                   child: Stack(
@@ -380,97 +383,6 @@ class _MainPlannerState extends State<MainPlanner> {
                           )
                         )
                       ),
-                      /// Add buttons line. ToDo
-                      //     Container(
-                      //       height: 80,
-                      //       margin: const EdgeInsets.only(top: 0),
-                      //       color: theme.clockFaceMainColor,
-                      //       child: Row(
-                      //         children: [
-                      //         /// Left button.
-                      //         Container(
-                      //           margin: const EdgeInsets.only(left: 12, top: 10),
-                      //           child: Column(
-                      //             crossAxisAlignment: CrossAxisAlignment.start,
-                      //             children: [
-                      //               const Text(
-                      //                 "Добавить",
-                      //                 style: TextStyle(
-                      //                   color: mainWhiteColor,
-                      //                   fontSize: 12,
-                      //                   fontFamily: 'Roboto',
-                      //                   height: 0.94
-                      //                 )
-                      //               ),
-                      //               const Text(
-                      //                 "повод",
-                      //                 style: TextStyle(
-                      //                   color: mainWhiteColor,
-                      //                   fontSize: 12,
-                      //                   fontFamily: 'Roboto',
-                      //                   height: 0.94
-                      //                 )
-                      //               ),
-                      //               Container(
-                      //                 height: 35,
-                      //                 width: 35,
-                      //                 color: Colors.red,
-                      //                 margin: const EdgeInsets.only(top: 5),
-                      //                 child: GradientAnimatedIconButton(
-                      //                   theme: theme,
-                      //                   iconPath: leftListButtonIcon,
-                      //                   onPressed: (){print('ryjgrf');}
-                      //                 )
-                      //               )
-                      //             ]
-                      //           )
-                      //         ),
-                      //         Expanded(
-                      //           child: Container()
-                      //         ),
-                      //        /// Right button.
-                      //       Container(
-                      //         margin: const EdgeInsets.only(right: 12, top: 8),
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.end,
-                      //           children: [
-                      //             const Text(
-                      //               "Добавить",
-                      //               style: TextStyle(
-                      //                 color: mainWhiteColor,
-                      //                 fontSize: 12,
-                      //                 fontFamily: 'Roboto'
-                      //               ),
-                      //             ),
-                      //             const Text(
-                      //               "контакт",
-                      //               style: TextStyle(
-                      //                 color: mainWhiteColor,
-                      //                 fontSize: 12,
-                      //                 fontFamily: 'Roboto'
-                      //               ),
-                      //             ),
-                      //             Container(
-                      //               height: 36,
-                      //               width: 36,
-                      //               // margin: const EdgeInsets.only(left: 14),
-                      //               child: FloatingActionButton(
-                      //                 onPressed: (){print('add');},
-                      //                 backgroundColor: buttonMainDarkColor,
-                      //                 elevation: 5,
-                      //                 // child: const Icon(
-                      //                 //   Icons.add_outlined,
-                      //                 //   color: mainGreenColor,
-                      //                 //   size: 30,
-                      //                 // )
-                      //               )
-                      //             ),
-                      //           ]
-                      //         )
-                      //       ),
-                      //     ]
-                      //   )
-                      // ),
                       /// Left top button.
                       Container(
                         margin: const EdgeInsets.only(left: 12, top: 10),
@@ -480,151 +392,238 @@ class _MainPlannerState extends State<MainPlanner> {
                             Text(
                               "Добавить",
                               style: TextStyle(
-                              color: theme.clockFaceButtonTextColor,
-                              fontSize: 12,
-                              fontFamily: 'Roboto',
-                              height: 0.94
+                                color: theme.clockFaceButtonTextColor,
+                                fontSize: 12,
+                                fontFamily: 'Roboto',
+                                height: 0.94
+                              )
+                            ),
+                            Text(
+                              "повод",
+                              style: TextStyle(
+                                color: theme.clockFaceButtonTextColor,
+                                fontSize: 12,
+                                fontFamily: 'Roboto',
+                                height: 0.94
+                              )
+                            ),
+                            Container(
+                              height: 35,
+                              width: 35,
+                              margin: const EdgeInsets.only(top: 5),
+                              child: GradientAnimatedButtonWithGreenIcon(
+                                theme: theme,
+                                iconPath: addButtonIcon,
+                                onPressed: (){setState(() {
+                                  Navigator.push(
+                                    context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return CalendarScreen(
+                                          widget.title,
+                                          widget.appController
+                                        );
+                                      }
+                                    )
+                                  );
+                                });}
+                              )
                             )
-                          ),
-                          Text(
-                            "повод",
-                            style: TextStyle(
-                              color: theme.clockFaceButtonTextColor,
-                              fontSize: 12,
-                              fontFamily: 'Roboto',
-                              height: 0.94
-                            )
-                          ),
-                          Container(
-                            height: 35,
-                            width: 35,
-                           // color: Colors.red,
-                            margin: const EdgeInsets.only(top: 5),
-                            child: GradientAnimatedButtonWithGreenIcon(
-                              theme: theme,
-                              iconPath: leftListButtonIcon,
-                              onPressed: (){print('ryjgrf');}
-                            )
+                          ]
+                        ),
+                      ),
+                      /// Right top button.
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          padding: const EdgeInsets.only(right: 12, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Добавить",
+                                style: TextStyle(
+                                  color: theme.clockFaceButtonTextColor,
+                                  fontSize: 12,
+                                  fontFamily: 'Roboto',
+                                  height: 0.94
+                                )
+                              ),
+                              Text(
+                                "контакт",
+                                style: TextStyle(
+                                  color: theme.clockFaceButtonTextColor,
+                                  fontSize: 12,
+                                  fontFamily: 'Roboto',
+                                  height: 0.94
+                                )
+                              ),
+                              Container(
+                                height: 35,
+                                width: 35,
+                                margin: const EdgeInsets.only(top: 5),
+                                child: GradientAnimatedButtonWithGreenIcon(
+                                  theme: theme,
+                                  iconPath: addButtonIcon,
+                                  onPressed: (){print('ryjgrf');} // При нажатии "Добавить праздник" идем на экран 2.5 - Экран "Мой календарь  праздников"
+                                  //10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
+                                )
+                              )
+                            ]
                           )
-                        ]
-                      )
-                    ),
-                      // Expanded(
-                      //   child: Container()
-                      // ),
+                        )
+                      ),
                       /// Celebration line.
-                      // Container(
-                      //   height: 85,
-                      //   margin: EdgeInsets.only(bottom: 0),
-                      //   // color: buttonDarkDarkColor,
-                      //   child: Row(
-                      //     children: [
-                      //       /// Celebration group.
-                      //       Container(
-                      //         margin: const EdgeInsets.only(left: 10, top: 10),
+                      // Align(
+                      //   alignment: Alignment.bottomLeft,
+                      //     child: Container(
                       //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             SizedBox(
-                      //               width: 45,
-                      //               height: 45,
-                      //               child: ClipRRect(
-                      //                 borderRadius: BorderRadius.circular(22.5),
-                      //                 child: Container(
-                      //                   color: friendsGroupButtonColor,
-                      //                   // child: SvgPicture.asset(
-                      //                   //   usersList[userNumber].nextHolidayIconPath,
-                      //                   //   fit: BoxFit.scaleDown,
-                      //                   //   height: 35,
-                      //                   //   width: 35,
-                      //                   // )
-                      //                 )
-                      //               )
-                      //             ),
-                      //             // Text(
-                      //             //   usersList[userNumber].nextHoliday,
-                      //             //   style: const TextStyle(
-                      //             //     color: text2DarkColor,
-                      //             //     fontSize: 11,
-                      //             //     fontFamily: 'Roboto'
-                      //             //   ),
-                      //             // ),
-                      //             // Text(
-                      //             //   usersList[userNumber].nextHolidayName,
-                      //             //   style: const TextStyle(
-                      //             //     color: mainWhiteColor,
-                      //             //     fontSize: 12,
-                      //             //     fontFamily: 'Roboto'
-                      //             //   ),
-                      //             // ),
-                      //           ]
-                      //         )
-                      //       ),
-                      //       Expanded(
-                      //         child: Container()
-                      //       ),
-                      //       // margin: const EdgeInsets.only(top: 4),
-                      //       /// Buttons group.
-                      //       Container(
-                      //         margin: const EdgeInsets.only(right: 12, top: 8),
-                      //         child: Stack(
-                      //           children: [
-                      //             // SizedBox(
-                      //             //   width: 85,
-                      //             //   height: 85,
-                      //             //   child: SvgPicture.asset(
-                      //             //     'assets/images/button_group.svg',
-                      //             //     fit: BoxFit.contain,
-                      //             //     color: calendarSegmentDarkColor,
-                      //             //   )
-                      //             // ),
-                      //             Transform.rotate(
-                      //               angle: (-math.pi / 180 * 39),
-                      //               child: Row(
-                      //                 mainAxisAlignment: MainAxisAlignment.end,
-                      //                 children: [
-                      //                   Container(
-                      //                     height: 36,
-                      //                     width: 36,
-                      //                     padding: const EdgeInsets.only(right: 2),
-                      //                     //margin: const EdgeInsets.all(0),
-                      //                     child: FloatingActionButton(
-                      //                       onPressed: userNumberDown,
-                      //                       backgroundColor: buttonMainDarkColor,
-                      //                       child: const Icon(
-                      //                         Icons.arrow_back_ios_new,
-                      //                         // color: mainGreenColor,
-                      //                         size: 20,
-                      //                       ),
-                      //                     ),
-                      //                   ),
-                      //                   const SizedBox(
-                      //                     width: 16,
-                      //                   ),
-                      //                   Container(
-                      //                     height: 36,
-                      //                     width: 36,
-                      //                     padding: const EdgeInsets.only(left: 2),
-                      //                     //margin: const EdgeInsets.all(0),
-                      //                     child: FloatingActionButton(
-                      //                       onPressed: userNumberUp,
-                      //                       backgroundColor: buttonMainDarkColor,
-                      //                       child: const Icon(
-                      //                         Icons.arrow_forward_ios,
-                      //                         // color: mainGreenColor,
-                      //                         size: 20,
-                      //                       ),
-                      //                     ),
+                      //             crossAxisAlignment: CrossAxisAlignment.end,
+                      //             children: [
+                      //               Text(
+                      //                   "Добавить",
+                      //                   style: TextStyle(
+                      //                       color: theme.clockFaceButtonTextColor,
+                      //                       fontSize: 12,
+                      //                       fontFamily: 'Roboto',
+                      //                       height: 0.94
                       //                   )
-                      //                 ],
+                      //               ),
+                      //               Text(
+                      //                   "контакт",
+                      //                   style: TextStyle(
+                      //                       color: theme.clockFaceButtonTextColor,
+                      //                       fontSize: 12,
+                      //                       fontFamily: 'Roboto',
+                      //                       height: 0.94
+                      //                   )
+                      //               ),
+                      //               Container(
+                      //                   height: 35,
+                      //                   width: 35,
+                      //                   margin: const EdgeInsets.only(top: 5),
+                      //                   child: GradientAnimatedButtonWithGreenIcon(
+                      //                       theme: theme,
+                      //                       iconPath: addButtonIcon,
+                      //                       onPressed: (){print('ryjgrf');} // При нажатии "Добавить праздник" идем на экран 2.5 - Экран "Мой календарь  праздников"
+                      //                     //10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
+                      //                   )
                       //               )
-                      //             ),
-                      //           ]
+                      //             ]
                       //         )
-                      //       ),
-                      //     ]
-                      //   )
-                      // )
+                      //     )
+                      // ),
+                      Container(
+                        height: 85,
+                        margin: EdgeInsets.only(bottom: 0),
+                        // color: buttonDarkDarkColor,
+                        child: Row(
+                          children: [
+                            /// Celebration group.
+                            Container(
+                              margin: const EdgeInsets.only(left: 10, top: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 45,
+                                    height: 45,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(22.5),
+                                      child: Container(
+                                        color: friendsGroupButtonColor,
+                                        // child: SvgPicture.asset(
+                                        //   usersList[userNumber].nextHolidayIconPath,
+                                        //   fit: BoxFit.scaleDown,
+                                        //   height: 35,
+                                        //   width: 35,
+                                        // )
+                                      )
+                                    )
+                                  ),
+                                  // Text(
+                                  //   usersList[userNumber].nextHoliday,
+                                  //   style: const TextStyle(
+                                  //     color: text2DarkColor,
+                                  //     fontSize: 11,
+                                  //     fontFamily: 'Roboto'
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   usersList[userNumber].nextHolidayName,
+                                  //   style: const TextStyle(
+                                  //     color: mainWhiteColor,
+                                  //     fontSize: 12,
+                                  //     fontFamily: 'Roboto'
+                                  //   ),
+                                  // ),
+                                ]
+                              )
+                            ),
+                            Expanded(
+                              child: Container()
+                            ),
+                            // margin: const EdgeInsets.only(top: 4),
+                            /// Buttons group.
+                            Container(
+                              margin: const EdgeInsets.only(right: 12, top: 8),
+                              child: Stack(
+                                children: [
+                                  // SizedBox(
+                                  //   width: 85,
+                                  //   height: 85,
+                                  //   child: SvgPicture.asset(
+                                  //     'assets/images/button_group.svg',
+                                  //     fit: BoxFit.contain,
+                                  //     color: calendarSegmentDarkColor,
+                                  //   )
+                                  // ),
+                                  Transform.rotate(
+                                    angle: (-math.pi / 180 * 39),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          height: 36,
+                                          width: 36,
+                                          padding: const EdgeInsets.only(right: 2),
+                                          //margin: const EdgeInsets.all(0),
+                                          child: FloatingActionButton(
+                                            onPressed: userNumberDown,
+                                            backgroundColor: buttonMainDarkColor,
+                                            child: const Icon(
+                                              Icons.arrow_back_ios_new,
+                                              // color: mainGreenColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        Container(
+                                          height: 36,
+                                          width: 36,
+                                          padding: const EdgeInsets.only(left: 2),
+                                          //margin: const EdgeInsets.all(0),
+                                          child: FloatingActionButton(
+                                            onPressed: userNumberUp,
+                                            backgroundColor: buttonMainDarkColor,
+                                            child: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              // color: mainGreenColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ),
+                                ]
+                              )
+                            ),
+                          ]
+                        )
+                      )
                     ],
                   ),
                   // /// Clock face. // ToDo
