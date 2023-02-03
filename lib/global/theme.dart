@@ -20,6 +20,7 @@ class AppTheme{
   final Color clockFaceButtonTextColor;
   final Color clockFaceCenterColor;
   final Color clockFaceCircleColor;
+  final Color clockFaceCurrentCelebrateIconTextColor;
   final Color clockFaceMainColor;
   final Color currentMonthSegmentTextColor;
   final Color daySegmentBorderColor;
@@ -66,6 +67,7 @@ class AppTheme{
     this.clockFaceButtonTextColor = const Color(0xFF414E58),
     this.clockFaceCenterColor = const Color(0xFFFFFFFF),
     this.clockFaceCircleColor = const Color(0xFFF0F7FE),
+    this.clockFaceCurrentCelebrateIconTextColor = const Color(0xFF414E58),
     this.clockFaceMainColor = const Color(0xFFE0EBF5),
     this.celebrateTextBackgroundColor = const Color(0xFFFFFFFF),
     this.celebrateTextColor = const Color(0xFF627684),
@@ -101,6 +103,7 @@ class AppTheme{
     this.clockFaceButtonTextColor= const Color(0xFFFFFFFF),
     this.clockFaceCenterColor = const Color(0xFF474952),
     this.clockFaceCircleColor = const Color(0xFF000000),
+    this.clockFaceCurrentCelebrateIconTextColor = const Color(0xFFBCC0C8),
     this.clockFaceMainColor = const Color(0xFF2F313A),
     this.currentMonthSegmentTextColor = const Color(0xFF8D9392),
     this.daySegmentBorderColor = const Color(0xFFFFFFFF),

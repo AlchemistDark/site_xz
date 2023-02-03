@@ -102,31 +102,41 @@ class CurrentMonthSegment extends StatelessWidget {
           heightFactor: 375,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 218),
-            child: GestureDetector(
-              onTap: callback,
-              child: Container(
-                width: 55,
-                height: 40,
-                // It is not clear why, but for some reason it does not work
-                // without this line of code...
-                color: Colors.red.withOpacity(0.0),
-                child: Center(
-                  child: Text(
-                    RusMonth(DateTime.now().year, number)
-                      .rusCapitalLettersShortMonth,
-                    style: TextStyle(
-                      color: theme.mainGreenColor,
-                      fontSize: (16),
-                      fontFamily: 'Roboto',
-                      height: 1.195,
-                      decoration: TextDecoration.underline
-                    )
+            child: Center(
+              child: TextButton(
+                onPressed: callback,
+                child: Text(
+                  RusMonth(DateTime.now().year, number)
+                    .rusCapitalLettersShortMonth,
+                  style: TextStyle(
+                    color: theme.mainGreenColor,
+                    fontSize: (16),
+                    fontFamily: 'Roboto',
+                    height: 1.195,
+                    decoration: TextDecoration.underline
                   )
                 )
               )
             )
           )
-        )
+        ),
+        // Center(
+        //   widthFactor: 375,
+        //   heightFactor: 375,
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(bottom: 218),
+        //     child: GestureDetector(
+        //       onTap: callback,
+        //       child: Container(
+        //         width: 55,
+        //         height: 50,
+        //         // It is not clear why, but for some reason it does not work
+        //         // without this line of code...
+        //         color: Colors.red.withOpacity(0.0),
+        //       )
+        //     )
+        //   )
+        // )
       ],
     );
   }

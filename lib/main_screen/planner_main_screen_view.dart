@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:site_xz/calendar_screen_view.dart';
+import 'package:site_xz/contact_list_view.dart';
 import 'package:site_xz/global/app_controller.dart';
 import 'package:site_xz/global/buttons.dart';
 import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/planner_app_bar.dart';
 import 'package:site_xz/global/theme.dart';
+import 'package:site_xz/main_screen/celebrate_widget.dart';
 import 'package:site_xz/main_screen/month_circular_face/month_circular_face_view.dart';
 import 'package:site_xz/main_screen/year_circular_face/year_circular_face_view.dart';
 
@@ -328,7 +330,7 @@ class _MainPlannerState extends State<MainPlanner> {
                             child: Container()
                           ),
                           Container(
-                            height: 85,
+                            height: (40 + (45 * scaleFactor)),
                             color: theme.clockFaceMainColor,
                             padding: const EdgeInsets.only(bottom: 0),
                           )
@@ -464,8 +466,18 @@ class _MainPlannerState extends State<MainPlanner> {
                                 child: GradientAnimatedButtonWithGreenIcon(
                                   theme: theme,
                                   iconPath: addButtonIcon,
-                                  onPressed: (){print('ryjgrf');} // При нажатии "Добавить праздник" идем на экран 2.5 - Экран "Мой календарь  праздников"
-                                  //10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
+                                    onPressed: (){setState(() {
+                                      Navigator.push(
+                                          context, MaterialPageRoute(
+                                          builder: (context) {
+                                            return ContactListScreen(
+                                              widget.title,
+                                              widget.appController
+                                            );
+                                          }
+                                      )
+                                      );
+                                    });}//10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
                                 )
                               )
                             ]
@@ -473,157 +485,160 @@ class _MainPlannerState extends State<MainPlanner> {
                         )
                       ),
                       /// Celebration line.
-                      // Align(
-                      //   alignment: Alignment.bottomLeft,
-                      //     child: Container(
-                      //         child: Column(
-                      //             crossAxisAlignment: CrossAxisAlignment.end,
-                      //             children: [
-                      //               Text(
-                      //                   "Добавить",
-                      //                   style: TextStyle(
-                      //                       color: theme.clockFaceButtonTextColor,
-                      //                       fontSize: 12,
-                      //                       fontFamily: 'Roboto',
-                      //                       height: 0.94
-                      //                   )
-                      //               ),
-                      //               Text(
-                      //                   "контакт",
-                      //                   style: TextStyle(
-                      //                       color: theme.clockFaceButtonTextColor,
-                      //                       fontSize: 12,
-                      //                       fontFamily: 'Roboto',
-                      //                       height: 0.94
-                      //                   )
-                      //               ),
-                      //               Container(
-                      //                   height: 35,
-                      //                   width: 35,
-                      //                   margin: const EdgeInsets.only(top: 5),
-                      //                   child: GradientAnimatedButtonWithGreenIcon(
-                      //                       theme: theme,
-                      //                       iconPath: addButtonIcon,
-                      //                       onPressed: (){print('ryjgrf');} // При нажатии "Добавить праздник" идем на экран 2.5 - Экран "Мой календарь  праздников"
-                      //                     //10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
-                      //                   )
-                      //               )
-                      //             ]
-                      //         )
-                      //     )
-                      // ),
                       Container(
-                        height: 85,
-                        margin: EdgeInsets.only(bottom: 0),
-                        // color: buttonDarkDarkColor,
-                        child: Row(
+                        padding: EdgeInsets.only(left: 10, top: (widget.mainWidth - 30)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            /// Celebration group.
-                            Container(
-                              margin: const EdgeInsets.only(left: 10, top: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 45,
-                                    height: 45,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(22.5),
-                                      child: Container(
-                                        color: friendsGroupButtonColor,
-                                        // child: SvgPicture.asset(
-                                        //   usersList[userNumber].nextHolidayIconPath,
-                                        //   fit: BoxFit.scaleDown,
-                                        //   height: 35,
-                                        //   width: 35,
-                                        // )
-                                      )
-                                    )
-                                  ),
-                                  // Text(
-                                  //   usersList[userNumber].nextHoliday,
-                                  //   style: const TextStyle(
-                                  //     color: text2DarkColor,
-                                  //     fontSize: 11,
-                                  //     fontFamily: 'Roboto'
-                                  //   ),
-                                  // ),
-                                  // Text(
-                                  //   usersList[userNumber].nextHolidayName,
-                                  //   style: const TextStyle(
-                                  //     color: mainWhiteColor,
-                                  //     fontSize: 12,
-                                  //     fontFamily: 'Roboto'
-                                  //   ),
-                                  // ),
-                                ]
+                            Transform.scale(
+                              scale: scaleFactor, //scaleFactor,
+                              alignment: Alignment.bottomLeft,
+                              child: SizedBox(
+                                width: 45,
+                                height: 45,
+                                child: CelebrateWidget(
+                                  theme: theme,
+                                  celebrate: yearCelebrates[currentCelebrate],
+                                  isCurrent: false,
+                                  haveStatus: false,
+                                  isForYear: false,
+                                  mainCallback: (currentCelebrate){},
+                                  indexOfCurrent: currentCelebrate,
+                                  statusCallback: (){}
+                                )
                               )
                             ),
-                            Expanded(
-                              child: Container()
-                            ),
-                            // margin: const EdgeInsets.only(top: 4),
-                            /// Buttons group.
-                            Container(
-                              margin: const EdgeInsets.only(right: 12, top: 8),
-                              child: Stack(
-                                children: [
-                                  // SizedBox(
-                                  //   width: 85,
-                                  //   height: 85,
-                                  //   child: SvgPicture.asset(
-                                  //     'assets/images/button_group.svg',
-                                  //     fit: BoxFit.contain,
-                                  //     color: calendarSegmentDarkColor,
-                                  //   )
-                                  // ),
-                                  Transform.rotate(
-                                    angle: (-math.pi / 180 * 39),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          height: 36,
-                                          width: 36,
-                                          padding: const EdgeInsets.only(right: 2),
-                                          //margin: const EdgeInsets.all(0),
-                                          child: FloatingActionButton(
-                                            onPressed: userNumberDown,
-                                            backgroundColor: buttonMainDarkColor,
-                                            child: const Icon(
-                                              Icons.arrow_back_ios_new,
-                                              // color: mainGreenColor,
-                                              size: 20,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
-                                        Container(
-                                          height: 36,
-                                          width: 36,
-                                          padding: const EdgeInsets.only(left: 2),
-                                          //margin: const EdgeInsets.all(0),
-                                          child: FloatingActionButton(
-                                            onPressed: userNumberUp,
-                                            backgroundColor: buttonMainDarkColor,
-                                            child: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              // color: mainGreenColor,
-                                              size: 20,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ),
-                                ]
+                            Text(
+                              yearCelebrates[currentCelebrate].date,
+                              style: TextStyle(
+                                color: theme.clockFaceCurrentCelebrateIconTextColor,
+                                fontSize: 11,
+                                fontFamily: 'Roboto'
                               )
+                            ),
+                            Text(
+                              yearCelebrates[currentCelebrate].name,
+                              style: TextStyle(
+                                color: theme.appBarTextColor,
+                                fontSize: 12,
+                                fontFamily: 'Roboto'
+                              ),
                             ),
                           ]
                         )
-                      )
+                      ),
+                      // Container(
+                      //   height: 85,
+                      //   margin: EdgeInsets.only(bottom: 0),
+                      //   // color: buttonDarkDarkColor,
+                      //   child: Row(
+                      //     children: [
+                      //       /// Celebration group.
+                      //       Container(
+                      //         margin: const EdgeInsets.only(left: 10, top: 10),
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             SizedBox(
+                      //               width: 45,
+                      //               height: 45,
+                      //               child: ClipRRect(
+                      //                 borderRadius: BorderRadius.circular(22.5),
+                      //                 child: Container(
+                      //                   color: friendsGroupButtonColor,
+                      //                   // child: SvgPicture.asset(
+                      //                   //   usersList[userNumber].nextHolidayIconPath,
+                      //                   //   fit: BoxFit.scaleDown,
+                      //                   //   height: 35,
+                      //                   //   width: 35,
+                      //                   // )
+                      //                 )
+                      //               )
+                      //             ),
+                      //             // Text(
+                      //             //   usersList[userNumber].nextHoliday,
+                      //             //   style: const TextStyle(
+                      //             //     color: text2DarkColor,
+                      //             //     fontSize: 11,
+                      //             //     fontFamily: 'Roboto'
+                      //             //   ),
+                      //             // ),
+                      //             // Text(
+                      //             //   usersList[userNumber].nextHolidayName,
+                      //             //   style: const TextStyle(
+                      //             //     color: mainWhiteColor,
+                      //             //     fontSize: 12,
+                      //             //     fontFamily: 'Roboto'
+                      //             //   ),
+                      //             // ),
+                      //           ]
+                      //         )
+                      //       ),
+                      //       Expanded(
+                      //         child: Container()
+                      //       ),
+                      //       // margin: const EdgeInsets.only(top: 4),
+                      //       /// Buttons group.
+                      //       Container(
+                      //         margin: const EdgeInsets.only(right: 12, top: 8),
+                      //         child: Stack(
+                      //           children: [
+                      //             // SizedBox(
+                      //             //   width: 85,
+                      //             //   height: 85,
+                      //             //   child: SvgPicture.asset(
+                      //             //     'assets/images/button_group.svg',
+                      //             //     fit: BoxFit.contain,
+                      //             //     color: calendarSegmentDarkColor,
+                      //             //   )
+                      //             // ),
+                      //             Transform.rotate(
+                      //               angle: (-math.pi / 180 * 39),
+                      //               child: Row(
+                      //                 mainAxisAlignment: MainAxisAlignment.end,
+                      //                 children: [
+                      //                   Container(
+                      //                     height: 36,
+                      //                     width: 36,
+                      //                     padding: const EdgeInsets.only(right: 2),
+                      //                     //margin: const EdgeInsets.all(0),
+                      //                     child: FloatingActionButton(
+                      //                       onPressed: userNumberDown,
+                      //                       backgroundColor: buttonMainDarkColor,
+                      //                       child: const Icon(
+                      //                         Icons.arrow_back_ios_new,
+                      //                         // color: mainGreenColor,
+                      //                         size: 20,
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                   const SizedBox(
+                      //                     width: 16,
+                      //                   ),
+                      //                   Container(
+                      //                     height: 36,
+                      //                     width: 36,
+                      //                     padding: const EdgeInsets.only(left: 2),
+                      //                     //margin: const EdgeInsets.all(0),
+                      //                     child: FloatingActionButton(
+                      //                       onPressed: userNumberUp,
+                      //                       backgroundColor: buttonMainDarkColor,
+                      //                       child: const Icon(
+                      //                         Icons.arrow_forward_ios,
+                      //                         // color: mainGreenColor,
+                      //                         size: 20,
+                      //                       ),
+                      //                     ),
+                      //                   )
+                      //                 ],
+                      //               )
+                      //             ),
+                      //           ]
+                      //         )
+                      //       ),
+                      //     ]
+                      //   )
+                      // )
                     ],
                   ),
                   // /// Clock face. // ToDo
