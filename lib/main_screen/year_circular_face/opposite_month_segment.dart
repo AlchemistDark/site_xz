@@ -88,7 +88,7 @@ class OppositeMonthSegment extends StatelessWidget {
         Center(
           child: CustomPaint(
             size: const Size(258, 258),
-            painter: FirstHalfMonthSegmentPainter(
+            painter: OppositeMonthSegmentPainter(
               width: 258,
               theme: theme
             ),
@@ -116,7 +116,7 @@ class OppositeMonthSegment extends StatelessWidget {
   }
 }
 
-class FirstHalfMonthSegmentPainter extends CustomPainter{
+class OppositeMonthSegmentPainter extends CustomPainter{
 
   /// The diameter of the area in which the arcs fit.
   final double width;
@@ -127,7 +127,7 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
 
   final AppTheme theme;
 
-  const FirstHalfMonthSegmentPainter({
+  const OppositeMonthSegmentPainter({
     required this.width,
     required this.theme
   });
@@ -174,8 +174,10 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
 
     /// Second top arc.
 
-    final startSecondTopAngle = (oppositeAngel - (math.pi / 2) - ((math.pi * 2 / 12) * (0.5)) + (math.pi / 258));
-    final sweepSecondTopAngle = ((math.pi * 2 / 12) - oppositeAngel - ((math.pi / 258) * 2));
+    final startSecondTopAngle = (oppositeAngel - (math.pi / 2) -
+        ((math.pi * 2 / 12) * 0.5) + (math.pi / 258));
+    final sweepSecondTopAngle = ((math.pi * 2 / 12) -
+        oppositeAngel - (math.pi / 258 * 2));
 
     final paintSecondTop = Paint()
       ..color = theme.monthSegmentTopColor
@@ -187,7 +189,7 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
 
     /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
     final bottomRect = Rect.fromCenter(
-      center: Offset(((width) / 2), ((width) / 2)),
+      center: Offset((width / 2), (width / 2)),
       width: (width - 56),
       height: (width - 56)
     );
@@ -203,16 +205,18 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
     /// (-90 degrees) - (length of circle / number of circle segments / 2) +
     /// + (0.5 degree is half the spacing between segments) +
     /// + (180 degree / (width - 56) is degree of one pixel of arc)
-    final startLabelAngle = ((-math.pi / 2) - (math.pi / quantity) + (math.pi / 360) + (math.pi / (width - 56)));
+    final startLabelAngle = ((-math.pi / 2) - (math.pi / quantity) +
+        (math.pi / 360) + (math.pi / (width - 56)));
 
     /// (length of circle / number of circle segments) -
     /// - (1 degree is the spacing between segments) -
     /// - (180 degree / ((width - 56) / 2) is degre of two pixels of arc)
-    final sweepLabelAngle = ((math.pi * 2 / quantity) - (math.pi / 180) - (math.pi / ((width - 56) / 2)));
+    final sweepLabelAngle = ((math.pi * 2 / quantity) - (math.pi / 180) -
+        (math.pi / ((width - 56) / 2)));
 
     /// Center coordinates, width and height of the rectangle in which the ellipse is inscribed, of which the arc is a part.
     final labelRect = Rect.fromCenter(
-      center: Offset(((width) / 2), ((width) / 2)),
+      center: Offset((width / 2), (width / 2)),
       width: (width - 56),
       height: (width - 56)
     );
@@ -224,7 +228,7 @@ class FirstHalfMonthSegmentPainter extends CustomPainter{
   }
 
   @override
-  bool shouldRepaint(CustomPainter old){
+  bool shouldRepaint(CustomPainter oldDelegate){
     return false;
   }
 }

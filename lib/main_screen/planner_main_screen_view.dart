@@ -44,6 +44,7 @@ class _MainPlannerState extends State<MainPlanner> {
   // int currentYearCelebrate = 0;
   // int currentMonthCelebrate = 0;
   int currentCelebrate = 0;
+  int numberOfCelebrations = 0;
   int numberOfYearCelebrates = 0;
   int numberOfMonthCelebrates = 0;
   bool resetCurrentCelebration = true;
@@ -60,7 +61,6 @@ class _MainPlannerState extends State<MainPlanner> {
 
   /// Changes the calendar mode between monthly and yearly.
   void _periodChange(){
-    //currentCelebrate = 1;
     resetCurrentCelebration = true;
     isMonth = !isMonth;
     setState((){});
@@ -128,6 +128,7 @@ class _MainPlannerState extends State<MainPlanner> {
     numberOfYearCelebrates = result.length;
     return result;
   }
+
   /// Returns from the list of all celebrations only those celebrations
   /// that should be displayed on the current screen.
   List<Celebrate> getSortedMonthCelebrates(List<Celebrate> celebrates){
@@ -152,6 +153,30 @@ class _MainPlannerState extends State<MainPlanner> {
     });
   }
 
+  /// Increment value of the current celebration.
+  void currentCelebrateIncrement(){
+    resetCurrentCelebration = false;
+    setState((){
+      if (currentCelebrate == numberOfCelebrations){
+        currentCelebrate = 0;
+      } else {
+        currentCelebrate = currentCelebrate + 1;
+      }
+    });
+  }
+
+  /// Decrement of the value of the current celebration.
+  void currentCelebrateDecrement(){
+    resetCurrentCelebration = false;
+    setState((){
+      if (currentCelebrate == 0){
+        currentCelebrate = numberOfCelebrations;
+      } else {
+        currentCelebrate = currentCelebrate - 1;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double scaleFactor = widget.mainWidth / 375;
@@ -164,9 +189,10 @@ class _MainPlannerState extends State<MainPlanner> {
         List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
         List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
         if (resetCurrentCelebration) {
-          currentCelebrate = (isMonth)
+          numberOfCelebrations = (isMonth)
             ? (numberOfMonthCelebrates - 1)
             : (numberOfYearCelebrates - 1);
+          currentCelebrate = numberOfCelebrations;
         }
         return Scaffold(
           appBar: PlannerAppBar(
@@ -466,25 +492,25 @@ class _MainPlannerState extends State<MainPlanner> {
                                 child: GradientAnimatedButtonWithGreenIcon(
                                   theme: theme,
                                   iconPath: addButtonIcon,
-                                    onPressed: (){setState(() {
-                                      Navigator.push(
-                                          context, MaterialPageRoute(
-                                          builder: (context) {
-                                            return ContactListScreen(
-                                              widget.title,
-                                              widget.appController
-                                            );
-                                          }
+                                  onPressed: (){setState(() {
+                                    Navigator.push(
+                                      context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return ContactListScreen(
+                                            widget.title,
+                                            widget.appController
+                                          );
+                                        }
                                       )
-                                      );
-                                    });}//10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
+                                    );
+                                  });}//10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
                                 )
                               )
                             ]
                           )
                         )
                       ),
-                      /// Celebration line.
+                      /// Current celebration block.
                       Container(
                         padding: EdgeInsets.only(left: 10, top: (widget.mainWidth - 30)),
                         child: Column(
@@ -527,133 +553,60 @@ class _MainPlannerState extends State<MainPlanner> {
                           ]
                         )
                       ),
-                      // Container(
-                      //   height: 85,
-                      //   margin: EdgeInsets.only(bottom: 0),
-                      //   // color: buttonDarkDarkColor,
-                      //   child: Row(
-                      //     children: [
-                      //       /// Celebration group.
-                      //       Container(
-                      //         margin: const EdgeInsets.only(left: 10, top: 10),
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             SizedBox(
-                      //               width: 45,
-                      //               height: 45,
-                      //               child: ClipRRect(
-                      //                 borderRadius: BorderRadius.circular(22.5),
-                      //                 child: Container(
-                      //                   color: friendsGroupButtonColor,
-                      //                   // child: SvgPicture.asset(
-                      //                   //   usersList[userNumber].nextHolidayIconPath,
-                      //                   //   fit: BoxFit.scaleDown,
-                      //                   //   height: 35,
-                      //                   //   width: 35,
-                      //                   // )
-                      //                 )
-                      //               )
-                      //             ),
-                      //             // Text(
-                      //             //   usersList[userNumber].nextHoliday,
-                      //             //   style: const TextStyle(
-                      //             //     color: text2DarkColor,
-                      //             //     fontSize: 11,
-                      //             //     fontFamily: 'Roboto'
-                      //             //   ),
-                      //             // ),
-                      //             // Text(
-                      //             //   usersList[userNumber].nextHolidayName,
-                      //             //   style: const TextStyle(
-                      //             //     color: mainWhiteColor,
-                      //             //     fontSize: 12,
-                      //             //     fontFamily: 'Roboto'
-                      //             //   ),
-                      //             // ),
-                      //           ]
-                      //         )
-                      //       ),
-                      //       Expanded(
-                      //         child: Container()
-                      //       ),
-                      //       // margin: const EdgeInsets.only(top: 4),
-                      //       /// Buttons group.
-                      //       Container(
-                      //         margin: const EdgeInsets.only(right: 12, top: 8),
-                      //         child: Stack(
-                      //           children: [
-                      //             // SizedBox(
-                      //             //   width: 85,
-                      //             //   height: 85,
-                      //             //   child: SvgPicture.asset(
-                      //             //     'assets/images/button_group.svg',
-                      //             //     fit: BoxFit.contain,
-                      //             //     color: calendarSegmentDarkColor,
-                      //             //   )
-                      //             // ),
-                      //             Transform.rotate(
-                      //               angle: (-math.pi / 180 * 39),
-                      //               child: Row(
-                      //                 mainAxisAlignment: MainAxisAlignment.end,
-                      //                 children: [
-                      //                   Container(
-                      //                     height: 36,
-                      //                     width: 36,
-                      //                     padding: const EdgeInsets.only(right: 2),
-                      //                     //margin: const EdgeInsets.all(0),
-                      //                     child: FloatingActionButton(
-                      //                       onPressed: userNumberDown,
-                      //                       backgroundColor: buttonMainDarkColor,
-                      //                       child: const Icon(
-                      //                         Icons.arrow_back_ios_new,
-                      //                         // color: mainGreenColor,
-                      //                         size: 20,
-                      //                       ),
-                      //                     ),
-                      //                   ),
-                      //                   const SizedBox(
-                      //                     width: 16,
-                      //                   ),
-                      //                   Container(
-                      //                     height: 36,
-                      //                     width: 36,
-                      //                     padding: const EdgeInsets.only(left: 2),
-                      //                     //margin: const EdgeInsets.all(0),
-                      //                     child: FloatingActionButton(
-                      //                       onPressed: userNumberUp,
-                      //                       backgroundColor: buttonMainDarkColor,
-                      //                       child: const Icon(
-                      //                         Icons.arrow_forward_ios,
-                      //                         // color: mainGreenColor,
-                      //                         size: 20,
-                      //                       ),
-                      //                     ),
-                      //                   )
-                      //                 ],
-                      //               )
-                      //             ),
-                      //           ]
-                      //         )
-                      //       ),
-                      //     ]
-                      //   )
-                      // )
+                      /// Celebrate scrolling button.
+                      OverflowBox(
+                        maxHeight: (widget.mainWidth * 2),
+                        child: Transform.rotate(
+                          // Arcsin(The top padding of the buttons divided
+                          // by two of the distances of those buttons
+                          // from the center of the circle).
+                          angle: (-math.acos(
+                              (widget.mainWidth - 20 - (22.5 * scaleFactor))
+                              / (widget.mainWidth + 75))
+                          ),
+                          child: Center(
+                            child: Container(
+                              margin: EdgeInsets.only(top: (widget.mainWidth + 75)),
+                              child: Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: [
+                                  SizedBox(
+                                    width: 117,
+                                    child: Image.asset(
+                                      theme.buttonBasePath,
+                                      fit: BoxFit.fitWidth
+                                    )
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(bottom: 2, left: 1),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        GradientAnimatedButtonWithGreenIcon(
+                                          theme: theme,
+                                          iconPath: leftArrowButtonIcon,
+                                          onPressed: currentCelebrateIncrement
+                                        ),
+                                        Container(
+                                          width: 19
+                                        ),
+                                        GradientAnimatedButtonWithGreenIcon(
+                                          theme: theme,
+                                          iconPath: rightArrowButtonIcon,
+                                          onPressed: currentCelebrateDecrement
+                                        )
+                                      ]
+                                    )
+                                  )
+                                ]
+                              )
+                            )
+                          )
+                        )
+                      ),
                     ],
                   ),
-                  // /// Clock face. // ToDo
-                  //     if (isMonth)
-                  // Center(
-                  //   child: SizedBox(
-                  //     height: widget.mainWidth,
-                  //     child: Transform.scale(
-                  //       scale: scaleFactor, //scaleFactor,
-                  //       // child: MonthCircleClockFace(
-                  //       //   celebrationList: usersList[userNumber].holidays
-                  //       // )
-                  //     )
-                  //   )
-                  ),
+                ),
                 // ]
               // )
             // ),

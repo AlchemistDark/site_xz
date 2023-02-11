@@ -9,6 +9,7 @@ class AppTheme{
   final bool isDark;
 
   final String logoPath;
+  final String buttonBasePath;
 
   final Color appBarColor;
   final Color appBarTextColor;
@@ -59,6 +60,7 @@ class AppTheme{
   AppTheme.light({
     this.isDark = false,
     this.logoPath = lightLogo,
+    this.buttonBasePath = lightButtonsBase,
     this.appBarColor = const Color(0xFFF0F7FE),
     this.appBarTextColor = const Color(0xFF161A1D),
     this.avatarText1Color = const Color(0xFF161A1D),
@@ -93,6 +95,7 @@ class AppTheme{
   AppTheme.dark({
     this.isDark = true,
     this.logoPath = darkLogo,
+    this.buttonBasePath = darkButtonsBase,
     this.appBarTextColor = const Color(0xFFFFFFFF),
     this.avatarText1Color = const Color(0xFFE0EBED),
     this.avatarText2Color = const Color(0xFFBCC0C8),

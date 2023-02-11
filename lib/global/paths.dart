@@ -8,6 +8,8 @@ const String listButtonIcon = "assets/images/buttons/list_button_icon.svg";
 
 const String darkLogo = "assets/images/logo_dark.png";
 const String lightLogo = "assets/images/logo_light.png";
+const String darkButtonsBase = "assets/images/buttons_base_dark.png";
+const String lightButtonsBase = "assets/images/buttons_base_light.png";
 
 const String clockFaceArrow = "assets/images/clock_arrow.svg";
 
