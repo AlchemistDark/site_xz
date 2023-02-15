@@ -165,3 +165,222 @@ class _GradientAnimatedButtonWithGreenIconState extends State<GradientAnimatedBu
     );
   }
 }
+
+/// Buttons for group line on main screen.
+class MyGroupButton extends StatelessWidget {
+  final AppTheme theme;
+  final VoidCallback callback;
+  final Color buttonColor;
+  final String iconPath;
+  final String count;
+  final String buttonName;
+  final String date;
+
+  const MyGroupButton({
+    required this.theme,
+    required this.callback,
+    required this.buttonColor,
+    required this.iconPath,
+    required this.count,
+    required this.buttonName,
+    required this.date,
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          width: 62,
+          height: 62,
+          child: InkWell(
+            onTap: callback,
+            child: Stack(
+              children: [
+                Container(
+                  width: 62,
+                  height: 62,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.white, Colors.black]
+                    ),//Colors.white,//buttonColor,
+                    border: Border.all(color: buttonColor, width: 1.0),
+                    borderRadius: BorderRadius.circular(8.0),
+                  )
+                ),
+                Center(
+                  child: Container(
+                    width: 42,
+                    height: 42,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: buttonColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: buttonColor,
+                          blurRadius: 5,
+                          spreadRadius: 7,
+                          offset: const Offset(0, 0)
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        iconPath,
+                        fit: BoxFit.scaleDown
+                      )
+                    )
+                  )
+                ),
+                Container(
+                  width: 16,
+                  height: 16,
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(top: 1, left: 45),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    count,
+                    style: TextStyle(
+                      color: theme.groupButtonsCountTextColor,
+                      fontSize: 13,
+                      fontFamily: 'Roboto'
+                    ),
+                  )
+                )
+              ]
+            )
+          )
+        ),
+        Text(
+          buttonName,
+          style: TextStyle(
+            color: theme.groupButtonsTextColor,
+            fontSize: 10,
+            fontFamily: 'Roboto'
+          ),
+        ),
+        Text(
+          date,
+          style: TextStyle(
+            color: theme.groupButtonsTextColor,
+            fontSize: 10,
+            fontFamily: 'Roboto'
+          ),
+        )
+      ]
+    );
+  }
+
+}
+
+/// Buttons for navBar.
+class MyNavBarButton extends StatelessWidget {
+  final AppTheme theme;
+  final VoidCallback callback;
+  final String iconPath;
+  final Color iconColor;
+
+  const MyNavBarButton({
+    required this.theme,
+    required this.callback,
+    required this.iconPath,
+    required this.iconColor,
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color color1 = theme.mainButtonFillColor1;
+    Color color2 = theme.mainButtonFillColor2;
+    //Color iconColor = theme.mainGreenColor;
+    return SizedBox(
+      width: 56,
+      height: 56,
+      child: InkWell(
+        onTap: callback,
+        child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [color1, color2]
+            ),//Colors.white,//buttonColor,
+            border: Border.all(color: color2, width: 1.0),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            child: SvgPicture.asset(
+              iconPath,
+              fit: BoxFit.scaleDown
+            )
+          )
+        )
+      )
+    );
+  }
+
+}
+
+
+/// Buttons for navBar.
+class CentralNavBarButton extends StatelessWidget {
+  final AppTheme theme;
+  final VoidCallback callback;
+  final String iconPath;
+  final Color iconColor;
+
+  const CentralNavBarButton({
+    required this.theme,
+    required this.callback,
+    required this.iconPath,
+    required this.iconColor,
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color color1 = theme.mainButtonFillColor1;
+    Color color2 = theme.mainButtonFillColor2;
+    //Color iconColor = theme.mainGreenColor;
+    return SizedBox(
+      width: 75,
+      height: 75,
+      child: InkWell(
+        onTap: callback,
+        child: Container(
+          width: 75,
+          height: 75,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [color1, color2]
+            ),//Colors.white,//buttonColor,
+            border: Border.all(color: theme.mainGreenColor, width: 2.0),
+            borderRadius: BorderRadius.circular(75 / 2),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            child: SvgPicture.asset(
+              iconPath,
+                        fit: BoxFit.scaleDown
+                    )
+                )
+            )
+        )
+    );
+  }
+
+}

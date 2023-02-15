@@ -27,6 +27,7 @@ class AppTheme{
   final Color daySegmentBorderColor;
   final Color daySegmentBottomTextColor;
   final Color daySegmentColor;
+  final Color groupButtonsTextColor;
   final Color listButtonColor;
   final Color mainButtonBorderColor1;
   final Color mainButtonBorderColor2;
@@ -54,6 +55,7 @@ class AppTheme{
   final relativesGroupButtonColor = const Color(0xFF7B6CE8);
   final colleaguesGroupButtonColor = const Color(0xFFB668EC);
   final partnersGroupButtonColor = const Color(0xFFEC69E4);
+  final groupButtonsCountTextColor = const Color(0xFF393939);
 
   final celebrateIconDefaultColor = const Color(0xFF9388CC);
 
@@ -77,6 +79,7 @@ class AppTheme{
     this.daySegmentBorderColor = const Color(0xFF627684),
     this.daySegmentBottomTextColor = const Color(0xFF161A1D),
     this.daySegmentColor = const Color(0xFFF0F7FE),
+    this.groupButtonsTextColor = const Color(0xFF414E58),
     this.listButtonColor = const Color(0xFFDDE8F5),
     this.mainButtonBorderColor1 = const Color(0xFFFFFFFF),
     this.mainButtonBorderColor2 = const Color(0xFFFFFFFF),
@@ -112,6 +115,7 @@ class AppTheme{
     this.daySegmentBorderColor = const Color(0xFFFFFFFF),
     this.daySegmentBottomTextColor = const Color(0xFFFFFFFF),
     this.daySegmentColor = const Color(0xFF1B2826),
+    this.groupButtonsTextColor = const Color(0xFFFFFFFF),
     this.listButtonColor = const Color(0xFF454E54),
     this.mainButtonBorderColor1 = const Color(0xFF1C1F26),
     this.mainButtonBorderColor2 = const Color(0xFF4B4F5F),

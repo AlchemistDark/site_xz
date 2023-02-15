@@ -227,6 +227,7 @@ class _MainPlannerState extends State<MainPlanner> {
             color: theme.mainColor,
             child: Column(
               children: <Widget>[
+                /// Separator line.
                 Expanded(
                   flex: 1,
                   child: Container()
@@ -336,6 +337,7 @@ class _MainPlannerState extends State<MainPlanner> {
                     ]
                   )
                 ),
+                /// Separator line.
                 Expanded(
                   flex: 1,
                   child: Container()
@@ -557,7 +559,7 @@ class _MainPlannerState extends State<MainPlanner> {
                       OverflowBox(
                         maxHeight: (widget.mainWidth * 2),
                         child: Transform.rotate(
-                          // Arcsin(The top padding of the buttons divided
+                          // ArcCos(The top padding of the buttons divided
                           // by two of the distances of those buttons
                           // from the center of the circle).
                           angle: (-math.acos(
@@ -607,137 +609,183 @@ class _MainPlannerState extends State<MainPlanner> {
                     ],
                   ),
                 ),
-                // ]
-              // )
-            // ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: widget.mainWidth,
-              )
-            ),
-            /// Groups line.
-            Container(
-              width: widget.mainWidth,
-              height: 90,
-              margin: const EdgeInsets.only(left: 16, right: 16),
-              child: Row(
-                children: [
-                  /// Family group button.
-                  MyGroupButton(
-                    callback: (){},
-                    buttonColor: familyGroupButtonColor,
-                    iconPath: 'assets/images/family_group_icon.svg',
-                    // count: usersList[userNumber].peopleCount[0].toString(),
-                    buttonName: 'Семья',
-                    // date: usersList[userNumber].peopleDates[0],
-                  ),
-                  /// Separator.
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 90,
-                    ),
-                  ),
-                  /// Friends group button.
-                  MyGroupButton(
-                    callback: (){},
-                    buttonColor: friendsGroupButtonColor,
-                    iconPath: 'assets/images/friends_group_icon.svg',
-                    // count: usersList[userNumber].peopleCount[1].toString(),
-                    buttonName: 'Друзья',
-                    // date: usersList[userNumber].peopleDates[1],
-                  ),
-                  /// Separator.
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 90,
-                    ),
-                  ),
-                  /// Relatives group button.
-                  MyGroupButton(
-                    callback: (){},
-                    buttonColor: relativesGroupButtonColor,
-                    iconPath: 'assets/images/relatives_group_icon.svg',
-                    // count: usersList[userNumber].peopleCount[2].toString(),
-                    buttonName: 'Близкие',
-                    // date: usersList[userNumber].peopleDates[2],
-                  ),
-                  /// Separator.
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 90,
-                    ),
-                  ),
-                  /// Colleagues group button.
-                  MyGroupButton(
-                    callback: (){},
-                    buttonColor: colleaguesGroupButtonColor,
-                    iconPath: 'assets/images/colleagues_group_icon.svg',
-                    // count: usersList[userNumber].peopleCount[3].toString(),
-                    buttonName: 'Коллеги',
-                    // date: usersList[userNumber].peopleDates[3],
-                  ),
-                  /// Separator.
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 90,
-                    ),
-                  ),
-                  /// Partners group button.
-                  MyGroupButton(
-                    callback: (){},
-                    buttonColor: partnersGroupButtonColor,
-                    iconPath: 'assets/images/partners_group_icon.svg',
-                    // count: usersList[userNumber].peopleCount[4].toString(),
-                    buttonName: 'Партнёры',
-                    // date: usersList[userNumber].peopleDates[4],
+                /// Separator line.
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: widget.mainWidth,
                   )
-                ]
-              )
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: widget.mainWidth,
-              )
-            ),
-            /// navBar. // ToDo
-            Container(
-              width: widget.mainWidth,
-              height: 46,
-              padding: const EdgeInsets.all(0.0),
-              margin: const EdgeInsets.all(0.0),
-              color: appBarDarkColor,
-              child: Row(
-                children: const [
-                  Text('Здесь будет navBar') // ToDo
-                      //  FloatingActionButton(
-                      //    onPressed: () => {},
-                      //    foregroundColor: Color(0xFF00FF00),
-                      //    backgroundColor: Color(0xFFFFFF00),
-                      //    //hoverColor: Color(0xFFFF0000),
-                      //    elevation: 5.0,
-                      //      child:
-                      //      (const Icon(
-                      //        Icons.arrow_back_ios_new,
-                      //        color: Color(0xFFBBBBBB),
-                      //      ))
-                      //  ),
-                      //  RawMaterialButton(
-                      //    onPressed: () {},
-                      //    elevation: 2.0,
-                      //    child: const Icon(
-                      //      Icons.wb_sunny_outlined,
-                      //      color: appBarDarkColor,
-                      //    )
-                      // ),
-                      // padding: const EdgeInsets.all(0.0),
-                ]
-              )
+                ),
+                /// Groups line.
+                Container(
+                  width: widget.mainWidth,
+                  height: 90,
+                  margin: const EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      /// Family group button.
+                      MyGroupButton(
+                        theme: theme,
+                        callback: (){},
+                        buttonColor: theme.familyGroupButtonColor,
+                        iconPath: 'assets/images/family_group_icon.svg', // ToDo
+                        count: person.peopleCount[0].toString(),
+                        buttonName: 'Семья',
+                        date: person.peopleDates[0],
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 90,
+                        ),
+                      ),
+                      /// Friends group button.
+                      MyGroupButton(
+                        theme: theme,
+                        callback: (){},
+                        buttonColor: theme.friendsGroupButtonColor,
+                        iconPath: 'assets/images/friends_group_icon.svg', // ToDo
+                        count: person.peopleCount[1].toString(),
+                        buttonName: 'Друзья',
+                        date: person.peopleDates[1],
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 90,
+                        ),
+                      ),
+                      /// Relatives group button.
+                      MyGroupButton(
+                        theme: theme,
+                        callback: (){},
+                        buttonColor: theme.relativesGroupButtonColor,
+                        iconPath: 'assets/images/relatives_group_icon.svg', // ToDo
+                        count: person.peopleCount[2].toString(),
+                        buttonName: 'Близкие',
+                        date: person.peopleDates[2],
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 90,
+                        ),
+                      ),
+                      /// Colleagues group button.
+                      MyGroupButton(
+                        theme: theme,
+                        callback: (){},
+                        buttonColor: theme.colleaguesGroupButtonColor,
+                        iconPath: 'assets/images/colleagues_group_icon.svg', // ToDo
+                        count: person.peopleCount[3].toString(),
+                        buttonName: 'Коллеги',
+                        date: person.peopleDates[3],
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 90,
+                        ),
+                      ),
+                      /// Partners group button.
+                      MyGroupButton(
+                        theme: theme,
+                        callback: (){},
+                        buttonColor: theme.partnersGroupButtonColor,
+                        iconPath: 'assets/images/partners_group_icon.svg', // ToDo
+                        count: person.peopleCount[4].toString(),
+                        buttonName: 'Партнёры',
+                        date:person.peopleDates[4],
+                      )
+                    ]
+                  )
+                ),
+                /// Separator line.
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: widget.mainWidth,
+                  )
+                ),
+                /// navBar. // ToDo
+                Container(
+                  width: widget.mainWidth,
+                  padding: const EdgeInsets.all(0.0),
+                  margin: const EdgeInsets.all(0.0),
+                  color: theme.appBarColor,
+                  child: Row(
+                    children: [
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      ),
+                      /// First nav button.
+                      MyNavBarButton(
+                        theme: theme,
+                        callback: (){},
+                        iconPath: 'assets/images/1.1.svg', // ToDo
+                        iconColor: theme.mainGreenColor,
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      ),
+                      /// Second nav button.
+                      MyNavBarButton(
+                        theme: theme,
+                        callback: (){},
+                        iconPath: 'assets/images/1.2.svg', // ToDo
+                        iconColor: theme.celebrateTextColor // ToDo
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      ),
+                      /// Central nav button. // ToDo
+                      CentralNavBarButton(
+                        theme: theme,
+                        callback: (){},
+                        iconPath: 'assets/images/1.3.svg', // ToDo
+                        iconColor: theme.celebrateTextColor // ToDo
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      ),
+                      /// Fourth nav button.
+                      MyNavBarButton(
+                        theme: theme,
+                        callback: (){},
+                        iconPath: 'assets/images/1.4.svg', // ToDo
+                        iconColor: theme.celebrateTextColor // ToDo
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      ),
+                      /// Fifth nav button.
+                      MyNavBarButton(
+                        theme: theme,
+                        callback: (){},
+                        iconPath: 'assets/images/1.5.svg', // ToDo
+                        iconColor: theme.celebrateTextColor // ToDo
+                      ),
+                      /// Separator.
+                      Expanded(
+                        flex: 1,
+                        child: Container(),
+                      )
+                    ]
+                )
             ),
           ]
         )
@@ -746,115 +794,4 @@ class _MainPlannerState extends State<MainPlanner> {
   });
 }}
 
-class MyGroupButton extends StatelessWidget {
-  final VoidCallback callback;
-  final Color buttonColor;
-  final String iconPath;
-  // final String count;
-  final String buttonName;
-  // final String date;
 
-  const MyGroupButton({
-    required this.callback,
-    required this.buttonColor,
-    required this.iconPath,
-    // required this.count,
-    required this.buttonName,
-    // required this.date,
-    Key? key}
-  ) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: 62,
-          height: 62,
-          child: InkWell(
-            onTap: callback,
-            child: Stack(
-              children: [
-                Container(
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                    color: buttonColor,
-                    // border: Border.all(color: familyGroupButtonColor, width: 1.0), todo добавить внутреннюю тень
-                    borderRadius: BorderRadius.circular(9.0),
-                  )
-                ),
-                Container(
-                  width: 52,
-                  height: 52,
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: buttonColor,
-                    borderRadius: BorderRadius.circular(4.0),
-                    // boxShadow: const [ // todo добавить тень
-                    //   BoxShadow(
-                    //     color: Colors.white,
-                    //     blurRadius: 1,
-                    //     spreadRadius: 5,
-                    //     offset: Offset(0, 0)
-                    //   ),
-                    //   BoxShadow(
-                    //     color: Colors.black,
-                    //     blurRadius: 5,
-                    //     spreadRadius: 1,
-                    //     offset: Offset(5, 5)
-                    //   ),
-                    // ],
-                    ),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        iconPath,
-                        fit: BoxFit.scaleDown
-                      )
-                    )
-                  ),
-                  Container(
-                    width: 16,
-                    height: 16,
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(top: 1, left: 45),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.5),
-                      shape: BoxShape.circle,
-                    ),
-                    // child: Text(
-                    //   count,
-                    //   style: const TextStyle(
-                    //     color: croupButtonsTextColor,
-                    //     fontSize: 13,
-                    //     fontFamily: 'Roboto'
-                    //   ),
-                    // )
-                  )
-                ]
-              )
-          )
-        ),
-        Text(
-          buttonName,
-          style: TextStyle(
-            color: mainWhiteColor,
-            fontSize: 10,
-            fontFamily: 'Roboto'
-          ),
-        ),
-        // Text(
-        //   date,
-        //   style: const TextStyle(
-        //     color: mainWhiteColor,
-        //     fontSize: 10,
-        //     fontFamily: 'Roboto'
-        //   ),
-        // )
-      ]
-    );
-  }
-
-}
