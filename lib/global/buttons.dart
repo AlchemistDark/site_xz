@@ -168,6 +168,7 @@ class _GradientAnimatedButtonWithGreenIconState extends State<GradientAnimatedBu
 
 /// Buttons for group line on main screen.
 class MyGroupButton extends StatelessWidget {
+  final bool isPressed;
   final AppTheme theme;
   final VoidCallback callback;
   final Color buttonColor;
@@ -177,6 +178,7 @@ class MyGroupButton extends StatelessWidget {
   final String date;
 
   const MyGroupButton({
+    required this.isPressed,
     required this.theme,
     required this.callback,
     required this.buttonColor,
@@ -202,10 +204,12 @@ class MyGroupButton extends StatelessWidget {
                   width: 62,
                   height: 62,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Colors.white, Colors.black]
+                      colors: isPressed?
+                        [Colors.black, Colors.white] :
+                        [Colors.white, Colors.black]
                     ),//Colors.white,//buttonColor,
                     border: Border.all(color: buttonColor, width: 1.0),
                     borderRadius: BorderRadius.circular(8.0),

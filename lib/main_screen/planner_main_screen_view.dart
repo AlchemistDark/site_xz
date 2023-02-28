@@ -48,6 +48,7 @@ class _MainPlannerState extends State<MainPlanner> {
   int numberOfYearCelebrates = 0;
   int numberOfMonthCelebrates = 0;
   bool resetCurrentCelebration = true;
+  List<bool> selectedGroups = [true, true, true, true, true]; //ToDo
   final int _currentDay = DateTime.now().day;
   final int _currentMonth = DateTime.now().month;
   final int _currentYear = DateTime.now().year; //ToDo
@@ -91,7 +92,11 @@ class _MainPlannerState extends State<MainPlanner> {
     List<Celebrate> result = [];
     for (int l = 31; l > _currentDay; l--) {
       for (Celebrate celebrate in celebrates) {
-        if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
+        if (
+          (celebrate.month == _currentMonth) &&
+          (celebrate.day == l) &&
+          isSelectedCelebrate(celebrate)
+        ) {
           result.add(celebrate);
           break;
         }
@@ -99,7 +104,11 @@ class _MainPlannerState extends State<MainPlanner> {
     }
     for (int l = _currentDay; l > 0; l--) {
       for (Celebrate celebrate in celebrates) {
-        if ((celebrate.month == _currentMonth) && (celebrate.day == l)) {
+        if (
+          (celebrate.month == _currentMonth) &&
+          (celebrate.day == l) &&
+          isSelectedCelebrate(celebrate)
+        ) {
           result.add(celebrate);
           break;
         }
@@ -108,7 +117,11 @@ class _MainPlannerState extends State<MainPlanner> {
     for (int i = (_currentMonth - 1); i > 0; i--) {
       for (int l = 31; l > 0; l--) {
         for (Celebrate celebrate in celebrates) {
-          if ((celebrate.month == i) && (celebrate.day == l)) {
+          if (
+            (celebrate.month == i) &&
+            (celebrate.day == l) &&
+            isSelectedCelebrate(celebrate)
+          ) {
             result.add(celebrate);
             break;
           }
@@ -118,7 +131,11 @@ class _MainPlannerState extends State<MainPlanner> {
     for (int i = 12; i > _currentMonth; i--) {
       for (int l = 31; l > 0; l--) {
         for (Celebrate celebrate in celebrates) {
-          if ((celebrate.month == i) && (celebrate.day == l)) {
+          if (
+            (celebrate.month == i) &&
+            (celebrate.day == l) &&
+            isSelectedCelebrate(celebrate)
+          ) {
             result.add(celebrate);
             break;
           }
@@ -127,6 +144,25 @@ class _MainPlannerState extends State<MainPlanner> {
     }
     numberOfYearCelebrates = result.length;
     return result;
+  }
+
+  bool isSelectedCelebrate(Celebrate celebrate){
+    if (selectedGroups[0] && celebrate.peopleCategory.contains(1)){
+      return true;
+    }
+    if (selectedGroups[1] && celebrate.peopleCategory.contains(2)){
+      return true;
+    }
+    if (selectedGroups[2] && celebrate.peopleCategory.contains(3)){
+      return true;
+    }
+    if (selectedGroups[3] && celebrate.peopleCategory.contains(4)){
+      return true;
+    }
+    if (selectedGroups[4] && celebrate.peopleCategory.contains(5)){
+      return true;
+    }
+    return false;
   }
 
   /// Returns from the list of all celebrations only those celebrations
@@ -625,8 +661,11 @@ class _MainPlannerState extends State<MainPlanner> {
                     children: [
                       /// Family group button.
                       MyGroupButton(
+                        isPressed: selectedGroups[0],
                         theme: theme,
-                        callback: (){},
+                        callback: (){setState(() {
+                          selectedGroups[0] = !selectedGroups[0];
+                        });},
                         buttonColor: theme.familyGroupButtonColor,
                         iconPath: 'assets/images/family_group_icon.svg', // ToDo
                         count: person.peopleCount[0].toString(),
@@ -642,8 +681,11 @@ class _MainPlannerState extends State<MainPlanner> {
                       ),
                       /// Friends group button.
                       MyGroupButton(
+                        isPressed: selectedGroups[1],
                         theme: theme,
-                        callback: (){},
+                        callback: (){setState(() {
+                          selectedGroups[1] = !selectedGroups[1];
+                        });},
                         buttonColor: theme.friendsGroupButtonColor,
                         iconPath: 'assets/images/friends_group_icon.svg', // ToDo
                         count: person.peopleCount[1].toString(),
@@ -659,8 +701,11 @@ class _MainPlannerState extends State<MainPlanner> {
                       ),
                       /// Relatives group button.
                       MyGroupButton(
+                        isPressed: selectedGroups[2],
                         theme: theme,
-                        callback: (){},
+                        callback: (){setState(() {
+                          selectedGroups[2] = !selectedGroups[2];
+                        });},
                         buttonColor: theme.relativesGroupButtonColor,
                         iconPath: 'assets/images/relatives_group_icon.svg', // ToDo
                         count: person.peopleCount[2].toString(),
@@ -676,8 +721,11 @@ class _MainPlannerState extends State<MainPlanner> {
                       ),
                       /// Colleagues group button.
                       MyGroupButton(
+                        isPressed: selectedGroups[3],
                         theme: theme,
-                        callback: (){},
+                        callback: (){setState(() {
+                          selectedGroups[3] = !selectedGroups[3];
+                        });},
                         buttonColor: theme.colleaguesGroupButtonColor,
                         iconPath: 'assets/images/colleagues_group_icon.svg', // ToDo
                         count: person.peopleCount[3].toString(),
@@ -693,8 +741,11 @@ class _MainPlannerState extends State<MainPlanner> {
                       ),
                       /// Partners group button.
                       MyGroupButton(
+                        isPressed: selectedGroups[4],
                         theme: theme,
-                        callback: (){},
+                        callback: (){setState(() {
+                          selectedGroups[4] = !selectedGroups[4];
+                        });},
                         buttonColor: theme.partnersGroupButtonColor,
                         iconPath: 'assets/images/partners_group_icon.svg', // ToDo
                         count: person.peopleCount[4].toString(),
@@ -712,81 +763,81 @@ class _MainPlannerState extends State<MainPlanner> {
                   )
                 ),
                 /// navBar. // ToDo
-                Container(
-                  width: widget.mainWidth,
-                  padding: const EdgeInsets.all(0.0),
-                  margin: const EdgeInsets.all(0.0),
-                  color: theme.appBarColor,
-                  child: Row(
-                    children: [
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      /// First nav button.
-                      MyNavBarButton(
-                        theme: theme,
-                        callback: (){},
-                        iconPath: 'assets/images/1.1.svg', // ToDo
-                        iconColor: theme.mainGreenColor,
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      /// Second nav button.
-                      MyNavBarButton(
-                        theme: theme,
-                        callback: (){},
-                        iconPath: 'assets/images/1.2.svg', // ToDo
-                        iconColor: theme.celebrateTextColor // ToDo
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      /// Central nav button. // ToDo
-                      CentralNavBarButton(
-                        theme: theme,
-                        callback: (){},
-                        iconPath: 'assets/images/1.3.svg', // ToDo
-                        iconColor: theme.celebrateTextColor // ToDo
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      /// Fourth nav button.
-                      MyNavBarButton(
-                        theme: theme,
-                        callback: (){},
-                        iconPath: 'assets/images/1.4.svg', // ToDo
-                        iconColor: theme.celebrateTextColor // ToDo
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      ),
-                      /// Fifth nav button.
-                      MyNavBarButton(
-                        theme: theme,
-                        callback: (){},
-                        iconPath: 'assets/images/1.5.svg', // ToDo
-                        iconColor: theme.celebrateTextColor // ToDo
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(),
-                      )
-                    ]
-                )
-            ),
+            //     Container(
+            //       width: widget.mainWidth,
+            //       padding: const EdgeInsets.all(0.0),
+            //       margin: const EdgeInsets.all(0.0),
+            //       color: theme.appBarColor,
+            //       child: Row(
+            //         children: [
+            //           /// Separator.
+            //           Expanded(
+            //             flex: 1,
+            //             child: Container(),
+            //           ),
+            //           /// First nav button.
+            //           MyNavBarButton(
+            //             theme: theme,
+            //             callback: (){},
+            //             iconPath: 'assets/images/1.1.svg', // ToDo
+            //             iconColor: theme.mainGreenColor,
+            //           ),
+            //           /// Separator.
+            //           Expanded(
+            //             flex: 1,
+            //             child: Container(),
+            //           ),
+            //           /// Second nav button.
+            //           MyNavBarButton(
+            //             theme: theme,
+            //             callback: (){},
+            //             iconPath: 'assets/images/1.2.svg', // ToDo
+            //             iconColor: theme.celebrateTextColor // ToDo
+            //           ),
+            //           /// Separator.
+            //           Expanded(
+            //             flex: 1,
+            //             child: Container(),
+            //           ),
+            //           /// Central nav button. // ToDo
+            //           CentralNavBarButton(
+            //             theme: theme,
+            //             callback: (){},
+            //             iconPath: 'assets/images/1.3.svg', // ToDo
+            //             iconColor: theme.celebrateTextColor // ToDo
+            //           ),
+            //           /// Separator.
+            //           Expanded(
+            //             flex: 1,
+            //             child: Container(),
+            //           ),
+            //           /// Fourth nav button.
+            //           MyNavBarButton(
+            //             theme: theme,
+            //             callback: (){},
+            //             iconPath: 'assets/images/1.4.svg', // ToDo
+            //             iconColor: theme.celebrateTextColor // ToDo
+            //           ),
+            //           /// Separator.
+            //           Expanded(
+            //             flex: 1,
+            //             child: Container(),
+            //           ),
+            //           /// Fifth nav button.
+            //           MyNavBarButton(
+            //             theme: theme,
+            //             callback: (){},
+            //             iconPath: 'assets/images/1.5.svg', // ToDo
+            //             iconColor: theme.celebrateTextColor // ToDo
+            //           ),
+            //           /// Separator.
+            //           Expanded(
+            //             flex: 1,
+            //             child: Container(),
+            //           )
+            //         ]
+            //     )
+            // ),
           ]
         )
       )
