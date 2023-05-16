@@ -36,16 +36,16 @@ class CelebrateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 49,
-      height: 57,
+      width: 52,
+      height: 63,
       child: Stack(
         children: <Widget>[
           /// White border.
           if (isCurrent)
             Center(
               child: Container(
-                width: 49,
-                height: 49,
+                width: 52,
+                height: 52,
                 decoration: BoxDecoration(
                   color: theme.mainWhiteColor,
                   shape: BoxShape.circle
@@ -59,10 +59,10 @@ class CelebrateWidget extends StatelessWidget {
                 mainCallback(indexOfCurrent);
               },
               child: SizedBox(
-                width: 45,
-                height: 45,
+                width: 50,
+                height: 50,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(22.5),
+                  borderRadius: BorderRadius.circular(25),
                   child: Stack(
                     children: <Widget>[
                       Row(
@@ -107,11 +107,17 @@ class CelebrateWidget extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: theme.celebrateTextBackgroundColor.withOpacity(0.5),
+                width: 45,
+                decoration: BoxDecoration(
+                  color: isCurrent? const Color(0xFFFF40B0) : theme.celebrateTextBackgroundColor.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                //color: theme.celebrateTextBackgroundColor.withOpacity(0.5),
                 child: Text(
-                  "${celebrate.month}.${celebrate.day}",
+                  "${celebrate.day.toString().padLeft(2, '0')}.${celebrate.month.toString().padLeft(2, '0')}.2023",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: theme.celebrateTextColor,
+                    color: isCurrent? const Color(0xFFFFFFFF) : theme.celebrateTextColor,
                     fontSize: fontSize,
                     fontFamily: 'Roboto',
                     height: 1.102

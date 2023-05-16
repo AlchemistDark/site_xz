@@ -210,16 +210,16 @@ class TailPainter extends CustomPainter{
       ..strokeWidth = 1;
     canvas.drawLine(
       const Offset(0.0, (172.0 / 2)),
-      const Offset(30.0, (172.0 / 2)),
+      const Offset(20.0, (172.0 / 2)),
       line
     );
     canvas.drawLine(
-      const Offset(142.0, (172.0 / 2)),
+      const Offset(152.0, (172.0 / 2)),
       const Offset(172.0, (172.0 / 2)),
       line
     );
     canvas.drawLine(
-      const Offset((172.0 / 2), 142.0),
+      const Offset((172.0 / 2), 152.0),
       const Offset((172.0 / 2), 172.0),
       line
     );

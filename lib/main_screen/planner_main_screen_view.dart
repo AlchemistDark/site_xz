@@ -48,7 +48,7 @@ class _MainPlannerState extends State<MainPlanner> {
   int numberOfYearCelebrates = 0;
   int numberOfMonthCelebrates = 0;
   bool resetCurrentCelebration = true;
-  List<bool> selectedGroups = [true, true, true, true, true]; //ToDo
+  List<bool> selectedGroups = [true, false, false, false, false]; //ToDo
   final int _currentDay = DateTime.now().day;
   final int _currentMonth = DateTime.now().month;
   final int _currentYear = DateTime.now().year; //ToDo
@@ -64,6 +64,14 @@ class _MainPlannerState extends State<MainPlanner> {
   void _periodChange(){
     resetCurrentCelebration = true;
     isMonth = !isMonth;
+
+    // ToDo
+    selectedGroups[0] = true;
+    selectedGroups[1] = !selectedGroups[1];
+    selectedGroups[2] = !selectedGroups[2];
+    selectedGroups[3] = !selectedGroups[3];
+    selectedGroups[4] = !selectedGroups[4];
+
     setState((){});
   }
 
@@ -146,7 +154,7 @@ class _MainPlannerState extends State<MainPlanner> {
     return result;
   }
 
-  bool isSelectedCelebrate(Celebrate celebrate){
+  bool isSelectedCelebrate(Celebrate celebrate){ // ToDo Добавить праздники для других категорий
     if (selectedGroups[0] && celebrate.peopleCategory.contains(1)){
       return true;
     }
@@ -160,6 +168,9 @@ class _MainPlannerState extends State<MainPlanner> {
       return true;
     }
     if (selectedGroups[4] && celebrate.peopleCategory.contains(5)){
+      return true;
+    }
+    if (celebrate.peopleCategory.contains(6) && isMonth){
       return true;
     }
     return false;
@@ -224,6 +235,7 @@ class _MainPlannerState extends State<MainPlanner> {
         Person person = snapshot.data!.userData;
         List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
         List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
+        List<Celebrate> celebrates = (isMonth)? monthCelebrates : yearCelebrates;
         if (resetCurrentCelebration) {
           numberOfCelebrations = (isMonth)
             ? (numberOfMonthCelebrates - 1)
@@ -402,13 +414,13 @@ class _MainPlannerState extends State<MainPlanner> {
                       ),
                       Center(
                         child: SizedBox(
-                          width: (widget.mainWidth + 11),
-                          height: (widget.mainWidth + 11),
+                          width: (widget.mainWidth),
+                          height: (widget.mainWidth),
                           child: OverflowBox(
-                            maxWidth: (widget.mainWidth + 11),
+                            maxWidth: (widget.mainWidth),
                             child: ClipRRect(
                               borderRadius: BorderRadius
-                                .circular((widget.mainWidth + 11) / 2),
+                                .circular((widget.mainWidth) / 2),
                               child: Container(
                                 color: theme.mainColor
                               )
@@ -558,30 +570,30 @@ class _MainPlannerState extends State<MainPlanner> {
                               scale: scaleFactor, //scaleFactor,
                               alignment: Alignment.bottomLeft,
                               child: SizedBox(
-                                width: 45,
-                                height: 45,
+                                width: 50,
+                                height: 58,
                                 child: CelebrateWidget(
                                   theme: theme,
-                                  celebrate: yearCelebrates[currentCelebrate],
-                                  isCurrent: false,
+                                  celebrate: celebrates[currentCelebrate],
+                                  isCurrent: true,
                                   haveStatus: false,
-                                  isForYear: false,
+                                  isForYear: true,
                                   mainCallback: (currentCelebrate){},
                                   indexOfCurrent: currentCelebrate,
                                   statusCallback: (){}
                                 )
                               )
                             ),
+                            // Text(
+                            //   celebrates[currentCelebrate].date,
+                            //   style: TextStyle(
+                            //     color: theme.clockFaceCurrentCelebrateIconTextColor,
+                            //     fontSize: 11,
+                            //     fontFamily: 'Roboto'
+                            //   )
+                            // ),
                             Text(
-                              yearCelebrates[currentCelebrate].date,
-                              style: TextStyle(
-                                color: theme.clockFaceCurrentCelebrateIconTextColor,
-                                fontSize: 11,
-                                fontFamily: 'Roboto'
-                              )
-                            ),
-                            Text(
-                              yearCelebrates[currentCelebrate].name,
+                              celebrates[currentCelebrate].name,
                               style: TextStyle(
                                 color: theme.appBarTextColor,
                                 fontSize: 12,
@@ -623,7 +635,7 @@ class _MainPlannerState extends State<MainPlanner> {
                                         GradientAnimatedButtonWithGreenIcon(
                                           theme: theme,
                                           iconPath: leftArrowButtonIcon,
-                                          onPressed: currentCelebrateIncrement
+                                          onPressed: currentCelebrateDecrement
                                         ),
                                         Container(
                                           width: 19
@@ -631,7 +643,7 @@ class _MainPlannerState extends State<MainPlanner> {
                                         GradientAnimatedButtonWithGreenIcon(
                                           theme: theme,
                                           iconPath: rightArrowButtonIcon,
-                                          onPressed: currentCelebrateDecrement
+                                          onPressed: currentCelebrateIncrement
                                         )
                                       ]
                                     )

@@ -39,8 +39,8 @@ class YearCircularClockFace extends StatelessWidget {
         /// Draw the calendar dial.
         Center(
           child: Container(
-            width: 375,
-            height: 375,
+            width: 355,
+            height: 355,
             decoration: BoxDecoration(
               color: theme.clockFaceMainColor,
               shape: BoxShape.circle
@@ -104,7 +104,7 @@ class YearCircularClockFace extends StatelessWidget {
           child: Container(
             width: 55,
             height: 45,
-            margin: const EdgeInsets.only(bottom: 70),
+            margin: const EdgeInsets.only(bottom: 60, right: 80),
             child: Image.asset(
               theme.logoPath,
               scale: 0.5,
