@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: StartPage.route,
       routes: {
-        MainPlanner.route: (context) => MainPlanner(
+        MainPlannerScreen.route: (context) => MainPlannerScreen(
           'Planner',
           ModalRoute.of(context)!.settings.arguments as double,
           ModalRoute.of(context)!.settings.arguments as AppController

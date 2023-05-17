@@ -9,6 +9,8 @@ import 'package:site_xz/calendar_screen_view.dart';
 import 'package:site_xz/contact_list_view.dart';
 import 'package:site_xz/global/app_controller.dart';
 import 'package:site_xz/global/buttons.dart';
+import 'package:site_xz/global/nav_bar/nav_bar_controller.dart';
+import 'package:site_xz/global/nav_bar/nav_bar_widget.dart';
 import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/planner_app_bar.dart';
@@ -19,14 +21,14 @@ import 'package:site_xz/main_screen/year_circular_face/year_circular_face_view.d
 
 /// The main window of the application.
 
-class MainPlanner extends StatefulWidget {
+class MainPlannerScreen extends StatefulWidget {
   static const route = '/planner';
 
   final String title;
   final double mainWidth;
   final AppController appController;
 
-  const MainPlanner(
+  const MainPlannerScreen(
     this.title,
     this.mainWidth,
     this.appController,
@@ -34,10 +36,10 @@ class MainPlanner extends StatefulWidget {
   ) : super(key: key);
 
   @override
-  State<MainPlanner> createState() => _MainPlannerState();
+  State<MainPlannerScreen> createState() => _MainPlannerScreenState();
 }
 
-class _MainPlannerState extends State<MainPlanner> {
+class _MainPlannerScreenState extends State<MainPlannerScreen> {
   int userNumber = 0;  // ToDo логику работы с юзерами придётся переписать.
   String avatarImagePath = "assets/images/avatar.png";  // ToDo аватар должен грузиться с сервера.
   bool isMonth = false;
@@ -54,7 +56,7 @@ class _MainPlannerState extends State<MainPlanner> {
   final int _currentYear = DateTime.now().year; //ToDo
 
   /// Constructor.
-  _MainPlannerState();
+  _MainPlannerScreenState();
 
   String _period(){
     return isMonth? 'месяца' : 'года';
@@ -227,295 +229,322 @@ class _MainPlannerState extends State<MainPlanner> {
   @override
   Widget build(BuildContext context) {
     double scaleFactor = widget.mainWidth / 375;
-    return StreamBuilder<AppState>(
-      initialData: widget.appController.currentAppState,
-      stream: widget.appController.state,
-      builder: (context, snapshot) {
-        AppTheme theme = snapshot.data!.theme;
-        Person person = snapshot.data!.userData;
-        List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
-        List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
-        List<Celebrate> celebrates = (isMonth)? monthCelebrates : yearCelebrates;
-        if (resetCurrentCelebration) {
-          numberOfCelebrations = (isMonth)
-            ? (numberOfMonthCelebrates - 1)
-            : (numberOfYearCelebrates - 1);
-          currentCelebrate = numberOfCelebrations;
-        }
-        return Scaffold(
-          appBar: PlannerAppBar(
-            callBack: (){},
-            controller: widget.appController,
-            child: Container(
-              margin: const EdgeInsets.only(top: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "События ближайшего ${_period()}", // ToDo Протестировать
-                    style: TextStyle(
-                      color: theme.appBarTextColor,
-                      fontSize: 17,
-                      fontFamily: 'Roboto'
+    return DefaultBottomBarController(
+      child:
+      StreamBuilder<AppState>(
+        initialData: widget.appController.currentAppState,
+        stream: widget.appController.state,
+        builder: (context, snapshot) {
+          AppTheme theme = snapshot.data!.theme;
+          Person person = snapshot.data!.userData;
+          List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
+          List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
+          List<Celebrate> celebrates = (isMonth)? monthCelebrates : yearCelebrates;
+          if (resetCurrentCelebration) {
+            numberOfCelebrations = (isMonth)
+                ? (numberOfMonthCelebrates - 1)
+                : (numberOfYearCelebrates - 1);
+            currentCelebrate = numberOfCelebrations;
+          }
+
+          /// Если исрользовать для блоков Separator line исполльзовать Expanded,
+          /// как сделал в начале, то NavBar при открытии бужет уменьшать их
+          /// высоту и вёрстка поедет. Поэтому я использовал Container,
+          /// высота которого расчитывается один раз на всё время
+          /// по формуле ниже и сохраняется в переменную [separatorHeight].
+          /// Вся доступная высота экрана - (Высота Contact avatar line
+          ///   + (Rectangular block with buttons and round clock face)
+          ///   + Высота Groups line + Поле под NavBar(максимум было 160, сейчас 10)))
+          ///   / Число блоков Separator line;
+          double separatorHeight = (MediaQuery.of(context).size.height
+              - (72 + (widget.mainWidth + 45) + 90 + 50)) / 4;
+
+          separatorHeight = (separatorHeight < 0)? 0 : separatorHeight;
+          return Scaffold(
+            // Здесь будет кнопка для NavBar
+              // floatingActionButtonLocation: FloatingActionButtonLocation
+              //     .centerDocked,
+              // floatingActionButton: GestureDetector(
+              //   //
+              //   // Set onVerticalDrag event to drag handlers of controller for swipe effect
+              //   onVerticalDragUpdate: DefaultBottomBarController
+              //       .of(context)
+              //       .onDrag,
+              //   onVerticalDragEnd: DefaultBottomBarController
+              //       .of(context)
+              //       .onDragEnd,
+              //   child: FloatingActionButton.extended(
+              //     label: AnimatedBuilder(
+              //       animation: DefaultBottomBarController
+              //           .of(context)
+              //           .state,
+              //       builder: (context, child) =>
+              //           AnimatedBuilder(
+              //             animation: DefaultBottomBarController
+              //                 .of(context)
+              //                 .state,
+              //             builder: (context, child) =>
+              //                 Transform(
+              //                   alignment: Alignment.center,
+              //                   transform: Matrix4.diagonal3Values(
+              //                     1,
+              //                     DefaultBottomBarController
+              //                         .of(context)
+              //                         .state
+              //                         .value * 2 - 1,
+              //                     1,
+              //                   ),
+              //                   child: child,
+              //                 ),
+              //             child: const RotatedBox(
+              //               quarterTurns: 1,
+              //               child: Icon(
+              //                 Icons.chevron_right,
+              //                 size: 20,
+              //               ),
+              //             ),
+              //           ),
+              //     ),
+              //     elevation: 2,
+              //     backgroundColor: theme.appBarColor,
+              //     foregroundColor: Colors.white,
+              //     //
+              //     //Set onPressed event to swap state of bottom bar
+              //     onPressed: () =>
+              //         DefaultBottomBarController.of(context).swap(),
+              //   ),
+              // ),
+              // //
+              // Actual expandable bottom bar
+            appBar: PlannerAppBar(
+              callBack: (){},
+              controller: widget.appController,
+              child: Container(
+                margin: const EdgeInsets.only(top: 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "События ближайшего ${_period()}", // ToDo Протестировать
+                      style: TextStyle(
+                        color: theme.appBarTextColor,
+                        fontSize: 17,
+                        fontFamily: 'Roboto'
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Группа “Natalya Bloom” (1/1)',//(${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
-                    style: TextStyle(
-                      color: theme.appBarTextColor,
-                      fontSize: 14,
-                      fontFamily: 'Roboto'
-                    ),
-                  )
-                ]
+                    Text(
+                      'Группа “Natalya Bloom” (1/1)',//(${userNumber + 1}/${usersList.length})', // ToDo Имя группы должно меняться, а юзер пока один
+                      style: TextStyle(
+                        color: theme.appBarTextColor,
+                        fontSize: 14,
+                        fontFamily: 'Roboto'
+                      ),
+                    )
+                  ]
+                )
               )
-            )
-          ),
-          body: Container(
-            color: theme.mainColor,
-            child: Column(
-              children: <Widget>[
-                /// Separator line.
-                Expanded(
-                  flex: 1,
-                  child: Container()
-                ),
-                /// Contact avatar line.
-                Container(
-                  height: 72,
-                  margin: const EdgeInsets.only(left: 16, right: 16),
-                  color: theme.mainColor,
-                  child: Row(
-                    children: [
-                      /// Avatar.
-                      SizedBox(
-                        height: 54,
-                        width: 54,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(27),
-                          child: Image.asset(
-                            // ToDo Аватар должен браться с сервера
-                            "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
-                            fit:BoxFit.fitHeight,
+            ),
+            body: Container(
+              color: theme.mainColor,
+              child: Column(
+                children: <Widget>[
+                  /// Separator line.
+                  // Expanded(
+                  //   flex: 1,
+                  //   child:
+                    Container(
+                      height: separatorHeight,
+                      width: 10,
+                      //color: Colors.deepPurple,
+                     ),
+                  // ),
+                  /// Contact avatar line.
+                  Container(
+                    height: 72,
+                    margin: const EdgeInsets.only(left: 16, right: 16),
+                    color: theme.mainColor,
+                    child: Row(
+                      children: [
+                        /// Avatar.
+                        SizedBox(
+                          height: 54,
+                          width: 54,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(27),
+                            child: Image.asset(
+                              // ToDo Аватар должен браться с сервера
+                              "assets/images/avatar.png",//avatarImagePath = usersList[userNumber].avatarImagePath,
+                              fit:BoxFit.fitHeight,
+                            )
                           )
-                        )
-                      ),
-                      /// Name and address.
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 8, top: 16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                person.userName,
-                                style: TextStyle(
-                                  color: theme.avatarText1Color,
-                                  fontSize: 16,
-                                  fontFamily: 'Roboto'
+                        ),
+                        /// Name and address.
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 8, top: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  person.userName,
+                                  style: TextStyle(
+                                    color: theme.avatarText1Color,
+                                    fontSize: 16,
+                                    fontFamily: 'Roboto'
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                person.region,
-                                style: TextStyle(
-                                  color: theme.avatarText2Color,
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto'
-                                ),
-                              )
-                            ]
-                          )
-                        )
-                      ),
-                      /// List buttons.
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                height: 34,
-                                width: 34,
-                                child: AnimatedButton(
-                                  theme: theme,
-                                  iconPath: leftArrowButtonIcon,
-                                  onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                Text(
+                                  person.region,
+                                  style: TextStyle(
+                                    color: theme.avatarText2Color,
+                                    fontSize: 14,
+                                    fontFamily: 'Roboto'
+                                  ),
                                 )
-                              ),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              SizedBox(
-                                height: 34,
-                                width: 34,
-                                child: AnimatedButton(
-                                  theme: theme,
-                                  iconPath: rightArrowButtonIcon,
-                                  onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
-                                )
-                              ),
-                            ],
-                          ),
-                          Center(
-                            child: (
-                              SizedBox(
-                                height: 34,
-                                width: 34,
-                                child: AnimatedButton(
-                                  theme: theme,
-                                  iconPath: listButtonIcon,
-                                  onPressed: (){setState(() {
-                                    Navigator.push(
-                                      context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return CalendarScreen(
-                                            widget.title,
-                                            widget.appController
-                                          );
-                                        }
-                                      )
-                                    );
-                                  });}
-                                )
-                              )
+                              ]
                             )
                           )
-                        ]
-                      )
-                    ]
-                  )
-                ),
-                /// Separator line.
-                Expanded(
-                  flex: 1,
-                  child: Container()
-                ),
-                /// Rectangular block with buttons and round clock face.
-                SizedBox(
-                  height: (widget.mainWidth + 45),
-                  child: Stack(
-                    children: <Widget>[
-                      /// BackGround
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            color: theme.clockFaceMainColor,
-                          ),
-                          Expanded(
-                            child: Container()
-                          ),
-                          Container(
-                            height: (40 + (45 * scaleFactor)),
-                            color: theme.clockFaceMainColor,
-                            padding: const EdgeInsets.only(bottom: 0),
-                          )
-                        ]
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: (widget.mainWidth),
-                          height: (widget.mainWidth),
-                          child: OverflowBox(
-                            maxWidth: (widget.mainWidth),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius
-                                .circular((widget.mainWidth) / 2),
-                              child: Container(
-                                color: theme.mainColor
-                              )
-                            )
-                          )
-                        )
-                      ),
-                      /// Clock face.
-                      if (!isMonth)
-                      Center(
-                        child: SizedBox(
-                          height: widget.mainWidth,
-                          child: Transform.scale(
-                            scale: scaleFactor, //scaleFactor,
-                            child: YearCircularClockFace(
-                              theme: theme,
-                              celebrates: yearCelebrates,
-                              currentCelebrate: currentCelebrate,
-                              arrowCallback: _periodChange,
-                              celebrateIconCallback: currentCelebrateChange,
-                            )
-                          )
-                        )
-                      ),
-                      if (isMonth)
-                      Center(
-                        child: SizedBox(
-                          height: widget.mainWidth,
-                          child: Transform.scale(
-                            scale: scaleFactor, //scaleFactor,
-                            child: MonthCircularClockFace(
-                              theme: theme,
-                              celebrates: monthCelebrates,
-                              currentCelebrate: currentCelebrate,
-                              arrowCallback: _periodChange,
-                              celebrateIconCallback: currentCelebrateChange,
-                            )
-                          )
-                        )
-                      ),
-                      /// Left top button.
-                      Container(
-                        margin: const EdgeInsets.only(left: 12, top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                        /// List buttons.
+                        Column(
                           children: [
-                            Text(
-                              "Добавить",
-                              style: TextStyle(
-                                color: theme.clockFaceButtonTextColor,
-                                fontSize: 12,
-                                fontFamily: 'Roboto',
-                                height: 0.94
-                              )
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                SizedBox(
+                                  height: 34,
+                                  width: 34,
+                                  child: AnimatedButton(
+                                    theme: theme,
+                                    iconPath: leftArrowButtonIcon,
+                                    onPressed: (){} //userNumberDown, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                  )
+                                ),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                SizedBox(
+                                  height: 34,
+                                  width: 34,
+                                  child: AnimatedButton(
+                                    theme: theme,
+                                    iconPath: rightArrowButtonIcon,
+                                    onPressed: (){} //userNumberUp, // ToDo переписать, так как сейчас юзеры приходят не с сервера.
+                                  )
+                                ),
+                              ],
                             ),
-                            Text(
-                              "повод",
-                              style: TextStyle(
-                                color: theme.clockFaceButtonTextColor,
-                                fontSize: 12,
-                                fontFamily: 'Roboto',
-                                height: 0.94
-                              )
-                            ),
-                            Container(
-                              height: 35,
-                              width: 35,
-                              margin: const EdgeInsets.only(top: 5),
-                              child: GradientAnimatedButtonWithGreenIcon(
-                                theme: theme,
-                                iconPath: addButtonIcon,
-                                onPressed: (){setState(() {
-                                  Navigator.push(
-                                    context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return CalendarScreen(
-                                          widget.title,
-                                          widget.appController
-                                        );
-                                      }
-                                    )
-                                  );
-                                });}
+                            Center(
+                              child: (
+                                SizedBox(
+                                  height: 34,
+                                  width: 34,
+                                  child: AnimatedButton(
+                                    theme: theme,
+                                    iconPath: listButtonIcon,
+                                    onPressed: (){setState(() {
+                                      Navigator.push(
+                                        context, MaterialPageRoute(
+                                          builder: (context) {
+                                            return CalendarScreen(
+                                              widget.title,
+                                              widget.appController
+                                            );
+                                          }
+                                        )
+                                      );
+                                    });}
+                                  )
+                                )
                               )
                             )
                           ]
+                        )
+                      ]
+                    )
+                  ),
+                  /// Separator line.
+                Container(
+                  height: separatorHeight,
+                  width: 10,
+                  //color: Colors.deepPurple,
+                ),
+                  /// Rectangular block with buttons and round clock face.
+                  SizedBox(
+                    height: (widget.mainWidth + 45),
+                    child: Stack(
+                      children: <Widget>[
+                        /// BackGround
+                        Column(
+                          children: [
+                            Container(
+                              height: 80,
+                              color: theme.clockFaceMainColor,
+                            ),
+                            Expanded(
+                              child: Container()
+                            ),
+                            Container(
+                              height: (40 + (45 * scaleFactor)),
+                              color: theme.clockFaceMainColor,
+                              padding: const EdgeInsets.only(bottom: 0),
+                            )
+                          ]
                         ),
-                      ),
-                      /// Right top button.
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          padding: const EdgeInsets.only(right: 12, top: 10),
+                        Center(
+                          child: SizedBox(
+                            width: (widget.mainWidth),
+                            height: (widget.mainWidth),
+                            child: OverflowBox(
+                              maxWidth: (widget.mainWidth),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius
+                                  .circular((widget.mainWidth) / 2),
+                                child: Container(
+                                  color: theme.mainColor
+                                )
+                              )
+                            )
+                          )
+                        ),
+                        /// Clock face.
+                        if (!isMonth)
+                          Center(
+                            child: SizedBox(
+                              height: widget.mainWidth,
+                              child: Transform.scale(
+                                scale: scaleFactor, //scaleFactor,
+                                child: YearCircularClockFace(
+                                  theme: theme,
+                                  celebrates: yearCelebrates,
+                                  currentCelebrate: currentCelebrate,
+                                  arrowCallback: _periodChange,
+                                  celebrateIconCallback: currentCelebrateChange,
+                                )
+                              )
+                            )
+                          ),
+                        if (isMonth)
+                          Center(
+                            child: SizedBox(
+                              height: widget.mainWidth,
+                              child: Transform.scale(
+                                scale: scaleFactor, //scaleFactor,
+                                child: MonthCircularClockFace(
+                                  theme: theme,
+                                  celebrates: monthCelebrates,
+                                  currentCelebrate: currentCelebrate,
+                                  arrowCallback: _periodChange,
+                                  celebrateIconCallback: currentCelebrateChange,
+                                )
+                              )
+                            )
+                          ),
+                        /// Left top button.
+                        Container(
+                          margin: const EdgeInsets.only(left: 12, top: 10),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Добавить",
@@ -527,7 +556,7 @@ class _MainPlannerState extends State<MainPlanner> {
                                 )
                               ),
                               Text(
-                                "контакт",
+                                "повод",
                                 style: TextStyle(
                                   color: theme.clockFaceButtonTextColor,
                                   fontSize: 12,
@@ -546,236 +575,296 @@ class _MainPlannerState extends State<MainPlanner> {
                                     Navigator.push(
                                       context, MaterialPageRoute(
                                         builder: (context) {
-                                          return ContactListScreen(
+                                          return CalendarScreen(
                                             widget.title,
                                             widget.appController
                                           );
                                         }
                                       )
                                     );
-                                  });}//10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
+                                  });}
                                 )
                               )
                             ]
-                          )
-                        )
-                      ),
-                      /// Current celebration block.
-                      Container(
-                        padding: EdgeInsets.only(left: 10, top: (widget.mainWidth - 30)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Transform.scale(
-                              scale: scaleFactor, //scaleFactor,
-                              alignment: Alignment.bottomLeft,
-                              child: SizedBox(
-                                width: 50,
-                                height: 58,
-                                child: CelebrateWidget(
-                                  theme: theme,
-                                  celebrate: celebrates[currentCelebrate],
-                                  isCurrent: true,
-                                  haveStatus: false,
-                                  isForYear: true,
-                                  mainCallback: (currentCelebrate){},
-                                  indexOfCurrent: currentCelebrate,
-                                  statusCallback: (){}
-                                )
-                              )
-                            ),
-                            // Text(
-                            //   celebrates[currentCelebrate].date,
-                            //   style: TextStyle(
-                            //     color: theme.clockFaceCurrentCelebrateIconTextColor,
-                            //     fontSize: 11,
-                            //     fontFamily: 'Roboto'
-                            //   )
-                            // ),
-                            Text(
-                              celebrates[currentCelebrate].name,
-                              style: TextStyle(
-                                color: theme.appBarTextColor,
-                                fontSize: 12,
-                                fontFamily: 'Roboto'
-                              ),
-                            ),
-                          ]
-                        )
-                      ),
-                      /// Celebrate scrolling button.
-                      OverflowBox(
-                        maxHeight: (widget.mainWidth * 2),
-                        child: Transform.rotate(
-                          // ArcCos(The top padding of the buttons divided
-                          // by two of the distances of those buttons
-                          // from the center of the circle).
-                          angle: (-math.acos(
-                              (widget.mainWidth - 20 - (22.5 * scaleFactor))
-                              / (widget.mainWidth + 75))
                           ),
-                          child: Center(
-                            child: Container(
-                              margin: EdgeInsets.only(top: (widget.mainWidth + 75)),
-                              child: Stack(
-                                alignment: AlignmentDirectional.center,
-                                children: [
-                                  SizedBox(
-                                    width: 117,
-                                    child: Image.asset(
-                                      theme.buttonBasePath,
-                                      fit: BoxFit.fitWidth
-                                    )
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.only(bottom: 2, left: 1),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        GradientAnimatedButtonWithGreenIcon(
-                                          theme: theme,
-                                          iconPath: leftArrowButtonIcon,
-                                          onPressed: currentCelebrateDecrement
-                                        ),
-                                        Container(
-                                          width: 19
-                                        ),
-                                        GradientAnimatedButtonWithGreenIcon(
-                                          theme: theme,
-                                          iconPath: rightArrowButtonIcon,
-                                          onPressed: currentCelebrateIncrement
-                                        )
-                                      ]
-                                    )
+                        ),
+                        /// Right top button.
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 12, top: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Добавить",
+                                  style: TextStyle(
+                                    color: theme.clockFaceButtonTextColor,
+                                    fontSize: 12,
+                                    fontFamily: 'Roboto',
+                                    height: 0.94
                                   )
-                                ]
+                                ),
+                                Text(
+                                  "контакт",
+                                  style: TextStyle(
+                                    color: theme.clockFaceButtonTextColor,
+                                    fontSize: 12,
+                                    fontFamily: 'Roboto',
+                                    height: 0.94
+                                  )
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 35,
+                                  margin: const EdgeInsets.only(top: 5),
+                                  child: GradientAnimatedButtonWithGreenIcon(
+                                    theme: theme,
+                                    iconPath: addButtonIcon,
+                                    onPressed: (){setState(() {
+                                      Navigator.push(
+                                        context, MaterialPageRoute(
+                                          builder: (context) {
+                                            return ContactListScreen(
+                                              widget.title,
+                                              widget.appController
+                                            );
+                                          }
+                                        )
+                                      );
+                                    });}//10. При нажатии "Добавить контакт" идём на экран 2.6 - Экран "Мой список контактов"
+                                  )
+                                )
+                              ]
+                            )
+                          )
+                        ),
+                        /// Current celebration block.
+                        Container(
+                          padding: EdgeInsets.only(left: 10, top: (widget.mainWidth - 30)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Transform.scale(
+                                scale: scaleFactor, //scaleFactor,
+                                alignment: Alignment.bottomLeft,
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 58,
+                                  child: CelebrateWidget(
+                                    theme: theme,
+                                    celebrate: celebrates[currentCelebrate],
+                                    isCurrent: true,
+                                    haveStatus: false,
+                                    isForYear: true,
+                                    mainCallback: (currentCelebrate){},
+                                    indexOfCurrent: currentCelebrate,
+                                    statusCallback: (){}
+                                  )
+                                )
+                              ),
+                              // Text(
+                              //   celebrates[currentCelebrate].date,
+                              //   style: TextStyle(
+                              //     color: theme.clockFaceCurrentCelebrateIconTextColor,
+                              //     fontSize: 11,
+                              //     fontFamily: 'Roboto'
+                              //   )
+                              // ),
+                              Text(
+                                celebrates[currentCelebrate].name,
+                                style: TextStyle(
+                                  color: theme.appBarTextColor,
+                                  fontSize: 12,
+                                  fontFamily: 'Roboto'
+                                ),
+                              ),
+                            ]
+                          )
+                        ),
+                        /// Celebrate scrolling button.
+                        OverflowBox(
+                          maxHeight: (widget.mainWidth * 2),
+                          child: Transform.rotate(
+                            // ArcCos(The top padding of the buttons divided
+                            // by two of the distances of those buttons
+                           // from the center of the circle).
+                            angle: (-math.acos(
+                                (widget.mainWidth - 20 - (22.5 * scaleFactor))
+                                / (widget.mainWidth + 75))
+                            ),
+                            child: Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: (widget.mainWidth + 75)),
+                                child: Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 117,
+                                      child: Image.asset(
+                                        theme.buttonBasePath,
+                                        fit: BoxFit.fitWidth
+                                      )
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(bottom: 2, left: 1),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          GradientAnimatedButtonWithGreenIcon(
+                                            theme: theme,
+                                            iconPath: leftArrowButtonIcon,
+                                            onPressed: currentCelebrateDecrement
+                                          ),
+                                          Container(
+                                            width: 19
+                                          ),
+                                          GradientAnimatedButtonWithGreenIcon(
+                                            theme: theme,
+                                            iconPath: rightArrowButtonIcon,
+                                            onPressed: currentCelebrateIncrement
+                                          )
+                                        ]
+                                      )
+                                    )
+                                  ]
+                                )
                               )
                             )
                           )
-                        )
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                /// Separator line.
-                Expanded(
-                  flex: 1,
-                  child: Container(
+                  /// Separator line.
+                  Container(
+                    height: separatorHeight,
+                    width: 10,
+                    //color: Colors.deepPurple,
+                  ),
+                  /// Groups line.
+                  Container(
                     width: widget.mainWidth,
-                  )
-                ),
-                /// Groups line.
-                Container(
-                  width: widget.mainWidth,
-                  height: 90,
-                  margin: const EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    children: [
-                      /// Family group button.
-                      MyGroupButton(
-                        isPressed: selectedGroups[0],
-                        theme: theme,
-                        callback: (){setState(() {
-                          selectedGroups[0] = !selectedGroups[0];
-                        });},
-                        buttonColor: theme.familyGroupButtonColor,
-                        iconPath: 'assets/images/family_group_icon.svg', // ToDo
-                        count: person.peopleCount[0].toString(),
-                        buttonName: 'Семья',
-                        date: person.peopleDates[0],
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 90,
+                    height: 90,
+                    margin: const EdgeInsets.only(left: 16, right: 16),
+                    child: Row(
+                      children: [
+                        /// Family group button.
+                        MyGroupButton(
+                          isPressed: selectedGroups[0],
+                          theme: theme,
+                          callback: (){setState(() {
+                            selectedGroups[0] = !selectedGroups[0];
+                          });},
+                          buttonColor: theme.familyGroupButtonColor,
+                          iconPath: 'assets/images/family_group_icon.svg', // ToDo
+                          count: person.peopleCount[0].toString(),
+                          buttonName: 'Семья',
+                          date: person.peopleDates[0],
                         ),
-                      ),
-                      /// Friends group button.
-                      MyGroupButton(
-                        isPressed: selectedGroups[1],
-                        theme: theme,
-                        callback: (){setState(() {
-                          selectedGroups[1] = !selectedGroups[1];
-                        });},
-                        buttonColor: theme.friendsGroupButtonColor,
-                        iconPath: 'assets/images/friends_group_icon.svg', // ToDo
-                        count: person.peopleCount[1].toString(),
-                        buttonName: 'Друзья',
-                        date: person.peopleDates[1],
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 90,
+                        /// Separator.
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 90,
+                          ),
                         ),
-                      ),
-                      /// Relatives group button.
-                      MyGroupButton(
-                        isPressed: selectedGroups[2],
-                        theme: theme,
-                        callback: (){setState(() {
-                          selectedGroups[2] = !selectedGroups[2];
-                        });},
-                        buttonColor: theme.relativesGroupButtonColor,
-                        iconPath: 'assets/images/relatives_group_icon.svg', // ToDo
-                        count: person.peopleCount[2].toString(),
-                        buttonName: 'Близкие',
-                        date: person.peopleDates[2],
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 90,
+                        /// Friends group button.
+                        MyGroupButton(
+                          isPressed: selectedGroups[1],
+                          theme: theme,
+                          callback: (){setState(() {
+                            selectedGroups[1] = !selectedGroups[1];
+                          });},
+                          buttonColor: theme.friendsGroupButtonColor,
+                          iconPath: 'assets/images/friends_group_icon.svg', // ToDo
+                          count: person.peopleCount[1].toString(),
+                          buttonName: 'Друзья',
+                          date: person.peopleDates[1],
                         ),
-                      ),
-                      /// Colleagues group button.
-                      MyGroupButton(
-                        isPressed: selectedGroups[3],
-                        theme: theme,
-                        callback: (){setState(() {
-                          selectedGroups[3] = !selectedGroups[3];
-                        });},
-                        buttonColor: theme.colleaguesGroupButtonColor,
-                        iconPath: 'assets/images/colleagues_group_icon.svg', // ToDo
-                        count: person.peopleCount[3].toString(),
-                        buttonName: 'Коллеги',
-                        date: person.peopleDates[3],
-                      ),
-                      /// Separator.
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 90,
+                        /// Separator.
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 90,
+                          ),
                         ),
-                      ),
-                      /// Partners group button.
-                      MyGroupButton(
-                        isPressed: selectedGroups[4],
-                        theme: theme,
-                        callback: (){setState(() {
-                          selectedGroups[4] = !selectedGroups[4];
-                        });},
-                        buttonColor: theme.partnersGroupButtonColor,
-                        iconPath: 'assets/images/partners_group_icon.svg', // ToDo
-                        count: person.peopleCount[4].toString(),
-                        buttonName: 'Партнёры',
-                        date:person.peopleDates[4],
-                      )
-                    ]
-                  )
-                ),
-                /// Separator line.
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: widget.mainWidth,
-                  )
-                ),
-                /// navBar. // ToDo
-            //     Container(
+                        /// Relatives group button.
+                        MyGroupButton(
+                          isPressed: selectedGroups[2],
+                          theme: theme,
+                          callback: (){setState(() {
+                            selectedGroups[2] = !selectedGroups[2];
+                          });},
+                          buttonColor: theme.relativesGroupButtonColor,
+                          iconPath: 'assets/images/relatives_group_icon.svg', // ToDo
+                          count: person.peopleCount[2].toString(),
+                          buttonName: 'Близкие',
+                          date: person.peopleDates[2],
+                        ),
+                        /// Separator.
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 90,
+                          ),
+                        ),
+                        /// Colleagues group button.
+                        MyGroupButton(
+                          isPressed: selectedGroups[3],
+                          theme: theme,
+                          callback: (){setState(() {
+                            selectedGroups[3] = !selectedGroups[3];
+                          });},
+                          buttonColor: theme.colleaguesGroupButtonColor,
+                          iconPath: 'assets/images/colleagues_group_icon.svg', // ToDo
+                          count: person.peopleCount[3].toString(),
+                          buttonName: 'Коллеги',
+                          date: person.peopleDates[3],
+                        ),
+                        /// Separator.
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 90,
+                          ),
+                        ),
+                        /// Partners group button.
+                        MyGroupButton(
+                          isPressed: selectedGroups[4],
+                          theme: theme,
+                          callback: (){setState(() {
+                            selectedGroups[4] = !selectedGroups[4];
+                          });},
+                          buttonColor: theme.partnersGroupButtonColor,
+                          iconPath: 'assets/images/partners_group_icon.svg', // ToDo
+                          count: person.peopleCount[4].toString(),
+                          buttonName: 'Партнёры',
+                          date:person.peopleDates[4],
+                        )
+                      ]
+                    )
+                  ),
+                  /// Separator line.
+                  Container(
+                    height: separatorHeight,
+                    width: 10,
+                    //color: Colors.deepPurple,
+                  ),
+                  /// navBar. // ToDo
+                  // Lets use docked FAB for handling state of sheet
+
+                                  // bottomNavigationBar:
+                  // BottomExpandableAppBar(
+                  //   horizontalMargin: 16,
+                  //   expandedBackColor: Theme.of(context).backgroundColor,
+                  //     expandedBody: const Center(
+                  //       child: Text("Hello world!"),
+                  //     ),
+                  //   )
+                ]
+              ),
+              //     Container(
             //       width: widget.mainWidth,
             //       padding: const EdgeInsets.all(0.0),
             //       margin: const EdgeInsets.all(0.0),
@@ -850,11 +939,23 @@ class _MainPlannerState extends State<MainPlanner> {
             //         ]
             //     )
             // ),
-          ]
-        )
-      )
+            ),
+            /// navBar. // ToDo
+            // Lets use docked FAB for handling state of sheet
+
+            // bottomNavigationBar:
+            // BottomExpandableAppBar(
+            //   horizontalMargin: 16,
+            //   expandedBackColor: Theme.of(context).backgroundColor,
+            //     expandedBody: const Center(
+            //       child: Text("Hello world!"),
+            //     ),
+            //   )
+          );
+        }
+      ),
     );
-  });
-}}
+  }
+}
 
 

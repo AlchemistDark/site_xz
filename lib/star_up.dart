@@ -56,7 +56,7 @@ class StartPage extends StatelessWidget {
                     print(responseAnswer);
                       person = Person.fromJson(jsonDecode(responseAnswer));
                       AppController appController = AppController(person);
-                      return MainPlanner(title, mainWidth, appController);
+                      return MainPlannerScreen(title, mainWidth, appController);
                     //});
                     //return MainPlanner(title, mainWidth);
                 }
