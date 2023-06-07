@@ -50,6 +50,8 @@ class AppTheme{
   final yearArrowTailColor = const Color(0xFF9DA7B0);
   final yearCircularFaceDecorColor = const Color(0xFF547CC7);
 
+  final defaultGroupButtonColor = const Color(0xFF6ED2B6);
+
   final familyGroupButtonColor = const Color(0xFF53AABE);
   final friendsGroupButtonColor = const Color(0xFF678FDA);
   final relativesGroupButtonColor = const Color(0xFF7B6CE8);
@@ -87,8 +89,8 @@ class AppTheme{
     this.mainButtonFillColor2 = const Color(0xFFFFFFFF),
     this.mainColor = const Color(0xFFF0F7FE),
     this.monthSegmentTopColor = const Color(0xFFF0F7FE),
-    this.monthSegmentBottomColor = const Color(0xFFE3F1E1),
-    this.monthSegmentLabelColor = const Color(0xFFDFF0D8),
+    this.monthSegmentBottomColor = const Color(0xFFE3F1E1), //Color(0xFFDDE4E9),
+    this.monthSegmentLabelColor = const Color(0xFFE9F0F6),//Color(0xFFDFF0D8),
     this.yearCircularFaceDecorTextColor = const Color(0xFF414E58),
     this.yearCircularArrowCenterColor = const Color(0xFFFFFFFF),
     this.yearCircularArrowColor = const Color(0xFF627684),

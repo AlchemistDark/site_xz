@@ -27,11 +27,13 @@ class MainPlannerScreen extends StatefulWidget {
   final String title;
   final double mainWidth;
   final AppController appController;
+  final String token;
 
   const MainPlannerScreen(
     this.title,
     this.mainWidth,
     this.appController,
+    this.token,
     {Key? key}
   ) : super(key: key);
 
@@ -627,7 +629,9 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                                           builder: (context) {
                                             return ContactListScreen(
                                               widget.title,
-                                              widget.appController
+                                              widget.mainWidth,
+                                              widget.appController,
+                                              widget.token
                                             );
                                           }
                                         )
@@ -649,7 +653,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                                 scale: scaleFactor, //scaleFactor,
                                 alignment: Alignment.bottomLeft,
                                 child: SizedBox(
-                                  width: 50,
+                                  width: 55,
                                   height: 58,
                                   child: CelebrateWidget(
                                     theme: theme,
@@ -699,13 +703,13 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                                 child: Stack(
                                   alignment: AlignmentDirectional.center,
                                   children: [
-                                    SizedBox(
-                                      width: 117,
-                                      child: Image.asset(
-                                        theme.buttonBasePath,
-                                        fit: BoxFit.fitWidth
-                                      )
-                                    ),
+                                    // SizedBox(
+                                    //   width: 117,
+                                    //   child: Image.asset(
+                                    //     theme.buttonBasePath,
+                                    //     fit: BoxFit.fitWidth
+                                    //   )
+                                    // ),
                                     Container(
                                       padding: const EdgeInsets.only(bottom: 2, left: 1),
                                       child: Row(
@@ -760,7 +764,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                           iconPath: 'assets/images/family_group_icon.svg', // ToDo
                           count: person.peopleCount[0].toString(),
                           buttonName: 'Семья',
-                          date: person.peopleDates[0],
+                          date: person.peopleDates[0][0],
                         ),
                         /// Separator.
                         Expanded(
@@ -780,7 +784,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                           iconPath: 'assets/images/friends_group_icon.svg', // ToDo
                           count: person.peopleCount[1].toString(),
                           buttonName: 'Друзья',
-                          date: person.peopleDates[1],
+                          date: person.peopleDates[1][0],
                         ),
                         /// Separator.
                         Expanded(
@@ -800,7 +804,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                           iconPath: 'assets/images/relatives_group_icon.svg', // ToDo
                           count: person.peopleCount[2].toString(),
                           buttonName: 'Близкие',
-                          date: person.peopleDates[2],
+                          date: person.peopleDates[2][0],
                         ),
                         /// Separator.
                         Expanded(
@@ -820,7 +824,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                           iconPath: 'assets/images/colleagues_group_icon.svg', // ToDo
                           count: person.peopleCount[3].toString(),
                           buttonName: 'Коллеги',
-                          date: person.peopleDates[3],
+                          date: person.peopleDates[3][0],
                         ),
                         /// Separator.
                         Expanded(
@@ -840,7 +844,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                           iconPath: 'assets/images/partners_group_icon.svg', // ToDo
                           count: person.peopleCount[4].toString(),
                           buttonName: 'Партнёры',
-                          date:person.peopleDates[4],
+                          date:person.peopleDates[4][0],
                         )
                       ]
                     )

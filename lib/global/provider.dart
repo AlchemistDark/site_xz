@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:site_xz/global/person_class.dart';
 
 /// Implements communication with the server.
 
@@ -15,6 +17,8 @@ class Provider{
 
   final String url1 = 'https://qviz.fun/auth/token/login';
   //final String url2 = 'https://qviz.fun/api/v1/plannerdata/';
+
+  List<Contact> contactList = [];
 
   Provider(){
     auth();
@@ -41,6 +45,25 @@ class Provider{
     postResponse = ResponseState(postR, true);
     _rCtrl.add(postResponse);
   }
+
+  Future<void> contactListRequest(String token) async {
+    contactList = [];
+    http.Response postR = await http.post(
+      Uri.https('qviz.fun', 'api/v1/peoplelist/'),
+      headers: {"Authorization": 'Token $token'}
+    );
+    final Map<String, dynamic> json = jsonDecode(utf8.decode(postR.bodyBytes));
+    var temp = (json["people"] as List<dynamic>);
+    for (var i in temp){
+      Contact contact = Contact.fromJson(i as Map<String, dynamic>);
+      contactList.add(contact);
+    }
+    print("контакты $contactList");
+    print("имя ${contactList[1].name} айди ${contactList[1].id} ДР ${contactList[1].birthday} город ${contactList[1].region}");
+    print("фон ${contactList[1].phone} тг ${contactList[1].telegram} имэйл ${contactList[1].email}");
+    print("кат ${contactList[1].cat} пол ${contactList[1].sex} статус ${contactList[1].status}");
+  }
+
 }
 
 ///

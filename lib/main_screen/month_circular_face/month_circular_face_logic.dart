@@ -183,8 +183,8 @@ class MonthCircularClockFaceLogic{
     double sin = math.sin(math.pi * 2 / 31 * (day + 0.5));
     result = Center(
       child: SizedBox(
-        width: 371,
-        height: 375,
+        width: 373,
+        height: 377,
         child: Align(
           alignment: Alignment(sin, -cos),
           child: CelebrateWidget(

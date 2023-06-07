@@ -143,7 +143,7 @@ class YearCircularClockFaceLogic {
     int month;
     int day;
     Celebrate celebrate = celebrates[(indexOfCurrent)];
-    day = (celebrate.day - 1);
+    day = celebrate.day;
     month = celebrate.month;
     year = (month < currentMonth)? (currentYear + 1) : currentYear;
     position = DayPosition(year, month, day);
@@ -183,7 +183,7 @@ class DecorPainter extends CustomPainter{
     final paintHorizontalLine = Paint()
       ..color = theme.yearCircularFaceDecorColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
+      ..strokeWidth = 0.5;
     canvas.drawLine(
       const Offset(0.0, (172.0 / 2)),
       const Offset(172.0, (172.0 / 2)),
@@ -193,7 +193,7 @@ class DecorPainter extends CustomPainter{
     final paintVerticalLongLine = Paint()
       ..color = theme.yearCircularFaceDecorColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
+      ..strokeWidth = 0.5;
     canvas.drawLine(
       const Offset((172.0 / 2), 172),
       const Offset((172.0 / 2), 73.5),
@@ -203,7 +203,7 @@ class DecorPainter extends CustomPainter{
     final paintVerticalShortLine = Paint()
       ..color = theme.yearCircularFaceDecorColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
+      ..strokeWidth = 0.5;
     canvas.drawLine(
       const Offset((172.0 / 2), 0),
       const Offset((172.0 / 2), 25.5),

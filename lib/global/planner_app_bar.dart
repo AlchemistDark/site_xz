@@ -31,10 +31,10 @@ class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
     Person person = controller.currentAppState.userData;
     if (controller.currentAppState.theme.isDark) {
       controller
-        .themeChange(AppState(userData: person, theme: AppTheme.light()));
+        .themeChange(AppState(userData: person, contactList: controller.contactList, theme: AppTheme.light()));
     } else {
       controller
-        .themeChange(AppState(userData: person, theme: AppTheme.dark()));
+        .themeChange(AppState(userData: person, contactList: controller.contactList, theme: AppTheme.dark()));
     }
   }
 

@@ -30,13 +30,13 @@ class CelebrateWidget extends StatelessWidget {
     required this.statusCallback,
     Key? key}
   ) : super(key: key) {
-    fontSize = isCurrent? 8.0 : 7.0;
+    fontSize = isCurrent? 10.0 : 10.0; // Раньше была разница, пока убирать не буду.
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 52,
+      width: 55,
       height: 63,
       child: Stack(
         children: <Widget>[
@@ -107,14 +107,19 @@ class CelebrateWidget extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                width: 45,
+                //width: 45,
+                height: 13,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isCurrent? const Color(0xFFFF40B0) : theme.celebrateTextBackgroundColor.withOpacity(0.5),
+                  color: isCurrent? const Color(0xFFC40A63) : theme.celebrateTextBackgroundColor.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 //color: theme.celebrateTextBackgroundColor.withOpacity(0.5),
                 child: Text(
-                  "${celebrate.day.toString().padLeft(2, '0')}.${celebrate.month.toString().padLeft(2, '0')}.2023",
+                  //ToDo некоторые праздники в следующем году, а тут год захардкожен.
+                  isCurrent
+                      ? "${celebrate.day.toString().padLeft(2, '0')}.${celebrate.month.toString().padLeft(2, '0')}.2023"
+                      : "${celebrate.day.toString().padLeft(2, '0')}.${celebrate.month.toString().padLeft(2, '0')}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: isCurrent? const Color(0xFFFFFFFF) : theme.celebrateTextColor,

@@ -38,7 +38,10 @@ class StartPage extends StatelessWidget {
           case true:
             if (!provider.postResponse.isSuccess) {
               provider.postRequest(state.token);
+              provider.contactListRequest(state.token);
             }
+            String token = state.token;
+            List<Contact> contactList = provider.contactList;
             return StreamBuilder<ResponseState>(
               stream: provider.pResponse,
               initialData: provider.postResponse,
@@ -55,8 +58,8 @@ class StartPage extends StatelessWidget {
                     //print('всё');
                     print(responseAnswer);
                       person = Person.fromJson(jsonDecode(responseAnswer));
-                      AppController appController = AppController(person);
-                      return MainPlannerScreen(title, mainWidth, appController);
+                      AppController appController = AppController(person, contactList);
+                      return MainPlannerScreen(title, mainWidth, appController, token);
                     //});
                     //return MainPlanner(title, mainWidth);
                 }
