@@ -8,6 +8,7 @@ import 'package:site_xz/calendar_screen_view.dart';
 import 'package:site_xz/star_up.dart';
 import 'package:site_xz/global/app_controller.dart';
 import 'package:site_xz/main_screen/planner_main_screen_view.dart';
+import 'package:site_xz/login_screen_view.dart';
 
 void main() {
   setPathUrlStrategy();
@@ -57,7 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final double mainWidth = MediaQuery.of(context).size.width;
     //return MainPlanner(title, mainWidth);
-    return StartPage(title, mainWidth);
+    // return StartPage(title, mainWidth);
+    return LoginScreen(title, mainWidth);
   }
 }
 

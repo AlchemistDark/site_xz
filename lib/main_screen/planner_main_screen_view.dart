@@ -101,6 +101,10 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
   // There is a very big O(n) here because sorting by dates is needed
   // and I didn't come up with anything better :/
   List<Celebrate> getSortedYearCelebrates(List<Celebrate> celebrates) {
+    print('на годовую сортировку пришло ${celebrates.length}');
+    for(Celebrate celebrate in celebrates){
+      print("${celebrate.day} ${celebrate.month}");
+    }
     List<Celebrate> result = [];
     for (int l = 31; l > _currentDay; l--) {
       for (Celebrate celebrate in celebrates) {
@@ -131,8 +135,9 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
         for (Celebrate celebrate in celebrates) {
           if (
             (celebrate.month == i) &&
-            (celebrate.day == l) &&
-            isSelectedCelebrate(celebrate)
+            (celebrate.day == l)
+          // &&
+            // isSelectedCelebrate(celebrate)
           ) {
             result.add(celebrate);
             break;
@@ -145,8 +150,9 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
         for (Celebrate celebrate in celebrates) {
           if (
             (celebrate.month == i) &&
-            (celebrate.day == l) &&
-            isSelectedCelebrate(celebrate)
+            (celebrate.day == l)
+                // &&
+            // isSelectedCelebrate(celebrate)
           ) {
             result.add(celebrate);
             break;
@@ -231,6 +237,8 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
   @override
   Widget build(BuildContext context) {
     double scaleFactor = widget.mainWidth / 375;
+    print("дошёл до главного экрана планера");
+    print("${widget.appController.userData.celebrates.length}");
     return DefaultBottomBarController(
       child:
       StreamBuilder<AppState>(
@@ -239,14 +247,33 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
         builder: (context, snapshot) {
           AppTheme theme = snapshot.data!.theme;
           Person person = snapshot.data!.userData;
+          print(person.celebrates.length);
+
           List<Celebrate> yearCelebrates = getSortedYearCelebrates(person.celebrates);
+          print("год праздник ${yearCelebrates.length}");
           List<Celebrate> monthCelebrates = getSortedMonthCelebrates(yearCelebrates);
+          print("месяц праздник ${monthCelebrates.length}");
           List<Celebrate> celebrates = (isMonth)? monthCelebrates : yearCelebrates;
+          print("праздник ${celebrates.length}");
           if (resetCurrentCelebration) {
+
+            celebrates.add(
+              Celebrate(
+                id: 0,
+                name: "к сожалению у Вас нет праздников",
+                date: "00-00-00",
+                month: DateTime.now().month,
+                day: DateTime.now().day,
+                celebrateCategory: [1],
+                peopleCategory: [1],
+                icon: " "
+              )
+            );
+            print(celebrates.length);
             numberOfCelebrations = (isMonth)
                 ? (numberOfMonthCelebrates - 1)
                 : (numberOfYearCelebrates - 1);
-            currentCelebrate = numberOfCelebrations;
+            currentCelebrate = numberOfCelebrations + 1;
           }
 
           /// Если исрользовать для блоков Separator line исполльзовать Expanded,
@@ -262,6 +289,7 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
               - (72 + (widget.mainWidth + 45) + 90 + 50)) / 4;
 
           separatorHeight = (separatorHeight < 0)? 0 : separatorHeight;
+          print("прошёл ещё немного дальше");
           return Scaffold(
             // Здесь будет кнопка для NavBar
               // floatingActionButtonLocation: FloatingActionButtonLocation
@@ -354,11 +382,11 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                   // Expanded(
                   //   flex: 1,
                   //   child:
-                    Container(
-                      height: separatorHeight,
-                      width: 10,
-                      //color: Colors.deepPurple,
-                     ),
+                  Container(
+                    height: separatorHeight,
+                    width: 10,
+                    //color: Colors.deepPurple,
+                  ),
                   // ),
                   /// Contact avatar line.
                   Container(
@@ -466,11 +494,11 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                     )
                   ),
                   /// Separator line.
-                Container(
-                  height: separatorHeight,
-                  width: 10,
+                  Container(
+                    height: separatorHeight,
+                    width: 10,
                   //color: Colors.deepPurple,
-                ),
+                  ),
                   /// Rectangular block with buttons and round clock face.
                   SizedBox(
                     height: (widget.mainWidth + 45),

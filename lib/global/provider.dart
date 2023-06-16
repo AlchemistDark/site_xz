@@ -24,6 +24,24 @@ class Provider{
     auth();
   }
 
+  Provider.withName(String name, String pass){
+    auth2(name, pass);
+  }
+
+  Future auth2(String number, String pass) async {
+    http.Response response = await http.post(
+        Uri.parse(url1),
+        body: {
+          'password': pass,
+          'phoneNumber': number,
+        }
+    );
+    String token = response.body.substring(response.body.indexOf(':')+2,response.body.length-2);
+    print("токен $token");
+    authState = AuthState(token, true);
+    _tCtrl.add(authState);
+  }
+
   Future auth() async {
     http.Response response = await http.post(
       Uri.parse(url1),
@@ -59,9 +77,9 @@ class Provider{
       contactList.add(contact);
     }
     print("контакты $contactList");
-    print("имя ${contactList[1].name} айди ${contactList[1].id} ДР ${contactList[1].birthday} город ${contactList[1].region}");
-    print("фон ${contactList[1].phone} тг ${contactList[1].telegram} имэйл ${contactList[1].email}");
-    print("кат ${contactList[1].cat} пол ${contactList[1].sex} статус ${contactList[1].status}");
+    // print("имя ${contactList[1].name} айди ${contactList[1].id} ДР ${contactList[1].birthday} город ${contactList[1].region}");
+    // print("фон ${contactList[1].phone} тг ${contactList[1].telegram} имэйл ${contactList[1].email}");
+    // print("кат ${contactList[1].cat} пол ${contactList[1].sex} статус ${contactList[1].status}");
   }
 
 }

@@ -40,7 +40,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
   String phone = '+79999999999';
   String telegram = "Telegr@m";
   String city = "Город";
-  String sex = "1";
+  String sex = "0";
   String status = "1";
   String cat = "1";
 
@@ -229,7 +229,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
                           fontFamily: 'Roboto400'
                         ),
                         decoration: InputDecoration(
-                          hintText: 'дд/мм/гг',
+                          hintText: 'гггг-мм-дд',
                           hintStyle: TextStyle(
                             color: const Color.fromRGBO(166, 173, 181,1),
                             fontSize: 0.017*MediaQuery.of(context).size.height,
