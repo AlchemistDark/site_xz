@@ -234,6 +234,28 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
     });
   }
 
+  Future<void> openCalendarScreen(String token, AppTheme theme)async{
+    List celebrations = await widget.appController.getCelebrationsList(token);
+      setState(() {
+      Navigator.push(
+        context, MaterialPageRoute(
+          builder: (context) {
+            print("опрапаввыпвр $celebrations");
+            return CalendarScreen(
+              widget.title,
+              widget.token,
+              widget.mainWidth,
+              widget.appController,
+              celebrations,
+              theme
+              // widget.token
+            );
+          }
+        )
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double scaleFactor = widget.mainWidth / 375;
@@ -472,18 +494,20 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                                   child: AnimatedButton(
                                     theme: theme,
                                     iconPath: listButtonIcon,
-                                    onPressed: (){setState(() {
-                                      Navigator.push(
-                                        context, MaterialPageRoute(
-                                          builder: (context) {
-                                            return CalendarScreen(
-                                              widget.title,
-                                              widget.appController
-                                            );
-                                          }
-                                        )
-                                      );
-                                    });}
+                                    onPressed: (){
+                                    //   setState(() {
+                                    //   Navigator.push(
+                                    //     context, MaterialPageRoute(
+                                    //       builder: (context) {
+                                    //         return CalendarScreen(
+                                    //           widget.title,
+                                    //           widget.appController
+                                    //         );
+                                    //       }
+                                    //     )
+                                    //   );
+                                    // });
+                                    }
                                   )
                                 )
                               )
@@ -601,18 +625,9 @@ class _MainPlannerScreenState extends State<MainPlannerScreen> {
                                 child: GradientAnimatedButtonWithGreenIcon(
                                   theme: theme,
                                   iconPath: addButtonIcon,
-                                  onPressed: (){setState(() {
-                                    Navigator.push(
-                                      context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return CalendarScreen(
-                                            widget.title,
-                                            widget.appController
-                                          );
-                                        }
-                                      )
-                                    );
-                                  });}
+                                  onPressed: (){
+                                    openCalendarScreen(widget.token, theme);
+                                  }
                                 )
                               )
                             ]

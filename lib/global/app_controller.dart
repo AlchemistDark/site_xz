@@ -27,6 +27,23 @@ class AppController{
     currentAppState = appState;
   }
 
+  Future<List<Celebrate>> getCelebrationsList(String token)async{
+    Provider provider = Provider();
+    List<Celebrate> celebrationsList = await provider.celebrationsListRequest(token);
+    return celebrationsList;
+  }
+
+  Future<List<ShortCelebrate>> getCelebrationName({required String token, required int id})async{
+    Provider provider = Provider();
+    List<ShortCelebrate> celebrationsList = await provider.getCelebrateName(token: token, id: id);
+    return celebrationsList;
+  }
+
+  Future<void> createCelebrate({required String token, required String name, required int category})async{
+    Provider provider = Provider();
+    await provider.createCelebrate(token: token, name: name, category: category);
+  }
+
   Future<void> contactDelete(int id, String token)async {
     Provider provider = Provider();
     http.Response postR = await http.delete(

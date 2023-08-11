@@ -35,11 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
   String pass = "NatalyaPass";
 
   Future<void> login() async{
+    //ToDo не работает нормальный логин.
     final Provider provider = Provider.withName(name, pass);
-    await Future.delayed(const Duration(seconds: 5), () {
+    await Future.delayed(const Duration(seconds: 3), () {
       print(provider.authState.isAuthSuccess);
     });
-    final String token = provider.authState.token;
+    final String token = provider.authState.token;//"44d8fdc7dc9c0a05c5f0bcbe4f32b2fdd5f02424";
     print(token);
     await provider.postRequest(token);
     await provider.contactListRequest(token);

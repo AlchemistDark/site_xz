@@ -29,10 +29,10 @@ class MyApp extends StatelessWidget {
         //   ModalRoute.of(context)!.settings.arguments as double,
         //   ModalRoute.of(context)!.settings.arguments as AppController
         // ),
-        CalendarScreen.route: (context) => CalendarScreen(
-          'Planner',
-          ModalRoute.of(context)!.settings.arguments as AppController
-        )
+        // CalendarScreen.route: (context) => CalendarScreen(
+        //   'Planner',
+        //   ModalRoute.of(context)!.settings.arguments as AppController
+        // )
       },
       title: 'Planner',
       home: const MyHomePage(title: 'Planner')

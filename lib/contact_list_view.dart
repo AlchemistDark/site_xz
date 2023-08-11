@@ -1,25 +1,18 @@
-import 'dart:convert';
-import 'dart:math' as math;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_svg/svg.dart';
-import 'package:http/http.dart' as http;
 import 'package:site_xz/detail_contact_screen_view.dart';
 
 import 'package:site_xz/global/app_controller.dart';
 import 'package:site_xz/global/buttons.dart';
-import 'package:site_xz/global/paths.dart';
 import 'package:site_xz/global/person_class.dart';
 import 'package:site_xz/global/planner_app_bar.dart';
 import 'package:site_xz/global/theme.dart';
 import 'package:site_xz/contact_line_widget.dart';
 import 'package:site_xz/add_contact_screen_view.dart';
 import 'package:site_xz/edit_contact_screen_view.dart';
-import 'package:site_xz/detail_contact_screen_view.dart';
 
-/// Stub.
+///
 
 class ContactListScreen extends StatefulWidget {
   static const route = '/contact';

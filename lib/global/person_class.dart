@@ -21,7 +21,20 @@ class Person{
       userName: json["username"] as String,
       region: json["region"] as String,
       celebrates: (json["holidays"] as List<dynamic>)
-        .map((dynamic e) => Celebrate.fromJson(e as Map<String, dynamic>))
+        .map((dynamic e) {
+        Celebrate celebrate = Celebrate.fromJson(e as Map<String, dynamic>);
+        if (celebrate.icon == "Null"){
+          print("Пустое поле icon у праздника id ${celebrate.id}");
+        }
+        if (celebrate.day == 0)
+        {
+          print("Поле day у праздника id ${celebrate.id} не содержит числа");
+        }
+        if (celebrate.month == 0){
+        print("Поле day у праздника id ${celebrate.id} не содержит числа");
+        }
+        return celebrate;
+      })
         .toList(),
       peopleDates: (json["people_dates"] as List<dynamic>)
         .map((dynamic e) {
@@ -66,16 +79,16 @@ class Celebrate{
     return Celebrate(
       id: json["id"] as int,
       name: json["name"] as String,
-      date: json["date"] as String,
-      month: json["month"] as int,
-      day: json["day"] as int,
-      celebrateCategory: (json["holiday_cat"] as List<dynamic>)
-        .map((dynamic e) => e as int)
-        .toList(),
-      peopleCategory: (json["people_cat"] as List<dynamic>)
-        .map((dynamic e) => e as int)
-        .toList(),
-      icon: json["icons"] as String
+        date: json["date"] as String,
+        month: (json["month"] != null)? json["month"] as int: 0,
+        day: (json["day"] != null)? json["day"] as int: 0,
+        celebrateCategory: (json["holiday_cat"] as List<dynamic>)
+          .map((dynamic e) => e as int)
+          .toList(),
+        peopleCategory: (json["people_cat"] as List<dynamic>)
+          .map((dynamic e) => e as int)
+          .toList(),
+        icon:  (json["icons"] != null)? json["icons"] as String : "Null"
     );
   }
 }
@@ -108,7 +121,7 @@ class Contact{
 
   factory Contact.fromJson(Map<String, dynamic> json){
     return Contact(
-      id: json["id"] as int,
+      id: (json["id"] != null)? json["id"] as int : 0,
       name: json["name"] as String,
       sex: (json["sex"] == false)? 0 : 1,
       region: json["region"] as String,
